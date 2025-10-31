@@ -1,25 +1,32 @@
-import Button from "../components/Button";
-import { useToyContext } from "../context/toys";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setCurrentStep,
+  setMessage,
+  setToysArranged,
+} from "../redux/actions/toyActions";
 
-// John Component - Independent component that MODIFIES Context data!
-export const John = ({ currentStep }) => {
-  // ✅ USING CONTEXT - Direct access to Mother's data, no props from Sister!
-  const { message, areToysArranged, setCurrentMessage, setAreToysArranged } =
-    useToyContext();
+export const John = () => {
+  // 🎯 REDUX: Read state from Redux store - cleaner pattern!
+  const { message, areToysArranged, currentStep } = useSelector(
+    (state) => state.toyStore
+  );
+
+  // 🎯 REDUX: Get dispatch function to send actions
+  const dispatch = useDispatch();
 
   const handleArrangeToys = () => {
-    setAreToysArranged(true);
-    setCurrentMessage("Toys are now arranged! 🎉");
+    dispatch(setToysArranged(true));
+    dispatch(setMessage("Toys are now arranged! 🎉"));
   };
 
   const handleResetToys = () => {
-    setAreToysArranged(false);
-    setCurrentMessage("John arrange your toys");
+    dispatch(setToysArranged(false));
+    dispatch(setMessage("John arrange your toys"));
   };
 
   const isActive = currentStep === 3;
   const canAct = currentStep >= 3;
-  console.log("John Rendered");
+
   return (
     <div
       style={{
@@ -58,8 +65,8 @@ export const John = ({ currentStep }) => {
               fontSize: "14px",
             }}
           >
-            🎯 <strong>Direct Communication!</strong> John gets data AND
-            handlers directly from Context - skips Father & Sister completely!
+            🎯 <strong>Redux Power!</strong> John dispatches actions to modify
+            global state - all components see the changes!
           </p>
         </div>
       )}
@@ -88,9 +95,8 @@ export const John = ({ currentStep }) => {
   );
 };
 
-// Sister Component - Independent component that uses Context
+// Sister Component - Uses Redux to read global state
 export const Sister = () => {
-  console.log("Sister Rendered");
   return (
     <div
       style={{
@@ -98,7 +104,6 @@ export const Sister = () => {
         borderRadius: "12px",
         padding: "20px",
         backgroundColor: "#f0e6ff",
-        transition: "all 0.3s ease",
         boxShadow: "0 0 20px rgba(147, 112, 219, 0.5)",
         opacity: 0.6,
       }}
@@ -106,7 +111,7 @@ export const Sister = () => {
       <h3 style={{ margin: "0 0 15px 0", color: "#9370db" }}>👧 Sister</h3>
       <div style={{ marginBottom: "15px" }}>
         <p style={{ margin: "5px 0" }}>
-          <strong>Message Received:</strong> Sister is playing with dolls
+          <strong>Message Received:</strong> Sister is playing with her dolls
         </p>
         <p style={{ margin: "5px 0" }}>
           <strong>Toys Status:</strong>{" "}
@@ -115,7 +120,7 @@ export const Sister = () => {
               fontWeight: "bold",
             }}
           >
-            Sister need not to know if Toys are arranged or not
+            Sister does not track toys status
           </span>
         </p>
         <p
@@ -127,8 +132,8 @@ export const Sister = () => {
             fontSize: "14px",
           }}
         >
-          ✅ <strong>Independent Component!</strong> Sister gets data from
-          Context - no props from Father!
+          ✅ <strong>No Props Needed!</strong> Sister reads from Redux store
+          directly - no props from Father!
         </p>
       </div>
 
@@ -139,9 +144,8 @@ export const Sister = () => {
   );
 };
 
-// Father Component - Independent component that uses Context
-export const Father = () => {
-  console.log("Father Rendered");
+// Father Component - Uses Redux to read global state
+const Father = () => {
   return (
     <div
       style={{
@@ -156,7 +160,7 @@ export const Father = () => {
       <h3 style={{ margin: "0 0 15px 0", color: "#4169e1" }}>👨 Father</h3>
       <div style={{ marginBottom: "15px" }}>
         <p style={{ margin: "5px 0" }}>
-          <strong>Message Received:</strong> Father is chilling in his room
+          <strong>Message Received:</strong> Father chilling in his room
         </p>
         <p style={{ margin: "5px 0" }}>
           <strong>Toys Status:</strong>{" "}
@@ -165,7 +169,7 @@ export const Father = () => {
               fontWeight: "bold",
             }}
           >
-            Need not to if Toys are arranged or not
+            Father does not track toys status
           </span>
         </p>
         <p
@@ -177,8 +181,8 @@ export const Father = () => {
             fontSize: "14px",
           }}
         >
-          ✅ <strong>Independent Component!</strong> Father gets data from
-          Context - no props from Mother!
+          ✅ <strong>No Props Needed!</strong> Father reads from Redux store
+          directly - no props from Mother!
         </p>
       </div>
 
@@ -189,13 +193,21 @@ export const Father = () => {
   );
 };
 
-// Mother Component - Independent component that uses Context
-export const Mother = ({ onPassMessage, currentStep }) => {
-  // ✅ Mother provides data through Context (set at Module3 level)
-  const { message, areToysArranged } = useToyContext();
+// Mother Component - Uses Redux to read global state
+export const Mother = () => {
+  // 🎯 REDUX: Read state using useSelector hook - cleaner pattern!
+  const { message, areToysArranged, currentStep } = useSelector(
+    (state) => state.toyStore
+  );
+
+  const dispatch = useDispatch();
+
+  const handlePassMessage = () => {
+    dispatch(setCurrentStep(1));
+  };
 
   const isActive = currentStep === 0;
-  console.log("Mother Rendered");
+
   return (
     <div
       style={{
@@ -232,12 +244,12 @@ export const Mother = ({ onPassMessage, currentStep }) => {
             fontSize: "14px",
           }}
         >
-          🎯 <strong>Independent Component!</strong> Mother reads from Context
-          and initiates the message flow.
+          🎯 <strong>Redux Store!</strong> Mother reads from centralized Redux
+          store - sees updates from John instantly!
         </p>
       </div>
-      <Button variant="primary" onClick={onPassMessage}>
-        Pass Message to John
+      <Button variant="primary" onClick={handlePassMessage}>
+        Pass Message to Father
       </Button>
       <div style={{ marginTop: "15px", fontSize: "40px", textAlign: "center" }}>
         👩
