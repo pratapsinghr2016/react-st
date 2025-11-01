@@ -1,92 +1,172 @@
-import styled from "styled-components";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import Button from "../components/Button";
+import { Father, John, Mother, Sister } from "../components/Module5Family";
+import {
+  PageContainer,
+  PageContent,
+  PageTitle,
+} from "../components/PageContent";
+import RTKDoc from "../components/RTKDoc";
+import { resetState, store } from "../slices/toySlice";
 
-const PageContainer = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-`;
+// Main Component Content
+const Module5Content = () => {
+  const dispatch = useDispatch();
+  const currentStep = useSelector((state) => state.toy.currentStep);
 
-const PageTitle = styled.h1`
-  color: #333;
-  margin-bottom: 1rem;
-  font-size: 2.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-`;
-
-const PageContent = styled.div`
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
-`;
-
-const FeatureCard = styled.div`
-  background: linear-gradient(135deg, #fdcb6e 0%, #e17055 100%);
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin: 1rem 0;
-  border-left: 4px solid #fd79a8;
-  color: white;
-`;
-
-const ButtonGroup = styled.div`
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-top: 2rem;
-`;
-
-const Module5 = () => {
-  const handleAction = () => {
-    alert("Module 5 analytics generated!");
+  const handleReset = () => {
+    dispatch(resetState());
   };
 
   return (
     <PageContainer>
-      <PageTitle>Module 5 - Analytics & Reporting</PageTitle>
+      <div style={{ position: "relative" }}>
+        <div
+          style={{
+            position: "absolute",
+            top: "0",
+            right: "20px",
+            fontSize: "60px",
+          }}
+        >
+          🏠
+        </div>
+        <PageTitle>Redux Toolkit - Modern Redux! 🚀</PageTitle>
+      </div>
+      <h2>
+        95% less boilerplate, same power! Official recommended way to use Redux.
+      </h2>
+
+      <div
+        style={{
+          marginBottom: "20px",
+          padding: "15px",
+          backgroundColor: "#f0f8ff",
+          borderRadius: "8px",
+          border: "2px solid #4682b4",
+        }}
+      >
+        <h3 style={{ margin: "0 0 10px 0" }}>
+          🎯 Redux Toolkit (RTK) Benefits:
+        </h3>
+        <div
+          style={{
+            padding: "10px",
+            backgroundColor: "#e6f7ff",
+            borderRadius: "5px",
+            marginBottom: "10px",
+            border: "2px solid #1890ff",
+          }}
+        >
+          <strong>✨ createSlice</strong> - Actions & reducers in one place
+          <br />
+          <strong>🔧 configureStore</strong> - DevTools & middleware included
+          <br />
+          <strong>✍️ Immer</strong> - Write "mutating" code safely
+          <br />
+          <strong>📦 Less boilerplate</strong> - ~70% less code!
+        </div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            flexWrap: "wrap",
+          }}
+        >
+          <span
+            style={{
+              padding: "5px 10px",
+              backgroundColor: currentStep >= 0 ? "#ff69b4" : "#ddd",
+              color: currentStep >= 0 ? "white" : "#666",
+              borderRadius: "5px",
+              fontWeight: "bold",
+            }}
+          >
+            Mother
+          </span>
+          <span
+            style={{
+              padding: "5px 10px",
+              backgroundColor: currentStep >= 1 ? "#4169e1" : "#ddd",
+              color: currentStep >= 1 ? "white" : "#666",
+              borderRadius: "5px",
+              fontWeight: "bold",
+            }}
+          >
+            Father
+          </span>
+          <span
+            style={{
+              padding: "5px 10px",
+              backgroundColor: currentStep >= 2 ? "#9370db" : "#ddd",
+              color: currentStep >= 2 ? "white" : "#666",
+              borderRadius: "5px",
+              fontWeight: "bold",
+            }}
+          >
+            Sister
+          </span>
+          <span
+            style={{
+              padding: "5px 10px",
+              backgroundColor: currentStep >= 3 ? "#32cd32" : "#ddd",
+              color: currentStep >= 3 ? "white" : "#666",
+              borderRadius: "5px",
+              fontWeight: "bold",
+            }}
+          >
+            John
+          </span>
+        </div>
+        <div
+          style={{
+            marginTop: "10px",
+            padding: "10px",
+            backgroundColor: "#fff3cd",
+            borderRadius: "5px",
+            fontSize: "14px",
+          }}
+        >
+          ⭐ Redux Toolkit is the <strong>official recommended</strong> way to
+          write Redux logic!
+        </div>
+        <Button
+          variant="secondary"
+          onClick={handleReset}
+          style={{ marginTop: "10px" }}
+        >
+          ↺ Reset Demo
+        </Button>
+      </div>
+
       <PageContent>
-        <h2>Data Analytics & Reporting</h2>
-        <p>
-          Module 5 provides comprehensive analytics and reporting capabilities.
-          It offers insights, metrics, and detailed reports for data-driven
-          decision making.
-        </p>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: "20px",
+          }}
+        >
+          <Mother />
+          <Father />
+          <Sister />
+          <John />
+        </div>
 
-        <FeatureCard>
-          <h3>📈 Analytics Features</h3>
-          <ul>
-            <li>Real-time data visualization</li>
-            <li>Custom dashboard creation</li>
-            <li>Performance metrics tracking</li>
-            <li>User behavior analysis</li>
-          </ul>
-        </FeatureCard>
-
-        <FeatureCard>
-          <h3>📊 Reporting Tools</h3>
-          <ul>
-            <li>Automated report generation</li>
-            <li>Export functionality (PDF, Excel)</li>
-            <li>Scheduled reports</li>
-            <li>Interactive charts and graphs</li>
-          </ul>
-        </FeatureCard>
-
-        <ButtonGroup>
-          <Button variant="primary" onClick={handleAction}>
-            Generate Report
-          </Button>
-          <Button variant="outline">View Dashboard</Button>
-          <Button variant="danger">Export Data</Button>
-        </ButtonGroup>
+        <RTKDoc />
       </PageContent>
     </PageContainer>
   );
 };
 
-export default Module5;
+// Export wrapped component with Redux Provider
+const Module5ReduxRTK = () => {
+  return (
+    <Provider store={store}>
+      <Module5Content />
+    </Provider>
+  );
+};
+
+export default Module5ReduxRTK;

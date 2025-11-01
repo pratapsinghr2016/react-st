@@ -3,16 +3,17 @@ import {
   setCurrentStep,
   setMessage,
   setToysArranged,
-} from "../redux/actions/toyActions";
+} from "../slices/toySlice";
 import Button from "./Button";
 
+// John Component - Uses Redux Toolkit
 export const John = () => {
-  // 🎯 REDUX: Read state from Redux store - cleaner pattern!
+  // 🎯 RTK: Read state from store (state.toy because that's our slice name)
   const { message, areToysArranged, currentStep } = useSelector(
-    (state) => state.toyStore
+    (state) => state.toy
   );
-  console.log("JOHN STATE", { message, areToysArranged, currentStep });
-  // 🎯 REDUX: Get dispatch function to send actions
+
+  // 🎯 RTK: Same dispatch as classic Redux!
   const dispatch = useDispatch();
 
   const handleArrangeToys = () => {
@@ -66,8 +67,8 @@ export const John = () => {
               fontSize: "14px",
             }}
           >
-            🎯 <strong>Redux Power!</strong> John dispatches actions to modify
-            global state - all components see the changes!
+            🚀 <strong>Redux Toolkit!</strong> Same dispatch pattern, 95% less
+            boilerplate code!
           </p>
         </div>
       )}
@@ -194,17 +195,16 @@ export const Father = () => {
   );
 };
 
-// Mother Component - Uses Redux to read global state
+// Mother Component - Uses Redux Toolkit
 export const Mother = () => {
-  // 🎯 REDUX: Read state using useSelector hook - cleaner pattern!
   const { message, areToysArranged, currentStep } = useSelector(
-    (state) => state.toyStore
+    (state) => state.toy
   );
 
   const dispatch = useDispatch();
 
   const handlePassMessage = () => {
-    dispatch(setCurrentStep(4));
+    dispatch(setCurrentStep(3));
   };
 
   const isActive = currentStep === 0;
@@ -245,12 +245,11 @@ export const Mother = () => {
             fontSize: "14px",
           }}
         >
-          🎯 <strong>Redux Store!</strong> Mother reads from centralized Redux
-          store - sees updates from John instantly!
+          🚀 <strong>Redux Toolkit!</strong> Same power, way simpler code!
         </p>
       </div>
       <Button variant="primary" onClick={handlePassMessage}>
-        Pass Message to Arrange Toys
+        Pass Message to Father
       </Button>
       <div style={{ marginTop: "15px", fontSize: "40px", textAlign: "center" }}>
         👩

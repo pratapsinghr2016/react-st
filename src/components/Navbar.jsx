@@ -83,7 +83,7 @@ const Navbar = () => {
   return (
     <NavbarContainer>
       <NavContent>
-        <Logo>Design System</Logo>
+        <Logo>State Management</Logo>
         <NavLinks>
           {navItems.map((item) => (
             <NavLink
