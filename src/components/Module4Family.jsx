@@ -4,13 +4,14 @@ import {
   setMessage,
   setToysArranged,
 } from "../redux/actions/toyActions";
+import Button from "./Button";
 
 export const John = () => {
   // 🎯 REDUX: Read state from Redux store - cleaner pattern!
   const { message, areToysArranged, currentStep } = useSelector(
     (state) => state.toyStore
   );
-
+  console.log("JOHN STATE", { message, areToysArranged, currentStep });
   // 🎯 REDUX: Get dispatch function to send actions
   const dispatch = useDispatch();
 
@@ -145,7 +146,7 @@ export const Sister = () => {
 };
 
 // Father Component - Uses Redux to read global state
-const Father = () => {
+export const Father = () => {
   return (
     <div
       style={{
@@ -203,7 +204,7 @@ export const Mother = () => {
   const dispatch = useDispatch();
 
   const handlePassMessage = () => {
-    dispatch(setCurrentStep(1));
+    dispatch(setCurrentStep(4));
   };
 
   const isActive = currentStep === 0;

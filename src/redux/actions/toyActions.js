@@ -16,10 +16,12 @@ export const setToysArranged = (isArranged) => ({
   payload: isArranged,
 });
 
-export const setCurrentStep = (step) => ({
-  type: SET_CURRENT_STEP,
-  payload: step,
-});
+export const setCurrentStep = (step) => {
+  console.log("STATE", step); return ({
+    type: SET_CURRENT_STEP,
+    payload: step,
+  })
+};
 
 export const resetState = () => ({
   type: RESET_STATE,

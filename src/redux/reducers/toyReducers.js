@@ -23,6 +23,7 @@ export const toyReducer = (state = initialState, action) => {
       };
 
     case SET_CURRENT_STEP:
+      console.log("REDUCER STATE", action.payload);
       return {
         ...state,
         currentStep: action.payload,
