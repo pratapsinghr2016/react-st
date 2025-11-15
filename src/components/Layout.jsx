@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Navbar from "./Navbar";
 
 const LayoutContainer = styled.div`
   min-height: 100vh;
@@ -13,8 +12,9 @@ const MainContent = styled.main`
 const Layout = ({ children }) => {
   return (
     <LayoutContainer>
-      <Navbar />
-      <MainContent>{children}</MainContent>
+      {children}
+      {/* <MainContent>{children}</MainContent> */}
+      {/* <Navbar /> */}
     </LayoutContainer>
   );
 };

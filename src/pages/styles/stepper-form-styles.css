@@ -1,0 +1,21 @@
+.form-container {
+  width: 500px;
+  margin: 10px;
+  padding: 10px;
+  border: 2px solid black;
+}
+
+.form-item-container,
+.action-handler {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.form-item-container {
+  padding: 15px;
+}
+
+.action-handler {
+  margin: 10px;
+  border: 2px solid gray;
+}

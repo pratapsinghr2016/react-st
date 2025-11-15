@@ -1,0 +1,14 @@
+.otp-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.otp-field {
+  /* padding: 20px; MISTAKE !!!*/
+  margin: 10px;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minimal Clock</title>
+    <style>
+      .clock {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        border: 2px solid #000;
+        border-radius: 50%;
+        background: #fff;
+      }
+
+      .hand {
+        position: absolute;
+        bottom: 50%;
+        left: 50%;
+        transform-origin: bottom;
+        background: #000;
+      }
+
+      .hour {
+        width: 4px;
+        height: 50px;
+      }
+
+      .minute {
+        width: 3px;
+        height: 70px;
+      }
+
+      .second {
+        width: 1px;
+        height: 80px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="clock">
+      <div class="hand hour" id="hour"></div>
+      <div class="hand minute" id="minute"></div>
+      <div class="hand second" id="second"></div>
+    </div>
+
+    <script>
+      function updateClock() {
+        const now = new Date();
+        const seconds = now.getSeconds();
+        const minutes = now.getMinutes();
+        const hours = now.getHours();
+
+        const secondDeg = seconds * 6;
+        const minuteDeg = minutes * 6;
+        const hourDeg = (hours % 12) * 30;
+
+        document.getElementById(
+          "second"
+        ).style.transform = `rotate(${secondDeg}deg)`;
+        document.getElementById(
+          "minute"
+        ).style.transform = `rotate(${minuteDeg}deg)`;
+        document.getElementById(
+          "hour"
+        ).style.transform = `rotate(${hourDeg}deg)`;
+      }
+
+      updateClock();
+      setInterval(updateClock, 1000);
+    </script>
+  </body>
+</html>
