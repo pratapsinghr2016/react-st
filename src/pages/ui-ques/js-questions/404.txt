@@ -1,0 +1,19 @@
+LEVEL - 2
+- 
+
+
+LEVEL - 3
+{
+  - curry
+  - leading trailing
+  - deep clone
+  - deep merge
+  
+}
+- File system
+- json.stringify
+- LRU cache
+- multi-d-array filter
+- polyfill-promise (JUST MEMORIZE IT!!)
+- async non promise tasks
+- uber-scheduler

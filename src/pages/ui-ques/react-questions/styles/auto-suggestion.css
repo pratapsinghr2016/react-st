@@ -1,0 +1,29 @@
+.container{
+  padding:20px
+}
+
+.search-input{
+  height: 3rem;
+  width: 20rem;
+  font-size: 1rem;
+  margin-top: 20px;
+  padding-left: 1rem
+}
+
+.result{
+  border: 1px solid black;
+  max-height: 400px;
+  overflow-y: scroll;
+  width: 20rem;
+  padding: 10px
+}
+
+.result > p{
+  padding: 5px
+}
+
+.result > p:hover{
+  background-color: brown;
+  cursor: pointer;
+  color: white
+}

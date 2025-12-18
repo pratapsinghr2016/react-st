@@ -1,0 +1,16 @@
+.parent {
+  border: 1px solid #aaa;
+  /* max-width: 20rem; */
+  border-radius: 8px;
+  height: 2rem;
+  overflow: hidden;
+}
+
+.child {
+  background: green;
+  height: 100%;
+  /* border-radius: 8px; */
+  text-align: center;
+  font-size: 1rem;
+  transition: 0.5s ease-out;
+}
