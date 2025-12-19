@@ -1,0 +1,23 @@
+.folder-container{
+  padding-left:1rem;
+  margin-top: 0.7rem
+}
+
+.folder-name{
+  font-weight:600;
+  cursor: pointer
+}
+
+.file-name{
+  font-weight: 300
+}
+
+.folder-label-container{
+  display: flex;
+  gap: 0.25rem
+}
+
+.file-container{
+  display:flex;
+  gap:0.8rem
+}
