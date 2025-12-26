@@ -1,0 +1,65 @@
+[
+  {
+    "id": "task-1",
+    "title": "Setup project structure",
+    "description": "Initialize React app with Vite",
+    "status": "todo",
+    "priority": "high"
+  },
+  {
+    "id": "task-2",
+    "title": "Design database schema",
+    "description": "Create ERD for user and tasks tables",
+    "status": "todo",
+    "priority": "high"
+  },
+  {
+    "id": "task-3",
+    "title": "Write unit tests",
+    "description": "Add Jest tests for utility functions",
+    "status": "todo",
+    "priority": "medium"
+  },
+  {
+    "id": "task-4",
+    "title": "Create landing page",
+    "description": "Design hero section with CTA",
+    "status": "todo",
+    "priority": "low"
+  },
+  {
+    "id": "task-5",
+    "title": "Implement authentication",
+    "description": "Add JWT based login/signup",
+    "status": "in-progress",
+    "priority": "high"
+  },
+  {
+    "id": "task-6",
+    "title": "Build dashboard UI",
+    "description": "Create charts and stats components",
+    "status": "in-progress",
+    "priority": "medium"
+  },
+  {
+    "id": "task-7",
+    "title": "Setup CI/CD pipeline",
+    "description": "Configure GitHub Actions",
+    "status": "completed",
+    "priority": "medium"
+  },
+  {
+    "id": "task-8",
+    "title": "Create README",
+    "description": "Add installation and usage docs",
+    "status": "completed",
+    "priority": "low"
+  },
+  {
+    "id": "task-9",
+    "title": "Configure ESLint",
+    "description": "Setup linting rules for the team",
+    "status": "completed",
+    "priority": "low"
+  }
+]

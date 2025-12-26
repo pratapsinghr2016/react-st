@@ -1,0 +1,24 @@
+.carousel-container{
+  overflow:hidden;
+  position: relative;
+  margin-top: 10rem;
+}
+
+.image-content{
+  display: flex;
+  transition: transform 0.5s ease-out; 
+}
+
+.image-item{
+  width: 100%;
+  height: 300px;
+  transform: 2s ease-out
+}
+
+.carousel-cta{
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top:50%;
+  width: 100%
+}

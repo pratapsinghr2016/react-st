@@ -1,0 +1,28 @@
+.modal-container{
+  position: absolute;
+  top:0;
+  bottom:0;
+  left: 0;
+  right: 0;
+  background-color: gray;
+  transition: 0.2s ease-out
+}
+
+.modal-body{
+  background-color: white;
+  padding: 12px;
+  max-width: 500px;
+  min-height: 380px;
+  border-radius: 15px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%)
+}
+
+.modal-btn{
+  position: absolute;
+  bottom: 10px;
+  right: 20px
+
+}

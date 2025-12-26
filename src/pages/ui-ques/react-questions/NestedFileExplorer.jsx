@@ -5,7 +5,7 @@ import "./styles/folder-structure.css"
 
 const Folder = ({folderOpen, data, onFolderClick, onFileFolderAddClick, onFileFolderDeleteClick})=>{
 
-  return <div className='folder-container'>
+  return <div style={{marginLeft: 25}} className='folder-container'>
         <div className='folder-label-container'>
           <p onClick={()=>onFolderClick(data.id)} className='folder-name'>
           {folderOpen.includes(data.id) ? "📂":"📁"}  {data.name}
@@ -17,24 +17,25 @@ const Folder = ({folderOpen, data, onFolderClick, onFileFolderAddClick, onFileFo
         {folderOpen.includes(data.id) &&
           <>
             {data?.children?.map((item)=>{
-            if(item.type === "folder")
-              return <Folder 
+             return <div key={item.id} >
+              {item.type === "folder" ? 
+              <Folder 
                   folderOpen={folderOpen} 
-                  onFolderClick={onFolderClick} 
-                  key={item.id} 
+                  onFolderClick={onFolderClick}                   
                   data={item}
                   onFileFolderAddClick={onFileFolderAddClick}
                   onFileFolderDeleteClick={onFileFolderDeleteClick}
-              />
-            else
-              return <File key={item.id} data={item}/>
+              />:
+              <File key={item.id} data={item}/>
+              }
+            </div>
           })}
         </>}        
     </div>
 }
 
 const File = ({data, onFileFolderDeleteClick})=>{
-return <div className='file-container'>
+return <div style={{marginLeft: 25}} className='file-container'>
   <p className='file-name'>🗒️ {" "}{data.name}</p>
   <p onClick={()=>onFileFolderDeleteClick(data.id)}>❌</p>
 </div>

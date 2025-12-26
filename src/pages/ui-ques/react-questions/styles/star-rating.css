@@ -1,0 +1,15 @@
+.star-container{
+  margin: auto;
+  display: flex;
+  align-item: center;
+  justify-content: center
+}
+
+.star-default{
+  font-size: 3rem
+}
+
+.star{
+  color: orange;
+  font-size: 3rem;
+}

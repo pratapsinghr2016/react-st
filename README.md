@@ -5,67 +5,83 @@
 <grade-1>
 - (20) Multi step form
 - (20-35) Auto suggestion | https://youtu.be/6YrkXWFgiV8?si=sjNXRmBd3OUvop1c
-- (25-35) Toast | https://youtu.be/v50uJDEFnqM?si=WI_4VXXpNHS4IfFv
+- (25-35) Toast [1, 2, 3] | https://youtu.be/v50uJDEFnqM?si=WI_4VXXpNHS4IfFv
+- (20-30) Drag drop JIRA dummymwith CRUD
+- (20-30) Todo list with reorder | https://youtu.be/U6Gilod2tq0?si=DdEjmVaz1vESW36s
+- (20-30) Sortable list | https://youtu.be/la2QrsXAEu4?si=Ml4VZrUILbtHBba6
+- (25-30) File upload, drag-drop | https://youtu.be/4EtaNi-HuYY?si=tFx6nFWzkofDhR2K
+- (15-20) Drag select | https://youtu.be/Vo3zBqXcDjQ?si=JkuJp2ToAlo7f1Lg
+- (15-20) OTP | https://youtu.be/nQ-hy4PUta8?si=cmJOxLRkHC3BCjfu
+- (15-18) Like button | https://youtu.be/umBMs-m0JMw?si=6vukuabTk8qjHlv-
+- (10-15) Progress bar | https://youtu.be/9Ez_gdsgGiM?si=m1D68w48TDEyrjxc
+- (10-15) Modal components | https://youtu.be/Ii4AcwLHgEA?si=sOe58CjwxkgUfvil
+- (10-15) Star rating | https://youtu.be/3woZSW_ciHg?si=JgVccGNU3ZUD6Sc6
+- (10-15) Accordion or FAQ components | https://youtu.be/mTd5ZoexL_8?si=r-dhXQNAzKgtrBNP
+- (10-15) Image carousel | https://youtu.be/phviBFlcKiU?si=NdXbIoS0zARka4L0
+- (18-20) Stepper component
+- (15-18) Virtualized List | https://youtu.be/IFBq4j6htpE?si=ocY2pXLgm7Nt3xzR
+- (x< +10)Tab component | Akshay saini
+- (15-20) Infinite scroll | https://youtu.be/I40pArhtXWw?si=xqzhSzrtROL2a6Wy
+- (20-30) Pagination [1 and 2] |
+    - https://youtu.be/cBsB7hhOzQI?si=x9YjgTE4GuPd0N8q
+    - https://youtu.be/0PsQOdaQWVE?si=kjkNQNNG1Rkf1I0N
+- (12-15) Todo List
+- (12-15) Chip - 1
 - (40-50) File explorere | 
-          - https://youtu.be/20F_KzHPpvI?si=n0GBjnH1Gas1JRls
-          - https://youtu.be/hMDp1FUURYU?si=6tcrJbeVHNHn5_R_
-- Drag-dop nodets | https://youtu.be/3U3UiBfcNqQ?si=YFJmZPqZ0p32o5P9
-- Drag select | https://youtu.be/Vo3zBqXcDjQ?si=JkuJp2ToAlo7f1Lg
-- Todo list with reorder | https://youtu.be/U6Gilod2tq0?si=DdEjmVaz1vESW36s
-- Sortable list | https://youtu.be/la2QrsXAEu4?si=Ml4VZrUILbtHBba6
-- OTP | https://youtu.be/nQ-hy4PUta8?si=cmJOxLRkHC3BCjfu
-- Breadcrumb | https://youtu.be/yeNgh2gw104?si=YlDVxEz9kmX_GJKP
-- Like button | https://youtu.be/umBMs-m0JMw?si=6vukuabTk8qjHlv-
-- Progress bar | https://youtu.be/9Ez_gdsgGiM?si=m1D68w48TDEyrjxc
-- Popover | https://youtu.be/mdLvDZSkiQk?si=wA00rjoFiXb757iG
-- Modal components | https://youtu.be/Ii4AcwLHgEA?si=sOe58CjwxkgUfvil
-- Star rating | https://youtu.be/3woZSW_ciHg?si=JgVccGNU3ZUD6Sc6
-- Switch Button | https://youtu.be/S00IXcJvU1o?si=VYPt5sbtiHSOp-2m
-- Accordion | https://youtu.be/mTd5ZoexL_8?si=r-dhXQNAzKgtrBNP
-- Image carousel | https://youtu.be/phviBFlcKiU?si=NdXbIoS0zARka4L0
-- Stepper component
-- Tab component | Akshay saini
-- Date picker
-- Infinite scroll | https://youtu.be/I40pArhtXWw?si=xqzhSzrtROL2a6Wy
-- Pagination |
-  - https://youtu.be/cBsB7hhOzQI?si=x9YjgTE4GuPd0N8q
-  - https://youtu.be/0PsQOdaQWVE?si=kjkNQNNG1Rkf1I0N
+    - https://youtu.be/20F_KzHPpvI?si=n0GBjnH1Gas1JRls
+    - https://youtu.be/hMDp1FUURYU?si=6tcrJbeVHNHn5_R_
+- (40-50) Nested comments
+- (40-50) Indeterminate (nested) Checkbox 
+  - https://youtu.be/7M9oTjBAktI?si=39auPaF6Kj3VpIaw
 - Traffic light | https://youtu.be/AFUnOGDq8n4?si=9zfDvuWIoIJdt91k
-- Timer | https://youtu.be/CTEOclTTFos?si=-aU4aQ10_jberz53
+- Multi filter | Xplodivity
+- Word by word search | Xplodivity
+- Timer | https://youtu.be/CTEOclTTFos?si=-aU4aQ10_jberz53   
 - Digital clock | https://youtu.be/klHyeDu42ZE?si=vVEIfLT2YB9_Oyky
 - Stop watch | https://youtu.be/5BPzPe5tbgg?si=zeoSxl8ZXtrTDdDi
 - Countdown | https://youtu.be/L15ctzu_clE?si=Z_4FRFM7_Zb81UBg
 - Analog clock
+- Multi select search | https://youtu.be/AsvybgZTryo?si=LnF0wpgOwgsoc5Iu
+- currency converter
+- (**-**) Chip - 2
+- (**-**) Switch Button | https://youtu.be/S00IXcJvU1o?si=VYPt5sbtiHSOp-2m
+- (**-**) Date picker
+- (**-**) Popover | https://youtu.be/mdLvDZSkiQk?si=wA00rjoFiXb757iG
+- (**-**) Drag-dop nodets | https://youtu.be/3U3UiBfcNqQ?si=YFJmZPqZ0p32o5P9
+- (**-**) Breadcrumb | https://youtu.be/yeNgh2gw104?si=YlDVxEz9kmX_GJKP
+
+<more-->
+- Tooltip, Character Counter
+- Dropdown / Select
+- Expandable Text
+- Form Validation
+- Quiz App
+- score calculation, 
+- Color Picker HSL/RGB, 
+- sliders 
+- Calendar grid 
+- Transfer List | Two lists, move items between
 
 <grade-2> 
+- holy grail layout
 - Shopping cart | 
   - https://youtu.be/HptuMAUaNGk?si=jpdgDTI1O-q6KRC8
   - Xplodivity
 - Pole Widget | https://youtu.be/UtI-MyijX00?si=TVJhgtFNlgbGOcO5
 - Password generator | https://youtu.be/u9-x0sG-WQc?si=o_ZiNczjkrljQA1j
-- Virtualized List | https://youtu.be/IFBq4j6htpE?si=qrfHZ0-rkOdnDE6-
-- FAQ components | https://youtu.be/uC_-FZnGPP0?si=jlNpivrorfQXcYQN
-- Nested comments |
-  - https://youtu.be/zeY1Vw1dWJk?si=Hinz5XCrCY2LcIyD
-  - https://youtu.be/nZhrJsTdeeI?si=hyCpPylvAaKvoEI4 
-- Infinitely nested components
-- Multi select search | https://youtu.be/AsvybgZTryo?si=LnF0wpgOwgsoc5Iu
 - Mmemory Game | https://youtu.be/84o1kuPuYdU?si=gGewze3Hjlg5GcUT
 - Grid light |
   - https://youtu.be/sAF7Km_znjA?si=o_6OuagQ3ihZz3Lv
   - https://youtu.be/9SaSjqOZoMw?si=sFewcNptUhBJxrTl
 - Tic-tac-toe | https://youtu.be/-uAhf92DVqA?si=-P8D5gULmwobTC7_
+- chess board
 - Whack home | https://youtu.be/wEeskaqp12k?si=GBz8wKediSL2QZx5
 - Dark night mode| https://youtu.be/5XtvVH-v6kM?si=VnP2g7qK9Fj-7SVU
 - I18N | https://youtu.be/dltHi9GWMIo?si=LOGxCizXDVj9qmB9
 - Job portal | https://www.youtube.com/watch?v=KJ-cf62ioQs
-- Indeterminate (nested) Checkbox | https://youtu.be/7M9oTjBAktI?si=39auPaF6Kj3VpIaw
 - Employee DBMS | https://youtu.be/ZrMO0bCGwFg?si=blYldY1j7v4Ck6dM
 - Overlapping circle | https://youtu.be/SbAUz8wm8_0?si=_DuBDn23gUkAz-zb
 - Dynamic form | https://youtu.be/xoli56RLn5c?si=lSVnqfZENpWspdx9
-- React video player
-- chess board
-- holy grail layout
 
 
 **System Design**
@@ -73,6 +89,16 @@
 - rich text editor | https://youtu.be/6d5INMTOxyU?si=Y2M_ZFcqtvQ5WNkI
 - snake game | https://youtu.be/NCLG1m1LSBw?si=vg4tylgs9J-ZR7NH
 - calander | https://youtu.be/srZsrR51UPk?si=clDOtpwvC64VPsRS
+- Spreadsheet (basic)
+- Kanban Board
+- Undo/Redo
+- Mentions (@user)
+- Nested Dropdown Menu
+- Image Cropper
+- Drawing Canvas
+- Table with search and sort
+- Resizable Panels
+- WIZIWIG Tex editor
 
 **Extra**
 - React + Docker | https://youtu.be/zi6cdUyZ_uQ?si=nkqmxhZm0MSW5xg7

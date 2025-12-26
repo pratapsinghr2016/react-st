@@ -1,70 +1,66 @@
-import { useRef, useState } from "react";
-import "./styles/otp-styles.css";
+import { useEffect, useRef, useState } from "react"
+import "./styles/otp-input.css"
 
-const OTP_LENGTH = 4;
-const OtpInput = () => {
-  const [otp, setOtp] = useState([]); // type array --> remember
-  const inputRef = useRef([]); // remember
+const OTP_LENGTH = 5
+const OtpInput = ()=>{
+  // ! remeber fill("")
+  const [inputRes, setInputRes] = useState(Array.from({length:OTP_LENGTH}).fill(""))
+  const inputRefs = useRef([])
 
-  const inputChangeHandler = (e) => {
-    const id = Number(e.target.id);
-    const value = e.target.value;
-    if (id <= OTP_LENGTH) {
-      const currentElement = inputRef?.current[id + 1] ?? inputRef.current[id];
-      currentElement.focus();
-      inputRef.current[id].value = value;
-      setOtp((prev) => {
-        prev[id] = value;
-        const newPrev = [...prev];
-        console.log("prev:::", newPrev);
-        return newPrev;
-      });
+  useEffect(()=>{
+    inputRefs.current[0]?.focus();
+  },[])
+
+  const onChangeHandler = (value, idx)=>{
+
+    if(value.trim() && !isNaN(value)){
+
+    inputRefs.current[idx+1]?.focus();
+
+    setInputRes((prev)=>{
+      const newRes = [...prev];
+      newRes[idx] = value.slice(-1); // ! remeber splice(-1)
+      return newRes
+    })
+  }
+}
+
+  const setInputRef = (el, idx)=>{
+    return inputRefs?.current ? inputRefs.current[idx] = el : undefined
+  }
+
+  const onKeyDownHandler = (e, idx)=>{
+    if(e.key === "Backspace"){
+    
+      setInputRes((prev)=>{
+        const newArr = [...prev];
+        newArr[idx] = "";
+        return newArr
+      })
+      inputRefs.current[idx-1]?.focus();
+
     }
-  };
+  }
 
-  const setElements = (element, index) => {
-    if (inputRef?.current) inputRef.current[index] = element;
-  };
+  const onPasteHandler = (e, idx)=>{
+    e.preventDefault() // !important
+    const textData = e.clipboardData.getData("text/plain")
+    const textArr = textData.split("").slice(0, OTP_LENGTH-idx);
 
-  const onPasteHandler = (e) => {
-    e.preventDefault(); // i failed here... remember !!!
-    const targetId = Number(e.target.id);
-    if (targetId !== 0) return;
-    console.log("targetId", targetId);
-    const text = e.clipboardData.getData("text/plain");
+    setInputRes(textArr)
+  }
 
-    const validOtp = text.split("").slice(0, OTP_LENGTH);
-    console.log("e-->", e, text, validOtp);
-    let count = 0;
-    for (let element of validOtp) {
-      console.log("element", element, count);
-      inputChangeHandler({ target: { id: count, value: element } });
-      count += 1;
-    }
-  };
+  return <div className="input-container">
+    {inputRes.map((_, idx)=><input
+     className="otp-input"
+     key={idx} 
+     value={inputRes[idx]} // ! remember
+     ref={(el)=>setInputRef(el, idx)}
+     onPaste={(e)=>onPasteHandler(e, idx)}
+     onKeyDown={(e)=>onKeyDownHandler(e, idx)}
+     onChange={(e)=>onChangeHandler(e.target.value, idx)}
+     />)}
+  </div>
+}
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("OTP", otp);
-  };
-
-  return (
-    <div className="otp-container">
-      <form onSubmit={handleSubmit}>
-        {Array.from({ length: OTP_LENGTH }).map((i, index) => (
-          <input
-            ref={(el) => setElements(el, index)} // remember
-            onChange={inputChangeHandler}
-            onPaste={onPasteHandler}
-            className="otp-field"
-            id={index}
-            key={index}
-          />
-        ))}
-        <button>SUBMIT</button>
-      </form>
-    </div>
-  );
-};
-
-export default OtpInput;
+export default OtpInput

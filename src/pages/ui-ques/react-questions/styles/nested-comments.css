@@ -1,0 +1,24 @@
+.container{
+
+}
+
+.comment-list-container{
+  width: 35rem;
+}
+
+.comment-item{
+  display: flex;
+  justify-content: space-between
+}
+
+.comment-ctas{
+  display: flex;
+  align-items: center;
+  justify-content: end
+}
+
+.comment-author{
+  font-size: 14px;
+  font-weight: 600;
+  marginRight: 18px
+}

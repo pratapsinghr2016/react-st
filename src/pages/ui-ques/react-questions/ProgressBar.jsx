@@ -1,35 +1,36 @@
-import { useEffect, useState } from "react";
-import "../react-questions/styles/progress-bar.css";
+import { useEffect, useState } from "react"
+import "./styles/progress-bar.css"
 
-const ProgressBar = ({ scale }) => {
-  const [scaleAfterDelay, setScaleAfterDelay] = useState(0);
+const ProgressBar = ()=>{
 
-  useEffect(() => {
-    const timeId = setTimeout(() => {
-      setScaleAfterDelay(scale);
-    }, 300);
-    return () => clearTimeout(timeId);
-  }, [scale]);
+  const [progress, setProgress] = useState(0)
 
-  return (
-    <div
-      className="parent"
-      role="progressbar"
-      aria-label="progressbar"
-      aria-valuemax="100"
-      aria-valuemin="0"
-    >
-      <div
-        className="child"
-        style={{
-          width: scaleAfterDelay + "%",
-          // transform: `translateX(-${scale}%)`,
-        }}
-      >
-        {scale}%
-      </div>
-    </div>
-  );
-};
+  useEffect(()=>{
 
-export default ProgressBar;
+    const interval = setInterval(()=>{
+      setProgress((prev)=>{
+        if(prev>=100){
+          clearInterval(interval)
+          return prev;
+        }else{
+          return prev+5
+        }
+      })
+    },150)
+
+    return ()=>{
+      clearInterval(interval)
+    }
+
+  },[])
+
+
+
+  return <div className="progress-container">
+    <div style={{transform:`translateX(${progress-100}%)`}} 
+    className="progress-body">%</div>
+  </div>
+}
+
+export default ProgressBar
+

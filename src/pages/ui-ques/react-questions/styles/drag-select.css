@@ -1,0 +1,27 @@
+.matrix-container{
+  padding:2.5rem;
+  display: fex;
+  justify-content: center;
+  align-items: center
+}
+
+.matrix-row{
+  display: grid;
+  grid-template-columns: repeat(10, 1fr)
+}
+
+.matrix-col{
+  border: 1px solid lightgray;
+  text-align: center;
+  width: 2rem;
+  height: 2rem
+}
+
+.matrix-col:hover {
+  background: #f0f0f0;
+}
+
+.matrix-col.selected {
+  background: #3b82f6;
+  color: white;
+}

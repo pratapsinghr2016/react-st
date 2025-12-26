@@ -1,29 +1,26 @@
 import { useState } from "react";
-import "./styles/stars.styles.css";
+import "./styles/star-rating.css";
 
-const STARS = 5;
-const ReviewStars = () => {
-  const [raiting, seraiting] = useState(0);
-  const [hover, sethover] = useState(0);
-  console.log("rating", raiting, "hover", hover, (raiting && hover) || hover);
+const STARS = 10;
+const StarRatingComponent = () => {
+  const [clickedRating, setClickedRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
 
   return (
-    <div className="container">
+    <div className="star-container">
       {Array.from({ length: STARS }).map((i, index) => (
         <span
           key={index}
-          onMouseEnter={() => sethover(index + 1)} // remember
-          onMouseLeave={() => sethover(raiting)}
-          onClick={() => seraiting(index + 1)} // remember
-          className={`stars  ${
-            index < ((raiting && hover) || hover) ? "on" : "off" // remember
-          }`}
+          className={`${(index < clickedRating && hoverRating===0) || (index < hoverRating)  ? "star":"star-default"}`}
+          onClick={()=>setClickedRating(index+1)}
+          onMouseEnter={()=>setHoverRating(index+1)}
+          onMouseLeave={()=>setHoverRating(0)}
         >
-          ★
+          &#9733;
         </span>
       ))}
     </div>
   );
 };
 
-export default ReviewStars;
+export default StarRatingComponent;

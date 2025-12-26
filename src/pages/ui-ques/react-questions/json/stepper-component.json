@@ -1,0 +1,27 @@
+[
+  {
+    "step": 1,
+    "title": "Account Setup",
+    "content": "Enter your basic details to create an account."
+  },
+  {
+    "step": 2,
+    "title": "Verify Email",
+    "content": "Check your inbox and verify your email address."
+  },
+  {
+    "step": 3,
+    "title": "Profile Information",
+    "content": "Fill out your personal and profile information."
+  },
+  {
+    "step": 4,
+    "title": "Preferences",
+    "content": "Select your interests and notification preferences."
+  },
+  {
+    "step": 5,
+    "title": "Finish",
+    "content": "Review your details and complete the setup."
+  }
+]

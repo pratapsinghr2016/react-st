@@ -1,16 +1,17 @@
-.parent {
-  border: 1px solid #aaa;
-  /* max-width: 20rem; */
-  border-radius: 8px;
-  height: 2rem;
-  overflow: hidden;
+.progress-container{
+  height:25px;
+  width: 300px;
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow:hidden;
+  border: 1px solid gray
 }
 
-.child {
-  background: green;
-  height: 100%;
-  /* border-radius: 8px; */
-  text-align: center;
-  font-size: 1rem;
+.progress-body{
+  width: 100%;
+  height:100%;
+  text-align:center;
+   background-color: green;
+  /* transform: translateX(-10%) */
   transition: 0.5s ease-out;
 }

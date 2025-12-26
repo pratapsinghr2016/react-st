@@ -21,30 +21,22 @@ const ImageCarousel = () => {
     if (currentImageVisible !== 0) setCurrentImageVisible((prev) => prev - 1);
   };
 
-  return (
-    <div className="carousel-container">
-      {/* i missed to write overflow hidden here instead wrote for images-container:: stupid !!  */}
-      <div
-        className="images-container"
-        // remeber this style
-        style={{ transform: `translateX(${-currentImageVisible * 100}%)` }}
-      >
-        {images.map((item, idx) => (
-          <div key={item + idx}>
-            <img className="images" src={item} alt="image1" />
-          </div>
-        ))}
-      </div>
-      <div className="action-handlers">
-        <button className="next-button" onClick={onNextClick}>
-          Next
-        </button>
-        <button className="prev-button" onClick={onBackClick}>
-          Prev
-        </button>
-      </div>
+  return <div className="carousel-container">
+    <div style={{transform: `translateX(-${currentImageVisible*100}%)`}} className="image-content">
+
+      {images.map((item, idx)=><img 
+      className="image-item" 
+      key={idx} src={item} 
+      alt={idx+"image"} 
+
+      />)}
+      
     </div>
-  );
+    <div className="carousel-cta">
+      <button onClick={onBackClick}>Prev</button>
+      <button onClick={onNextClick}>Next</button>
+    </div>
+  </div>
 };
 
 export default ImageCarousel;
