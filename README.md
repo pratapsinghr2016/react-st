@@ -32,20 +32,21 @@
     - https://youtu.be/hMDp1FUURYU?si=6tcrJbeVHNHn5_R_
 - (40-50) Nested comments
 - (40-50) Indeterminate (nested) Checkbox 
-  - https://youtu.be/7M9oTjBAktI?si=39auPaF6Kj3VpIaw
-- Traffic light | https://youtu.be/AFUnOGDq8n4?si=9zfDvuWIoIJdt91k
-- Multi filter | Xplodivity
-- Word by word search | Xplodivity
-- Timer | https://youtu.be/CTEOclTTFos?si=-aU4aQ10_jberz53   
-- Digital clock | https://youtu.be/klHyeDu42ZE?si=vVEIfLT2YB9_Oyky
-- Stop watch | https://youtu.be/5BPzPe5tbgg?si=zeoSxl8ZXtrTDdDi
-- Countdown | https://youtu.be/L15ctzu_clE?si=Z_4FRFM7_Zb81UBg
+    - https://youtu.be/7M9oTjBAktI?si=39auPaF6Kj3VpIaw
+- (8-10) Traffic light | https://youtu.be/AFUnOGDq8n4?si=9zfDvuWIoIJdt91k
+- (5-8) Digital clock | https://youtu.be/klHyeDu42ZE?si=vVEIfLT2YB9_Oyky
+- (15-18) Stop watch | https://youtu.be/5BPzPe5tbgg?si=zeoSxl8ZXtrTDdDi
+- (15-18) Countdown timer | https://youtu.be/L15ctzu_clE?si=Z_4FRFM7_Zb81UBg
 - Analog clock
-- Multi select search | https://youtu.be/AsvybgZTryo?si=LnF0wpgOwgsoc5Iu
+- Transfer List
+- Typewriter Effect in React.js | Xplodivity
+- Multi filter | Xplodivity
+- Letter by Letter Search Filtering | Xplodivity
+- Color changing Navbar | Xplodivity
+- Date picker | Xplodivity
 - currency converter
-- (**-**) Chip - 2
+- (**-**) Chip - 2 | https://youtu.be/AsvybgZTryo?si=LnF0wpgOwgsoc5Iu
 - (**-**) Switch Button | https://youtu.be/S00IXcJvU1o?si=VYPt5sbtiHSOp-2m
-- (**-**) Date picker
 - (**-**) Popover | https://youtu.be/mdLvDZSkiQk?si=wA00rjoFiXb757iG
 - (**-**) Drag-dop nodets | https://youtu.be/3U3UiBfcNqQ?si=YFJmZPqZ0p32o5P9
 - (**-**) Breadcrumb | https://youtu.be/yeNgh2gw104?si=YlDVxEz9kmX_GJKP
@@ -62,34 +63,47 @@
 - Calendar grid 
 - Transfer List | Two lists, move items between
 
+
+[SECOND ITERATION] <|o|> https://www.youtube.com/watch?v=xueLGEE3SgQ&list=PL_KW_uw2ITn_J_BNfTpv-yePk8vcyg4dp&index=16
+
+https://www.greatfrontend.com/questions/react-interview-questions
+<NOTE>
+
 <grade-2> 
-- holy grail layout
-- Shopping cart | 
-  - https://youtu.be/HptuMAUaNGk?si=jpdgDTI1O-q6KRC8
-  - Xplodivity
+- (10-12) holy grail layout
+- Shopping cart | Xplodivity
+- Dynamic Form
 - Pole Widget | https://youtu.be/UtI-MyijX00?si=TVJhgtFNlgbGOcO5
-- Password generator | https://youtu.be/u9-x0sG-WQc?si=o_ZiNczjkrljQA1j
-- Mmemory Game | https://youtu.be/84o1kuPuYdU?si=gGewze3Hjlg5GcUT
-- Grid light |
-  - https://youtu.be/sAF7Km_znjA?si=o_6OuagQ3ihZz3Lv
-  - https://youtu.be/9SaSjqOZoMw?si=sFewcNptUhBJxrTl
-- Tic-tac-toe | https://youtu.be/-uAhf92DVqA?si=-P8D5gULmwobTC7_
-- chess board
-- Whack home | https://youtu.be/wEeskaqp12k?si=GBz8wKediSL2QZx5
 - Dark night mode| https://youtu.be/5XtvVH-v6kM?si=VnP2g7qK9Fj-7SVU
 - I18N | https://youtu.be/dltHi9GWMIo?si=LOGxCizXDVj9qmB9
+- Password generator | https://youtu.be/u9-x0sG-WQc?si=o_ZiNczjkrljQA1j
+- (15-20) Mmemory Game | https://youtu.be/84o1kuPuYdU?si=gGewze3Hjlg5GcUT
+- (12-15) Grid light | https://youtu.be/sAF7Km_znjA?si=o_6OuagQ3ihZz3Lv
+- (25-32) Tic-tac-toe | https://youtu.be/-uAhf92DVqA?si=-P8D5gULmwobTC7_
+- chess board
+- Snake Game
+- Whack home | https://youtu.be/wEeskaqp12k?si=GBz8wKediSL2QZx5
 - Job portal | https://www.youtube.com/watch?v=KJ-cf62ioQs
 - Employee DBMS | https://youtu.be/ZrMO0bCGwFg?si=blYldY1j7v4Ck6dM
 - Overlapping circle | https://youtu.be/SbAUz8wm8_0?si=_DuBDn23gUkAz-zb
 - Dynamic form | https://youtu.be/xoli56RLn5c?si=lSVnqfZENpWspdx9
 
+<grade-FINAL>
+- LLD - Machine Coding | LearnerBucket
 
 **System Design**
 - cinemal hall seat booking
 - rich text editor | https://youtu.be/6d5INMTOxyU?si=Y2M_ZFcqtvQ5WNkI
 - snake game | https://youtu.be/NCLG1m1LSBw?si=vg4tylgs9J-ZR7NH
 - calander | https://youtu.be/srZsrR51UPk?si=clDOtpwvC64VPsRS
-- Spreadsheet (basic)
+- Google Calendar | Frontend Engineer
+- Google sheet | Frontend Engineer
+- Google docs | Frontend Engineer
+- Chat application | Frontend Engineer
+- Facebook News Feed | Frontend Engineer
+- Netflix | Frontend Engineer
+- Pinterest | Frontend Engineer
+- Notion | Frontend Engineer
 - Kanban Board
 - Undo/Redo
 - Mentions (@user)
@@ -111,6 +125,10 @@
   - https://youtu.be/fLfVVu1GyNQ?si=8DODxWBiIzYSzDNf
 ***************************************************************************
 
+- Web Performance | LearnerBucket
+- Web security | LearnerBucket
+- Web Fundamentals | LearnerBucket
+- Design Patterns | LearnerBucket
 - Image handling | https://youtu.be/V6OIJrb4zGw?si=Qc25btwwCMqCkwdi
 - React compiler | https://youtu.be/aM4HfAvx42w?si=XM0UPoI7rsz253Kp
 - useEffectevent | https://youtu.be/Qur6t5tnf-U?si=6t6V_uKGpBxtSx6V
@@ -135,3 +153,6 @@
   - https://youtu.be/b_Ye-_YINB8?si=SeZSwioh54o4gp6D
   - https://youtu.be/ojRil9R9vQk?si=_xMaqgivjvVUFv1x
 - Solid | https://youtu.be/qaAPFQtRHLE?si=hNod2ejfY0871kpf
+- Vite vs Webpack
+- javascriptInfo
+- React Native

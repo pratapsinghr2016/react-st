@@ -1,0 +1,322 @@
+[
+  {
+    "id": 1,
+    "name": "Wireless Bluetooth Headphones",
+    "price": 79.99,
+    "status": "popular",
+    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop",
+    "rating": 5
+  },
+  {
+    "id": 2,
+    "name": "Smart Watch Pro",
+    "price": 199.99,
+    "status": "popular",
+    "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 3,
+    "name": "Portable Power Bank 20000mAh",
+    "price": 45.99,
+    "status": "free-delivery",
+    "image": "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 4,
+    "name": "Mechanical Gaming Keyboard",
+    "price": 129.99,
+    "status": "popular",
+    "image": "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=300&h=300&fit=crop",
+    "rating": 5
+  },
+  {
+    "id": 5,
+    "name": "Ergonomic Mouse Pad XL",
+    "price": 24.99,
+    "status": "free-delivery",
+    "image": "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=300&h=300&fit=crop",
+    "rating": 3
+  },
+  {
+    "id": 6,
+    "name": "USB-C Hub 7-in-1",
+    "price": 49.99,
+    "status": "out-of-stock",
+    "image": "https://images.unsplash.com/photo-1625723044792-44de16ccb4e9?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 7,
+    "name": "Noise Cancelling Earbuds",
+    "price": 149.99,
+    "status": "popular",
+    "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=300&h=300&fit=crop",
+    "rating": 5
+  },
+  {
+    "id": 8,
+    "name": "Laptop Stand Aluminum",
+    "price": 39.99,
+    "status": "free-delivery",
+    "image": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 9,
+    "name": "Webcam HD 1080p",
+    "price": 69.99,
+    "status": "out-of-stock",
+    "image": "https://images.unsplash.com/photo-1587826080692-f439cd0b70da?w=300&h=300&fit=crop",
+    "rating": 3
+  },
+  {
+    "id": 10,
+    "name": "Wireless Charging Pad",
+    "price": 29.99,
+    "status": "free-delivery",
+    "image": "https://images.unsplash.com/photo-1591815302525-756a9bcc3425?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 11,
+    "name": "Gaming Mouse RGB",
+    "price": 59.99,
+    "status": "popular",
+    "image": "https://images.unsplash.com/photo-1527814050087-3793815479db?w=300&h=300&fit=crop",
+    "rating": 5
+  },
+  {
+    "id": 12,
+    "name": "Desk Lamp LED Smart",
+    "price": 44.99,
+    "status": "free-delivery",
+    "image": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 13,
+    "name": "Portable SSD 1TB",
+    "price": 109.99,
+    "status": "popular",
+    "image": "https://images.unsplash.com/photo-1597848212624-a19eb35e2651?w=300&h=300&fit=crop",
+    "rating": 5
+  },
+  {
+    "id": 14,
+    "name": "Monitor Arm Mount",
+    "price": 34.99,
+    "status": "out-of-stock",
+    "image": "https://images.unsplash.com/photo-1547119957-637f8679db1e?w=300&h=300&fit=crop",
+    "rating": 3
+  },
+  {
+    "id": 15,
+    "name": "Cable Management Kit",
+    "price": 19.99,
+    "status": "free-delivery",
+    "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 16,
+    "name": "Bluetooth Speaker Mini",
+    "price": 39.99,
+    "status": "popular",
+    "image": "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 17,
+    "name": "Phone Gimbal Stabilizer",
+    "price": 89.99,
+    "status": "out-of-stock",
+    "image": "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 18,
+    "name": "Ring Light 10 inch",
+    "price": 32.99,
+    "status": "free-delivery",
+    "image": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=300&h=300&fit=crop",
+    "rating": 3
+  },
+  {
+    "id": 19,
+    "name": "Microphone USB Condenser",
+    "price": 79.99,
+    "status": "popular",
+    "image": "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=300&h=300&fit=crop",
+    "rating": 5
+  },
+  {
+    "id": 20,
+    "name": "Tablet Stand Adjustable",
+    "price": 27.99,
+    "status": "free-delivery",
+    "image": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 21,
+    "name": "Smart Plug WiFi 4-Pack",
+    "price": 34.99,
+    "status": "popular",
+    "image": "https://images.unsplash.com/photo-1558089687-f282ffcbc126?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 22,
+    "name": "HDMI Cable 4K 6ft",
+    "price": 14.99,
+    "status": "free-delivery",
+    "image": "https://images.unsplash.com/photo-1601944179066-29786cb9d32a?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 23,
+    "name": "External DVD Drive",
+    "price": 29.99,
+    "status": "out-of-stock",
+    "image": "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=300&h=300&fit=crop",
+    "rating": 3
+  },
+  {
+    "id": 24,
+    "name": "Keyboard Wrist Rest",
+    "price": 18.99,
+    "status": "free-delivery",
+    "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 25,
+    "name": "Screen Protector Pack",
+    "price": 12.99,
+    "status": "free-delivery",
+    "image": "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=300&h=300&fit=crop",
+    "rating": 3
+  },
+  {
+    "id": 26,
+    "name": "Gaming Headset 7.1",
+    "price": 89.99,
+    "status": "popular",
+    "image": "https://images.unsplash.com/photo-1599669454699-248893623440?w=300&h=300&fit=crop",
+    "rating": 5
+  },
+  {
+    "id": 27,
+    "name": "Laptop Cooling Pad",
+    "price": 35.99,
+    "status": "free-delivery",
+    "image": "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 28,
+    "name": "USB Flash Drive 128GB",
+    "price": 19.99,
+    "status": "popular",
+    "image": "https://images.unsplash.com/photo-1597138804456-e7dca7f59d54?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 29,
+    "name": "Ethernet Cable Cat6 50ft",
+    "price": 22.99,
+    "status": "free-delivery",
+    "image": "https://images.unsplash.com/photo-1605745341112-85968b19335b?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 30,
+    "name": "Wireless Mouse Slim",
+    "price": 24.99,
+    "status": "out-of-stock",
+    "image": "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=300&h=300&fit=crop",
+    "rating": 3
+  },
+  {
+    "id": 31,
+    "name": "Monitor Privacy Screen",
+    "price": 42.99,
+    "status": "free-delivery",
+    "image": "https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 32,
+    "name": "Streaming Cam 4K",
+    "price": 159.99,
+    "status": "popular",
+    "image": "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=300&h=300&fit=crop",
+    "rating": 5
+  },
+  {
+    "id": 33,
+    "name": "Surge Protector 12-Outlet",
+    "price": 29.99,
+    "status": "free-delivery",
+    "image": "https://images.unsplash.com/photo-1544866092-1935c5ef2a8f?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 34,
+    "name": "VR Headset Standalone",
+    "price": 299.99,
+    "status": "popular",
+    "image": "https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=300&h=300&fit=crop",
+    "rating": 5
+  },
+  {
+    "id": 35,
+    "name": "Drawing Tablet Small",
+    "price": 49.99,
+    "status": "out-of-stock",
+    "image": "https://images.unsplash.com/photo-1609921212029-bb5a28e60960?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 36,
+    "name": "Phone Car Mount Magnetic",
+    "price": 16.99,
+    "status": "free-delivery",
+    "image": "https://images.unsplash.com/photo-1583573636246-18cb2246697f?w=300&h=300&fit=crop",
+    "rating": 3
+  },
+  {
+    "id": 37,
+    "name": "Action Camera 4K",
+    "price": 129.99,
+    "status": "popular",
+    "image": "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 38,
+    "name": "Portable Projector Mini",
+    "price": 179.99,
+    "status": "out-of-stock",
+    "image": "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 39,
+    "name": "Smart Home Hub",
+    "price": 69.99,
+    "status": "popular",
+    "image": "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=300&h=300&fit=crop",
+    "rating": 4
+  },
+  {
+    "id": 40,
+    "name": "Fitness Tracker Band",
+    "price": 49.99,
+    "status": "free-delivery",
+    "image": "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=300&h=300&fit=crop",
+    "rating": 4
+  }
+]

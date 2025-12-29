@@ -1,0 +1,29 @@
+.container{
+  margin-top: 20px;
+  margin: auto
+}
+
+.matrix-row{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.25rem;
+  margin: 0.25rem;
+}
+
+.matrix-col{
+  width: 5rem;
+  height: 5rem;
+}
+
+.matrix-btn{
+  width: 100%;
+  height: 100%;
+  background: gray;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  margin: 0.125rem;
+  font-weight: 600;
+  font-size: 2.5rem
+}

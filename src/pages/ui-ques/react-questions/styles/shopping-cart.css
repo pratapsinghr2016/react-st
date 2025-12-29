@@ -1,0 +1,37 @@
+.products-page-container{
+ padding: 1rem
+}
+
+.product-card-list{
+  display: grid;
+  grid-template-columns: repeat(3, 25rem);
+  gap: 1rem;
+  justify-content:center; // missed here **
+}
+
+.product-card{
+  box-shadow: 2px 3px 2px 3px lightgray;
+  padding: 1rem;
+  /* width: 20rem;  ! this will disturb grid gap default functionality and u will see extra space*/
+  /* height: 20rem; ! dont give height */
+}
+
+.product-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.product-image{
+  width: 100%;
+  height: auto;
+  object-fit: cover
+}
+
+.product-cta{
+  width: 100%;
+  padding: 0.65rem;
+  border-radius: 0.25rem;
+  background: green;
+}

@@ -1,92 +1,106 @@
-import { useState } from "react"
-import jsonData from "./json/checkbox-data.json"
-import "./styles/nested-checkbox.css"
+import { createContext, useContext, useEffect, useReducer } from "react";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import jsonData from "./json/shopping-cart.json";
+import "./styles/shopping-cart.css";
 
-const getNodesChildren = (node)=>{
-  let children = [node]
-  node.children?.forEach((child)=>{
-    children = [...children, ...getNodesChildren(child)]
-  })
-  return children
-}
+// context
+const ProductContext = createContext()
+const useProducts = ()=>useContext(ProductContext)
 
-const allChildrenAreChecked = (node, checkedItems)=>{
-  if(!node.children)
-    return checkedItems[node.id] || false;
-
-  return node.children.every((child)=>allChildrenAreChecked(child, checkedItems))
-}
-
-const someChildremAreChecked = (node, checkedItems)=>{
-  if(!node.children) return checkedItems[node.id] || false;
-
-  const areAllChildrenChecked = allChildrenAreChecked(node, checkedItems);
-  const areSomeChildrenChecked = node.children.some((child)=>
-    allChildrenAreChecked(child, checkedItems) || someChildremAreChecked(child, checkedItems)
-  )
-  return areSomeChildrenChecked && !areAllChildrenChecked
-}
-
-
-const CheckBoxItem = ({node, onToggle, checkedItems})=>{
-  const hasChildren = node?.children?.length > 0
-  const isChecked = hasChildren ? allChildrenAreChecked(node, checkedItems) : checkedItems[node.id]
-  const isIndeterminate = hasChildren && someChildremAreChecked(node, checkedItems)
-
-  return <div className="checkbox-container">
-    <div className="checkbox-item">
-      <input 
-        type="checkbox"
-        checked={isChecked}
-        name={node.label}
-        id={node.label}
-        ref={(el)=>el && (el.indeterminate = isIndeterminate)}
-        onChange={(e)=>onToggle(node, e.target.checked)}
-      />
-      <label htmlFor={node.label}>{node.label}</label>
-    </div>
-    
-    {hasChildren && 
-    <div className="checkbox-children">
-      {node.children.map((child)=>
-    <CheckBoxItem 
-      key={child.id} 
-      node={child}
-      onToggle={onToggle}
-      checkedItems={checkedItems}
-    />)}
-    </div>}
+// cart
+const Cart = ()=>{
+  return <div>
+    <h1>Cart page</h1>
   </div>
 }
 
-const NestedCheckBox = ()=>{
-  const [data] = useState(jsonData);
-  const [checkedItems, setCheckedItems] = useState({});
+// home
+const Home = ()=>{
+  const {data, data:{products}, addItemsToCart} = useProducts();
+  console.log(data)
+  return <div className="products-page-container">
+      <div className="product-card-list">
+        {products?.map((item)=>
+        <div key={item.id} className="product-card">
+           <div className="product-content">
+            <img className="product-image" src={item.image} alt={item.name} />
+            <p className="product-name">{item.name}</p>
+            <p className="product-rating">{item.rating}</p>
+            <p className="product-price">{item.price}</p>
+            <p className="product-status">{item.status}</p>
+          </div> 
+          <button 
+            onClick={()=>addItemsToCart(item)}
+            disabled={item.status === "out-of-stock"} 
+            className="product-cta"
+            >Add To Cart
+            </button>
+        </div>)}
+      </div>
+  </div>
+}
 
-  const onToggle = (node, isChecked)=>{
 
-    setCheckedItems((prev)=>{
-      const newCheckObj = {...prev};
+// reducer
+const INITITAL_STATE = {
+  cart:[], // ! needs quantity too
+  products: []
+}
 
-      const children = getNodesChildren(node) || []
-      children.forEach((child)=>{
-        newCheckObj[child.id] = isChecked
-      })
+const reducerFn = (state, action)=>{
+  switch (action.type){
+    case "FETCH_PRODUCTS":
+      return {...state, products: action.payload.data};
+    case "ADD_TO_CART":
+      const currentItem = action.payload;
+      const prevCart = state.cart;
+      
+      return {...state};
+    case "MINUS_TO_CART":
+      return {...state, };
+    case "FILTER_PRODUCTS":
+      return {...state, };
+    default:
+      return {...state};
+  }
+}
 
-      return newCheckObj
+const ProductProvider = ({children})=>{
+  
+  const [productState, dispatch] = useReducer(reducerFn, INITITAL_STATE);
 
+  useEffect(()=>{
+    dispatch({type:"FETCH_PRODUCTS", payload:{data: jsonData}})
+  },[])
+
+  const addItemsToCart = (item)=>{
+    console.log("item", item)
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: {...item}
     })
   }
 
-  return <div className="nested-checkbox-container">
-      {data.map((item)=>
-      <CheckBoxItem 
-        key={item.id} 
-        node={item}
-        onToggle={onToggle} 
-        checkedItems={checkedItems}
-    />)}
-  </div>
+  return <ProductContext.Provider value={{data: productState, addItemsToCart}}>
+    {children}
+  </ProductContext.Provider>
 }
 
-export default NestedCheckBox
+const App = ()=>{
+
+
+  return <ProductProvider> 
+      <BrowserRouter>
+        <nav>
+          <Link to="/">Home </Link>
+          <Link to="/cart">Cart</Link>
+        </nav>
+        <Routes>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/cart" element={<Cart/>}/>
+        </Routes>
+    </BrowserRouter>
+  </ProductProvider>
+}
+
+export default App

@@ -4,9 +4,7 @@ function App() {
 
  
   return (
-    <div style={{ margin: "auto", width: "300px" }}>
-      <Component/>
-    </div>
+    <Component/>
   );
 }
 

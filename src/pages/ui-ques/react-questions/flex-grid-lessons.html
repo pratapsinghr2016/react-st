@@ -1,0 +1,48 @@
+https://www.youtube.com/watch?v=wsTv9y931o8&t=344s
+- display: flex
+- justify-content > for main axis
+- align-items > cross axis
+- flex-direction
+- center a div
+- {gap, flex-wrap, align-content, flex-shrink[1,0], flex-grow[0.1]}
+  - to have flex-shrink logically we have to stop flex-wrap
+  - flex-(grow or shrink) with min-width and mx-width will show some noticeable behavior
+    - a limited shrink and grow
+- align-self
+- one common approach for navbar
+  - [1]....[2][3][4]
+  - [margin-right: auto] .... [display:flex; justify-content:flex-end; align-items:flex-start]
+
+
+https://www.youtube.com/watch?v=ZOK-DU7vT0A
+- flex: 1 1 0
+- flex: grow shrink basis
+- [flex-grow] => 0, 1
+- [flex-shrink] => 1, 0
+- [flex-basis] => auto, (any px value)
+  - flex-basis has higher priority than width of element
+  - flex-basis: 0  is most useful to let all flex items be of same width 
+
+
+
+
+https://www.youtube.com/watch?v=JYfiaSKeYhE
+
+
+https://www.youtube.com/watch?v=S9OiWe5iBYo
+https://www.youtube.com/watch?v=aEj6k-gi9-s
+- Flex vs Grid
+https://www.youtube.com/watch?v=3T0gjtXRNC0
+
+
+https://www.youtube.com/watch?v=qJpA6qiJoWs
+- display: flex will cause items to be in a row
+  - wrapping may cause extra space on small screen
+  - solution can be media-query to switch from flex-direction: row to column
+- we can adopt Netflix carousal approach:
+  - display: flex; flex-wrap: no-wrap; gap: 1rem; overflowx: scroll; 
+  - for seeing 1 card at a time, let parent have scroll-snap-type
+    - and child will have scroll-snap-align
+- grid solution is:
+  - display: grid; grid-template-columns: repeat(amount, size)
+    - grid-template-columns: repeat(auto-fix, minmax(300px, 1fr))

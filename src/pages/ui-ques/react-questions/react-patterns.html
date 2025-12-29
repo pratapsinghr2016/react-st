@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React Patterns Cheatsheet 🍽️</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0f0f0f;
+      --bg-secondary: #1a1a1a;
+      --bg-card: #222222;
+      --accent: #f59e0b;
+      --accent-dim: #b45309;
+      --text-primary: #f5f5f5;
+      --text-secondary: #a1a1a1;
+      --text-muted: #6b6b6b;
+      --border: #333333;
+      --code-bg: #1e1e1e;
+      --success: #22c55e;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 3rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '🍽️';
+      position: absolute;
+      font-size: 15rem;
+      opacity: 0.03;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--accent) 0%, #fbbf24 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+    }
+
+    /* Quick Nav */
+    .quick-nav {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .quick-nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+
+    .quick-nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.8rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+    }
+
+    .quick-nav a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Pattern Card */
+    .pattern-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+
+    .pattern-card:hover {
+      border-color: var(--accent-dim);
+    }
+
+    .pattern-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-secondary);
+    }
+
+    .pattern-number {
+      background: var(--accent);
+      color: var(--bg-primary);
+      font-weight: 700;
+      font-size: 0.9rem;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .pattern-title {
+      flex: 1;
+    }
+
+    .pattern-title h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.15rem;
+    }
+
+    .pattern-hook {
+      display: inline-block;
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .pattern-body {
+      padding: 1.5rem;
+    }
+
+    .pattern-description {
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    /* Code Block */
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.7;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Syntax Highlighting */
+    .keyword { color: #c586c0; }
+    .function { color: #dcdcaa; }
+    .string { color: #ce9178; }
+    .component { color: #4ec9b0; }
+    .hook { color: #9cdcfe; }
+    .comment { color: #6a9955; }
+    .operator { color: #d4d4d4; }
+    .bracket { color: #ffd700; }
+    .property { color: #9cdcfe; }
+    .jsx-tag { color: #569cd6; }
+    .jsx-attr { color: #9cdcfe; }
+
+    /* Quick Reference Table */
+    .quick-ref {
+      margin-top: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    .quick-ref h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .ref-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-card);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .ref-table th {
+      background: var(--bg-secondary);
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: var(--accent);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ref-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ref-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .ref-table tr:hover td {
+      background: var(--bg-secondary);
+    }
+
+    .ref-table td:first-child {
+      font-weight: 600;
+      color: var(--text-primary);
+      width: 30%;
+    }
+
+    .ref-table td:last-child {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    /* Print Styles */
+    @media print {
+      .quick-nav { display: none; }
+      .pattern-card { break-inside: avoid; }
+      body { background: white; color: black; }
+    }
+
+    /* Mobile */
+    @media (max-width: 640px) {
+      .header h1 { font-size: 1.8rem; }
+      .container { padding: 1rem; }
+      .pattern-header { flex-wrap: wrap; }
+      .quick-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <h1>React Patterns Cheatsheet</h1>
+    <p>The Restaurant Story — 12 Patterns for Your Interview</p>
+  </header>
+
+  <nav class="quick-nav">
+    <div class="quick-nav-inner">
+      <a href="#p1">Container/Presentational</a>
+      <a href="#p2">Compound</a>
+      <a href="#p3">Custom Hooks</a>
+      <a href="#p4">HOC</a>
+      <a href="#p5">Render Props</a>
+      <a href="#p6">Provider</a>
+      <a href="#p7">Controlled</a>
+      <a href="#p8">Uncontrolled</a>
+      <a href="#p9">Composition</a>
+      <a href="#p10">Memoization</a>
+      <a href="#p11">Lazy Loading</a>
+      <a href="#p12">State Reducer</a>
+      <a href="#quick-ref">Quick Recall</a>
+    </div>
+    <ul>
+      <li>LCP - Largest contentful Paint | less than 2.5seconds</li>
+      <li>INP - Interaction to Next Paint | less than 2000 ms</li>
+      <li>CLS - Cumulative Layout shift | less than 0.1</li>
+    </ul>
+  </nav>
+
+  <main class="container">
+
+    <!-- Pattern 1 -->
+    <article class="pattern-card" id="p1">
+      <div class="pattern-header">
+        <span class="pattern-number">1</span>
+        <div class="pattern-title">
+          <h2>Container / Presentational</h2>
+          <span class="pattern-hook">🧑‍🍳 Chef / Waiter</span>
+        </div>
+      </div>
+      <div class="pattern-body">
+        <p class="pattern-description">Separate logic (data fetching, state) from UI. Chef handles cooking, waiter just presents beautifully.</p>
+        <pre><span class="comment">// Container (Chef) - handles logic</span>
+<span class="keyword">function</span> <span class="function">UserContainer</span>() {
+  <span class="keyword">const</span> [<span class="property">user</span>, <span class="property">setUser</span>] = <span class="hook">useState</span>(<span class="keyword">null</span>);
+  
+  <span class="hook">useEffect</span>(() => {
+    <span class="function">fetchUser</span>().<span class="function">then</span>(<span class="property">setUser</span>);
+  }, []);
+  
+  <span class="keyword">return</span> &lt;<span class="component">UserCard</span> <span class="jsx-attr">user</span>={<span class="property">user</span>} /&gt;;
+}
+
+<span class="comment">// Presentational (Waiter) - just displays</span>
+<span class="keyword">function</span> <span class="function">UserCard</span>({ <span class="property">user</span> }) {
+  <span class="keyword">return</span> &lt;<span class="jsx-tag">div</span>&gt;{<span class="property">user</span>?.<span class="property">name</span>}&lt;/<span class="jsx-tag">div</span>&gt;;
+}</pre>
+      </div>
+    </article>
+
+    <!-- Pattern 2 -->
+    <article class="pattern-card" id="p2">
+      <div class="pattern-header">
+        <span class="pattern-number">2</span>
+        <div class="pattern-title">
+          <h2>Compound Components</h2>
+          <span class="pattern-hook">🍱 Thali Set</span>
+        </div>
+      </div>
+      <div class="pattern-body">
+        <p class="pattern-description">Related components that work together, sharing implicit state. Like a thali — dal, roti, sabzi work together on one plate.</p>
+        <pre>&lt;<span class="component">Select</span>&gt;
+  &lt;<span class="component">Select.Trigger</span>&gt;Choose fruit&lt;/<span class="component">Select.Trigger</span>&gt;
+  &lt;<span class="component">Select.Options</span>&gt;
+    &lt;<span class="component">Select.Option</span> <span class="jsx-attr">value</span>=<span class="string">"apple"</span>&gt;Apple&lt;/<span class="component">Select.Option</span>&gt;
+    &lt;<span class="component">Select.Option</span> <span class="jsx-attr">value</span>=<span class="string">"mango"</span>&gt;Mango&lt;/<span class="component">Select.Option</span>&gt;
+  &lt;/<span class="component">Select.Options</span>&gt;
+&lt;/<span class="component">Select</span>&gt;</pre>
+      </div>
+    </article>
+
+    <!-- Pattern 3 -->
+    <article class="pattern-card" id="p3">
+      <div class="pattern-header">
+        <span class="pattern-number">3</span>
+        <div class="pattern-title">
+          <h2>Custom Hooks</h2>
+          <span class="pattern-hook">📜 Family Recipes</span>
+        </div>
+      </div>
+      <div class="pattern-body">
+        <p class="pattern-description">Extract and reuse stateful logic. Secret recipes that any chef can use — write once, cook anywhere.</p>
+        <pre><span class="keyword">function</span> <span class="function">useToggle</span>(<span class="property">initial</span> = <span class="keyword">false</span>) {
+  <span class="keyword">const</span> [<span class="property">state</span>, <span class="property">setState</span>] = <span class="hook">useState</span>(<span class="property">initial</span>);
+  
+  <span class="keyword">const</span> <span class="function">toggle</span> = () => <span class="function">setState</span>(<span class="property">prev</span> => !<span class="property">prev</span>);
+  
+  <span class="keyword">return</span> [<span class="property">state</span>, <span class="property">toggle</span>];
+}
+
+<span class="comment">// Usage</span>
+<span class="keyword">const</span> [<span class="property">isOpen</span>, <span class="property">toggleOpen</span>] = <span class="function">useToggle</span>();</pre>
+      </div>
+    </article>
+
+    <!-- Pattern 4 -->
+    <article class="pattern-card" id="p4">
+      <div class="pattern-header">
+        <span class="pattern-number">4</span>
+        <div class="pattern-title">
+          <h2>Higher-Order Component (HOC)</h2>
+          <span class="pattern-hook">🥘 Marination</span>
+        </div>
+      </div>
+      <div class="pattern-body">
+        <p class="pattern-description">Wrap a component to add extra powers. Plain paneer goes in, marinated paneer comes out enhanced.</p>
+        <pre><span class="keyword">function</span> <span class="function">withLoader</span>(<span class="component">Component</span>) {
+  <span class="keyword">return</span> <span class="keyword">function</span> <span class="function">Wrapped</span>({ <span class="property">isLoading</span>, ...<span class="property">props</span> }) {
+    <span class="keyword">if</span> (<span class="property">isLoading</span>) <span class="keyword">return</span> &lt;<span class="component">Spinner</span> /&gt;;
+    <span class="keyword">return</span> &lt;<span class="component">Component</span> {...<span class="property">props</span>} /&gt;;
+  };
+}
+
+<span class="comment">// Usage</span>
+<span class="keyword">const</span> <span class="component">UserListWithLoader</span> = <span class="function">withLoader</span>(<span class="component">UserList</span>);</pre>
+      </div>
+    </article>
+
+    <!-- Pattern 5 -->
+    <article class="pattern-card" id="p5">
+      <div class="pattern-header">
+        <span class="pattern-number">5</span>
+        <div class="pattern-title">
+          <h2>Render Props</h2>
+          <span class="pattern-hook">🍳 Live Cooking Station</span>
+        </div>
+      </div>
+      <div class="pattern-body">
+        <p class="pattern-description">Pass a function that controls what gets rendered. Customer tells chef exactly how they want it cooked.</p>
+        <pre><span class="comment">// Component provides data, you decide rendering</span>
+&lt;<span class="component">Mouse</span> <span class="jsx-attr">render</span>={(<span class="property">position</span>) => (
+  &lt;<span class="jsx-tag">p</span>&gt;Cursor at: {<span class="property">position</span>.<span class="property">x</span>}, {<span class="property">position</span>.<span class="property">y</span>}&lt;/<span class="jsx-tag">p</span>&gt;
+)} /&gt;
+
+<span class="comment">// Also works with children as function</span>
+&lt;<span class="component">DataFetcher</span>&gt;
+  {(<span class="property">data</span>) => &lt;<span class="component">CustomUI</span> <span class="jsx-attr">data</span>={<span class="property">data</span>} /&gt;}
+&lt;/<span class="component">DataFetcher</span>&gt;</pre>
+      </div>
+    </article>
+
+    <!-- Pattern 6 -->
+    <article class="pattern-card" id="p6">
+      <div class="pattern-header">
+        <span class="pattern-number">6</span>
+        <div class="pattern-title">
+          <h2>Provider Pattern</h2>
+          <span class="pattern-hook">🌙 Theme Night</span>
+        </div>
+      </div>
+      <div class="pattern-body">
+        <p class="pattern-description">Share global state without prop drilling. Monday is Italian night — wrap restaurant in Italian context, every dish knows the theme.</p>
+        <pre><span class="keyword">const</span> <span class="component">ThemeContext</span> = <span class="function">createContext</span>();
+
+<span class="comment">// Wrap app with provider</span>
+&lt;<span class="component">ThemeContext.Provider</span> <span class="jsx-attr">value</span>=<span class="string">"dark"</span>&gt;
+  &lt;<span class="component">App</span> /&gt;
+&lt;/<span class="component">ThemeContext.Provider</span>&gt;
+
+<span class="comment">// Any child can consume</span>
+<span class="keyword">function</span> <span class="function">Button</span>() {
+  <span class="keyword">const</span> <span class="property">theme</span> = <span class="hook">useContext</span>(<span class="component">ThemeContext</span>);
+  <span class="keyword">return</span> &lt;<span class="jsx-tag">button</span> <span class="jsx-attr">className</span>={<span class="property">theme</span>}&gt;Click&lt;/<span class="jsx-tag">button</span>&gt;;
+}</pre>
+      </div>
+    </article>
+
+    <!-- Pattern 7 -->
+    <article class="pattern-card" id="p7">
+      <div class="pattern-header">
+        <span class="pattern-number">7</span>
+        <div class="pattern-title">
+          <h2>Controlled Components</h2>
+          <span class="pattern-hook">📝 Waiter Takes Order</span>
+        </div>
+      </div>
+      <div class="pattern-body">
+        <p class="pattern-description">React controls the form value. Waiter writes down every word — single source of truth in React state.</p>
+        <pre><span class="keyword">function</span> <span class="function">Input</span>() {
+  <span class="keyword">const</span> [<span class="property">value</span>, <span class="property">setValue</span>] = <span class="hook">useState</span>(<span class="string">''</span>);
+  
+  <span class="keyword">return</span> (
+    &lt;<span class="jsx-tag">input</span>
+      <span class="jsx-attr">value</span>={<span class="property">value</span|}
+      <span class="jsx-attr">onChange</span>={<span class="property">e</span> => <span class="function">setValue</span>(<span class="property">e</span>.<span class="property">target</span>.<span class="property">value</span>|}
+    /&gt;
+  );
+}</pre>
+      </div>
+    </article>
+
+    <!-- Pattern 8 -->
+    <article class="pattern-card" id="p8">
+      <div class="pattern-header">
+        <span class="pattern-number">8</span>
+        <div class="pattern-title">
+          <h2>Uncontrolled Components</h2>
+          <span class="pattern-hook">🍛 Buffet</span>
+        </div>
+      </div>
+      <div class="pattern-body">
+        <p class="pattern-description">DOM holds the value, you check it when needed via ref. Customer serves themselves at buffet, you check the plate at billing.</p>
+        <pre><span class="keyword">function</span> <span class="function">Input</span>() {
+  <span class="keyword">const</span> <span class="property">inputRef</span> = <span class="hook">useRef</span>();
+  
+  <span class="keyword">const</span> <span class="function">handleSubmit</span> = () => {
+    <span class="property">console</span>.<span class="function">log</span>(<span class="property">inputRef</span>.<span class="property">current</span>.<span class="property">value</span>);
+  };
+  
+  <span class="keyword">return</span> &lt;<span class="jsx-tag">input</span> <span class="jsx-attr">ref</span>={<span class="property">inputRef</span>} /&gt;;
+}</pre>
+      </div>
+    </article>
+
+    <!-- Pattern 9 -->
+    <article class="pattern-card" id="p9">
+      <div class="pattern-header">
+        <span class="pattern-number">9</span>
+        <div class="pattern-title">
+          <h2>Composition / Slots</h2>
+          <span class="pattern-hook">🥙 Customizable Combos</span>
+        </div>
+      </div>
+      <div class="pattern-body">
+        <p class="pattern-description">Let parent decide what goes inside. "Pick your base, protein, sauce" — component provides structure, you fill the content.</p>
+        <pre><span class="keyword">function</span> <span class="function">Card</span>({ <span class="property">children</span> }) {
+  <span class="keyword">return</span> &lt;<span class="jsx-tag">div</span> <span class="jsx-attr">className</span>=<span class="string">"card"</span>&gt;{<span class="property">children</span>}&lt;/<span class="jsx-tag">div</span>&gt;;
+}
+
+<span class="comment">// Usage - you control what's inside</span>
+&lt;<span class="component">Card</span>&gt;
+  &lt;<span class="jsx-tag">h2</span>&gt;Any Title&lt;/<span class="jsx-tag">h2</span>&gt;
+  &lt;<span class="jsx-tag">p</span>&gt;Any content you want here&lt;/<span class="jsx-tag">p</span>&gt;
+  &lt;<span class="component">Button</span>&gt;Any action&lt;/<span class="component">Button</span>&gt;
+&lt;/<span class="component">Card</span>&gt;</pre>
+      </div>
+    </article>
+
+    <!-- Pattern 10 -->
+    <article class="pattern-card" id="p10">
+      <div class="pattern-header">
+        <span class="pattern-number">10</span>
+        <div class="pattern-title">
+          <h2>Memoization</h2>
+          <span class="pattern-hook">🔪 Prep Kitchen</span>
+        </div>
+      </div>
+      <div class="pattern-body">
+        <p class="pattern-description">Don't recalculate unless inputs change. Prep onions once in the morning, reuse all day. Only re-prep when recipe changes.</p>
+        <pre><span class="comment">// Memoize expensive calculation</span>
+<span class="keyword">const</span> <span class="property">sorted</span> = <span class="hook">useMemo</span>(
+  () => <span class="function">expensiveSort</span>(<span class="property">items</span>),
+  [<span class="property">items</span>]
+);
+
+<span class="comment">// Memoize callback to prevent child re-renders</span>
+<span class="keyword">const</span> <span class="property">handleClick</span> = <span class="hook">useCallback</span>(
+  () => <span class="function">doSomething</span>(<span class="property">id</span>),
+  [<span class="property">id</span>]
+);
+
+<span class="comment">// Memoize entire component</span>
+<span class="keyword">const</span> <span class="component">MemoChild</span> = <span class="function">React.memo</span>(<span class="component">ChildComponent</span>);</pre>
+      </div>
+    </article>
+
+    <!-- Pattern 11 -->
+    <article class="pattern-card" id="p11">
+      <div class="pattern-header">
+        <span class="pattern-number">11</span>
+        <div class="pattern-title">
+          <h2>Lazy Loading</h2>
+          <span class="pattern-hook">📅 Seasonal Menu</span>
+        </div>
+      </div>
+      <div class="pattern-body">
+        <p class="pattern-description">Load components only when needed. Don't print entire year's menu — show summer items in summer, load winter menu later.</p>
+        <pre><span class="keyword">const</span> <span class="component">Dashboard</span> = <span class="function">React.lazy</span>(
+  () => <span class="keyword">import</span>(<span class="string">'./Dashboard'</span>)
+);
+
+<span class="keyword">function</span> <span class="function">App</span>() {
+  <span class="keyword">return</span> (
+    &lt;<span class="component">Suspense</span> <span class="jsx-attr">fallback</span>={&lt;<span class="component">Spinner</span> /&gt;}&gt;
+      &lt;<span class="component">Dashboard</span> /&gt;
+    &lt;/<span class="component">Suspense</span>&gt;
+  );
+}</pre>
+      </div>
+    </article>
+
+    <!-- Pattern 12 -->
+    <article class="pattern-card" id="p12">
+      <div class="pattern-header">
+        <span class="pattern-number">12</span>
+        <div class="pattern-title">
+          <h2>State Reducer Pattern</h2>
+          <span class="pattern-hook">📋 Order with Rules</span>
+        </div>
+      </div>
+      <div class="pattern-body">
+        <p class="pattern-description">Let consumer customize how state updates. Customer wants to modify order, but kitchen has rules (no extra cheese after 9pm).</p>
+        <pre><span class="keyword">function</span> <span class="function">useToggle</span>({ <span class="property">reducer</span> = (<span class="property">s</span>, <span class="property">a</span>) => <span class="property">a</span>.<span class="property">changes</span> }) {
+  <span class="keyword">const</span> [<span class="property">state</span>, <span class="property">setState</span>] = <span class="hook">useState</span>({ <span class="property">on</span>: <span class="keyword">false</span> });
+  
+  <span class="keyword">const</span> <span class="function">toggle</span> = () => {
+    <span class="keyword">const</span> <span class="property">changes</span> = { <span class="property">on</span>: !<span class="property">state</span>.<span class="property">on</span> };
+    <span class="function">setState</span>(<span class="function">reducer</span>(<span class="property">state</span>, { <span class="property">type</span>: <span class="string">'toggle'</span>, <span class="property">changes</span> }));
+  };
+  
+  <span class="keyword">return</span> [<span class="property">state</span>.<span class="property">on</span>, <span class="property">toggle</span>];
+}
+
+<span class="comment">// Consumer controls the rules</span>
+<span class="function">useToggle</span>({
+  <span class="function">reducer</span>(<span class="property">state</span>, <span class="property">action</span>) {
+    <span class="keyword">if</span> (<span class="property">clickedTooManyTimes</span>) <span class="keyword">return</span> <span class="property">state</span>; <span class="comment">// block change</span>
+    <span class="keyword">return</span> <span class="property">action</span>.<span class="property">changes</span>;
+  }
+});</pre>
+      </div>
+    </article>
+
+    <!-- Quick Reference -->
+    <section class="quick-ref" id="quick-ref">
+      <h2>🧠 Quick Recall Table</h2>
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>Pattern</th>
+            <th>When to Use</th>
+            <th>Memory Hook</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Container/Presentational</td>
+            <td>Separate logic from UI</td>
+            <td>Chef / Waiter</td>
+          </tr>
+          <tr>
+            <td>Compound Components</td>
+            <td>Related components sharing state</td>
+            <td>Thali Set</td>
+          </tr>
+          <tr>
+            <td>Custom Hooks</td>
+            <td>Reuse stateful logic</td>
+            <td>Family Recipe</td>
+          </tr>
+          <tr>
+            <td>HOC</td>
+            <td>Add capabilities to components</td>
+            <td>Marination</td>
+          </tr>
+          <tr>
+            <td>Render Props</td>
+            <td>Caller controls rendering</td>
+            <td>Live Station</td>
+          </tr>
+          <tr>
+            <td>Provider</td>
+            <td>Global shared state</td>
+            <td>Theme Night</td>
+          </tr>
+          <tr>
+            <td>Controlled</td>
+            <td>React owns form state</td>
+            <td>Waiter Takes Order</td>
+          </tr>
+          <tr>
+            <td>Uncontrolled</td>
+            <td>DOM owns value, check via ref</td>
+            <td>Buffet</td>
+          </tr>
+          <tr>
+            <td>Composition</td>
+            <td>Flexible children content</td>
+            <td>Customizable Combo</td>
+          </tr>
+          <tr>
+            <td>Memoization</td>
+            <td>Avoid redundant calculations</td>
+            <td>Prep Kitchen</td>
+          </tr>
+          <tr>
+            <td>Lazy Loading</td>
+            <td>Load only what's needed</td>
+            <td>Seasonal Menu</td>
+          </tr>
+          <tr>
+            <td>State Reducer</td>
+            <td>Custom state update logic</td>
+            <td>Order with Rules</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Good luck with your interview, Rajat! 🚀</p>
+    <p style="margin-top: 0.5rem; opacity: 0.6;">React Patterns Cheatsheet • The Restaurant Story</p>
+  </footer>
+
+</body>
+</html>
