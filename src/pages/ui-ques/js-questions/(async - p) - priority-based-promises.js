@@ -1,3 +1,10 @@
+/* 
+Given a list of promises and their priorities, call them 
+parallelly and resolve with the value of the first promise 
+with the most priority. If all the promises fail then reject with a custom error.
+
+*/
+
 function resolvePromiseWithPriority(promises) {
   const sortedBasedOnPromise = promises.sort((promiseA, promiseB) =>
     promiseA.priority - promiseB.priority)
@@ -19,7 +26,7 @@ function resolvePromiseWithPriority(promises) {
 
           // Find first resolved promise by checking indices in order
           for (let i = 0; i < sortedBasedOnPromise.length; i++) {
-            console.log(resolved[i])
+
             if (resolved[i]) {
               return resolve(resolved[i].priority);  // ✅ Now has .priority
             }

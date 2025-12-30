@@ -1,7 +1,7 @@
 const promises = [
-  new Promise(resolve => setTimeout(() => resolve("Slow - 3s"), 3000)),
-  new Promise(resolve => setTimeout(() => resolve("Medium - 1s"), 1000)),
-  new Promise(resolve => setTimeout(() => resolve("Fast - 100ms"), 100))
+  new Promise((_, reject) => setTimeout(() => reject("Error 1"), 100)),
+  new Promise((resolve) => setTimeout(() => resolve("Second"), 300)),
+  new Promise((resolve) => setTimeout(() => resolve("Third"), 200)),
 ];
 
 const responseDemo = Promise.race(promises);

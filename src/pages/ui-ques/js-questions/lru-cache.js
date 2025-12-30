@@ -1,7 +1,7 @@
 class LRUCache {
   constructor(capacity) {
     this.capacity = capacity; //
-    this.cache = new Set()
+    this.cache = new Set() // ! we will use Set()
   }
 
   get(value) {

@@ -16,9 +16,10 @@ Function.prototype.myCall = function (ctx, ...args) {
 speak.myCall(animal, "bark")
 
 
-Function.prototype.myCall2 = function (ctx, ...args) {
-  ctx.fn = this
-  ctx.fn(...args)
+Function.prototype.myCall2 = function (context, ...args) {
+  const fn = this;
+  context.fn = fn
+  context.fn(...args)
 }
 
 speak.myCall2(animal, "bark")

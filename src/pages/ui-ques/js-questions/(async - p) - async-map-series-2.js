@@ -2,26 +2,15 @@
 // https://claude.ai/chat/06eab1f8-674d-44b3-a87b-ec426facf127
 
 const mapSeries = (arr, func) => {
-  return new Promise((resolve, reject) => {
+  return arr.reduce((acc, curr) => {
 
-    const final = arr.reduce((acc, curr) => {
+    return acc.then((prevVal) => {
 
-      return acc.then((prevVal) => {
+      return func(curr).then((result) => [...prevVal, result])
 
-        return func(curr).then((result) => [...prevVal, result])
-
-      })
-
-    }, Promise.resolve([]))
-
-
-    final.then((result) => {
-      resolve(result)
     })
-      .catch((err) => reject(err))
 
-  })
-
+  }, Promise.resolve([]))
 
 }
 

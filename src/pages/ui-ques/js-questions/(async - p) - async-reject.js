@@ -1,27 +1,19 @@
 function asynReject(arr, cb) {
-  let track = 0;
-  let result = [];
 
-  return new Promise((resolve, reject) => {
-    for (let item of arr) {
-      const idx = arr.indexOf(item)
-      cb(item, (err, response) => {
+  const promises = arr.map((item) => {
+    return new Promise((resolve, reject) => {
+      cb(item, (err, res) => {
         if (err) {
           reject(err)
+        } else {
+          resolve(res)
         }
-
-        track += 1;
-
-        if (!response) {
-          result[idx] = item
-        }
-
-        if (track === arr.length) {
-          resolve(result.filter(Boolean))
-        }
-
       })
-    }
+    })
+  })
+
+  return Promise.all(promises).then((res) => {
+    return arr.filter((_, idx) => !res[idx])
   })
 
 }

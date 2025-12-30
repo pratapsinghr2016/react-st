@@ -156,3 +156,4 @@ https://www.greatfrontend.com/questions/react-interview-questions
 - Vite vs Webpack
 - javascriptInfo
 - React Native
+- CI/CD for frontend developer

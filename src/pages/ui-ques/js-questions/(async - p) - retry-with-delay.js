@@ -23,7 +23,7 @@ const getTestFunc = () => {
 function _retryWithDelay(cb, attempts, delay = 1000) {
   return cb().catch((error) => {
     if (attempts > 0) {
-      return wait(delay).then(() => retryWithDelay(cb, attempts - 1, delay))
+      return wait(delay).then(() => _retryWithDelay(cb, attempts - 1, delay))
     }
     throw error
   })

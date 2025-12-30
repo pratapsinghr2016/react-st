@@ -8,12 +8,14 @@
 */
 
 
-function myJsonStringify(value, visited = new WeakSet()) { // 
+function myJsonStringify(value, visited = new WeakSet()) {
+  // ! 4 if
   if (value === null) return "null"
   if (typeof value === "boolean" || typeof value === "number") return String(value)
   if (typeof value === "string") return `"${value}"`
   if (typeof value === 'function' || typeof value === 'undefined') return undefined;
 
+  // ! 1 if -> [2 if]
   if (typeof value === "object") {
     if (visited.has(value)) {
       throw new Error("circular refernce") //
@@ -26,6 +28,7 @@ function myJsonStringify(value, visited = new WeakSet()) { //
       return `[${strVal}]`
     }
 
+    // ! use map() only
     const realObj = Object.keys(value) //
       .map((key) => {
         const deducedVal = myJsonStringify(value[key], visited);

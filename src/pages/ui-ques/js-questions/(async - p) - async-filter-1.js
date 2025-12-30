@@ -1,4 +1,18 @@
-// code:
+/*
+
+Implement a function that takes an array of input and an async 
+iteratee function and returns a promise that resolves with the 
+list of inputs that has passed the test through iteratee function in JavaScript.
+
+The inputs will run in parallel, but the output will be in 
+the same order as the original.
+
+The asynchronous iteratee function will accept an input 
+and a callback. The callback function will be called when the 
+input is finished processing, the first argument of the callback 
+will be the error flag and the second will be the result.
+
+*/
 
 const mapFilter = (arr, func) => {
   return new Promise((resolve, reject) => {
@@ -12,11 +26,8 @@ const mapFilter = (arr, func) => {
 
         if (err) {
           reject(err)
-        }
-
-        track += 1;
-
-        if (res) {
+        } else {
+          track += 1;
           result[idx] = res
         }
 

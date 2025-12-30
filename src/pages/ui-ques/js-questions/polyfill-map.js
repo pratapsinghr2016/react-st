@@ -13,7 +13,7 @@ Array.prototype.myMap = function (cb, factor) {
   for (let i = 0; i < arr.length; i += 1) {
     const currItem = arr[i];
     console.log("THIS", currItem)
-    res[i] = cb.bind(factor, currItem, i)
+    res[i] = cb.bind(currItem, i, factor)
   }
   return res
 }

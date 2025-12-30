@@ -1,7 +1,7 @@
 const promises = [
-  Promise.resolve("promise - 1"),
-  Promise.reject("promise - 2"),
-  Promise.resolve("promise - 3")
+  new Promise((_, reject) => setTimeout(() => reject("Error 1"), 100)),
+  new Promise((resolve) => setTimeout(() => resolve("Second"), 300)),
+  new Promise((resolve) => setTimeout(() => resolve("Third"), 200)),
 ]
 
 const responseData = Promise.allSettled(promises);
@@ -22,7 +22,7 @@ const myAllSettled = (promises) => {
     promises.forEach((currentPromise, index) => {
 
       currentPromise.then((res) => {
-
+        // ! use index to maintaine order
         responses[index] = {
           status: "fulfilled",
           value: res

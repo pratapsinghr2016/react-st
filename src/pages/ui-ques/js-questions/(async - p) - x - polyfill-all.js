@@ -1,16 +1,10 @@
-const promise1 = new Promise((resolve, reject) => {
-  resolve("resolved-1")
-})
+const promises = [
+  new Promise((_, reject) => setTimeout(() => reject("Error 1"), 100)),
+  new Promise((resolve) => setTimeout(() => resolve("Second"), 300)),
+  new Promise((resolve) => setTimeout(() => resolve("Third"), 200)),
+]
 
-const promise2 = new Promise((resolve, reject) => {
-  resolve("resolved-2")
-})
-
-const promise3 = new Promise((resolve, reject) => {
-  resolve("resolved-3")
-})
-
-const result = Promise.all([promise1, promise2, promise3]);
+const result = Promise.all(promises);
 result.then((res) => {
 
   console.log("result", res)
@@ -20,22 +14,25 @@ result.then((res) => {
 ! if all promise are resolved
 */
 
-const myPromise = (promisesArr) => {
+const myPromise = (promises) => {
+  let response = []
   return new Promise((resolve, reject) => {
-    let index = 0;
-    let resolvedResponses = [];
+    promises.forEach((promise, index) => {
 
+      promise
+        .then((res) => {
+          response[index] = res;
+        })
+        .catch((err) => {
+          reject(err)
+        })
+        .finally(() => {
+          if (response.length === promises.length) {
+            resolve(response)
+          }
+        })
 
-    promisesArr.forEach((currentPromise) => {
-      currentPromise.then((currentResolvedPromiseVal) => {
-        resolvedResponses[index++] = currentResolvedPromiseVal;
-        if (index === promisesArr.length) // keep recording responses untill all are resolved
-          resolve(resolvedResponses)
-      }).catch((err) => {
-        reject(err)
-      })
     });
-
   })
 }
 

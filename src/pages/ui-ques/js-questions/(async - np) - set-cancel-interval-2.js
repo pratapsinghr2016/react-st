@@ -1,7 +1,27 @@
 
+/* 
+Note: It is recommended to have completed the Cancellable Interval 
+question before attempting this question.
+
+Implement a function createResumableInterval, that acts like 
+setInterval and has the exact same signature. However instead of 
+returning a timer ID, it returns an object that contains three methods:
+
+start: Runs the callback immediately and every delay milliseconds.
+pause: Pauses the interval so that it stops running. Execution can be 
+resumed by calling start() again.
+stop: Stops the interval permanently, cannot be restarted.
+
+createResumableInterval(callback);
+createResumableInterval(callback, delay);
+createResumableInterval(callback, delay, param1);
+createResumableInterval(callback, delay, param1, param2);
+createResumableInterval(callback, delay, param1, param2,  … , paramN);
+
+*/
+
 function createResumableInterval(cb, delay, ...args) {
   let timerId = null;
-  let count = 0;
   let isStop = false;
 
 
@@ -15,8 +35,7 @@ function createResumableInterval(cb, delay, ...args) {
 
     cb(...args)
     timerId = setInterval(() => {
-      count += 1;
-      console.log(count);
+
       cb(...args)
     }, delay)
 

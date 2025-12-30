@@ -1,0 +1,70 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>How have you optimized SSR and Core Web Vitals in past projects? *
+
+</h1>
+  <p>
+    At Damensch, I led a significant performance optimization 
+initiative that improved our Lighthouse score from 37% to 85%. 
+For SSR, I implemented server-side rendering to ensure critical 
+content was pre-rendered, reducing Time to First Byte (TTFB) and 
+improving SEO crawlability—essential for an e-commerce platform relying 
+on organic growth. For Core Web Vitals specifically, I focused on LCP 
+by implementing advanced image optimization techniques including lazy 
+loading, responsive images with srcset, and next-gen formats like WebP. 
+I tackled CLS by reserving space for dynamic content and images before 
+they loaded, preventing layout shifts that were hurting our scores. 
+For INP/FID, I deferred non-critical JavaScript and broke up long tasks 
+to keep the main thread responsive. I also integrated Storyblok headless 
+CMS to create dynamic landing pages that were pre-rendered at build time, 
+combining the flexibility of a CMS with the performance of static content. 
+Throughout this process, I used Google Analytics and A/B testing to measure 
+real-user impact, ensuring our optimizations translated to actual business 
+metrics—ultimately boosting overall app performance by 57%.
+  </p>
+  <h2>What’s your approach to defining architecture and boundaries in a microfrontend system? *
+</h2>
+<p>
+- **Split by business domain** – At DashClicks, we separated analytics, automation, and user management into independent frontends, each owned by a dedicated team
+
+- **Keep each microfrontend independent** – Each piece should be deployable and testable on its own without depending on others at runtime
+
+- **Use Module Federation for integration** – I implemented this in our Vite/webpack setup to load microfrontends together at runtime while keeping them separate in development
+
+- **Create a shared component library** – Extracted common UI elements into versioned packages in a monorepo, using Storybook for consistency without tight coupling
+
+- **Communicate through events, not imports** – Microfrontends talk to each other via simple events or lightweight shared state, never direct code imports
+
+- **Define clear ownership and contracts** – Each team knows exactly what they own and how their piece integrates with others
+
+- **Invest in CI/CD early** – Robust pipelines and clear boundaries upfront prevent integration problems as the system scales  
+</p>
+<h2>How do you ensure reliability and observability in critical flows like auth or payments? *
+</h2>
+<p>
+  - **Unit and integration testing** – I use Jest and React Testing Library to write comprehensive test cases for critical flows, ensuring auth logic and payment handlers work correctly before deployment
+
+- **End-to-end testing with Cypress** – At DashClicks, I implemented Cypress tests covering complete user journeys including auth flows, catching regressions in CI/CD before they reach production
+
+- **Code quality gates** – I use SonarQube to track test coverage (achieved 87% at ValueLabs) and identify potential bugs early; combined with Husky, ESLint, and Prettier to enforce standards in code reviews
+
+- **Real-time error tracking** – I integrated Google Analytics and monitoring tools to track user behavior and identify where critical flows fail, as I did at Damensch for performance optimization
+
+- **CI/CD pipeline reliability** – Our monorepo architecture at DashClicks improved pipeline efficiency, enabling faster and safer deployments with proper staging environments before production
+
+- **WebSocket for real-time updates** – For critical flows needing live status (like payment confirmations), I've implemented WebSocket connections to give users immediate feedback
+
+- **Auth best practices** – I've worked with Auth0 and JWT for secure token management, ensuring proper session handling and token refresh mechanisms in critical auth flows
+
+</p>
+
+</body>
+</html>

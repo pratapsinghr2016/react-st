@@ -1,10 +1,10 @@
 const promises = [
-  Promise.reject("promise - 1"),
-  Promise.resolve("promise - 2"),
-  Promise.reject("promise - 3")
+  new Promise((_, reject) => setTimeout(() => reject("Error 1"), 100)),
+  new Promise((resolve) => setTimeout(() => resolve("Second"), 300)),
+  new Promise((resolve) => setTimeout(() => resolve("Third"), 200)),
 ]
 /* 
-! if any promise is resolved
+! if any promise is resolved first
 */
 
 const response = Promise.any(promises)

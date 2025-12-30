@@ -1,11 +1,8 @@
 function promiseResolve(value) {
-  // Case 1: If it's already a native Promise, return it as-is
   if (value instanceof Promise) {
     return value;
   }
 
-  // Case 2 & 3: For non-thenables and thenables
-  // The native resolve() already handles thenables correctly
   return new Promise((resolve) => resolve(value));
 }
 

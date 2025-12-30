@@ -13,6 +13,7 @@ function deepMerge(target, ...sources) {
   for (let source of sources) {
     for (let key in source) {
       if (source[key] && typeof source === "object" && !Array.isArray(source)) {
+        // ! empty {} in OR
         target[key] = deepMerge(target[key] || {}, source[key])
       } else {
 
