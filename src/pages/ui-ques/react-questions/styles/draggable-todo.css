@@ -1,3 +1,8 @@
+.body-container{
+  width: 35rem;
+  margin: auto;
+}
+
 .container{
   padding:2rem;
   display: grid;

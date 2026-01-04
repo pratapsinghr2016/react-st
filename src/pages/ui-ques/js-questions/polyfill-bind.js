@@ -1,17 +1,4 @@
-const obj = {
-  name: "John"
-}
 
-function greeting(age) {
-  console.log("hello", this.name, age)
-}
-
-Function.prototype.myBind = function (myObj, ...args) {
-  const fn = this
-  return function (...extraArgs) {
-    fn.apply(myObj, [...args, ...extraArgs])
-  }
-}
 
 Function.prototype.myBind2 = function (context, ...args) {
   const fn = this;
@@ -19,6 +6,14 @@ Function.prototype.myBind2 = function (context, ...args) {
     context.fn = fn;
     context.fn(...args, ...args2)
   }
+}
+
+const obj = {
+  name: "John"
+}
+
+function greeting(age) {
+  console.log("hello", this.name, age)
 }
 
 console.log(greeting.bind(obj, 20)())

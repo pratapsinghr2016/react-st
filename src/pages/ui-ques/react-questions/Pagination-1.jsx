@@ -25,12 +25,6 @@ const Pagination = ()=>{
     getProducts()
   },[])
 
- 
-
-  const totalPages = Math.ceil(data.length/PAGE_SIZE)
-  const start = currPage*PAGE_SIZE;
-  const end = start+PAGE_SIZE
-
    const onNextClick = ()=>{
     setCurrPage((prev)=>{
       if(prev < totalPages-1){
@@ -48,6 +42,12 @@ const Pagination = ()=>{
       return prev
     })
   }
+
+  // ! frontend oriented pagination
+  // ! start = skip and hasmore = end
+  const totalPages = Math.ceil(data.length/PAGE_SIZE)
+  const start = currPage*PAGE_SIZE;
+  const end = start+PAGE_SIZE
 
   return <div className="container">
     <div className="pagination-container">

@@ -8,9 +8,9 @@ function convertTimeTo12Hrs(time) {
     prefix = "PM"
   }
 
-  if (hrNum === 0) {
-    hrNum = 12  // midnight
-  } else if (hrNum > 12) {
+  if (hrNum === 0) { // ! equal 0
+    hrNum = 12
+  } else if (hrNum > 12) { // ! greater than 12
     hrNum -= 12
   }
 

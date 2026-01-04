@@ -12,7 +12,7 @@ const pipe = (obj) => {
         result[i] = currItem(...args)
         return result
       }
-      return pipe(currItem)
+      return pipe(currItem) // ! in pipe there are 2 returns
 
     }
 

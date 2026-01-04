@@ -5,13 +5,13 @@ function deepEqual(obj1, obj2) {
   if (Number.isNaN(obj1) && Number.isNaN(obj2)) return true;
 
   // Handle null
-  if (obj1 === null || obj2 === null) return false; // !OR
+  if (obj1 === null || obj2 === null) return false; // !OR -> null
 
   // Handle arrays
-  if (Array.isArray(obj1) !== Array.isArray(obj2)) return false; // !NOT
+  if (Array.isArray(obj1) !== Array.isArray(obj2)) return false; // !NOT -> array
 
   // If not both objects, they're not equal
-  if (typeof obj1 !== 'object' || typeof obj2 !== 'object') return false; // !OR
+  if (typeof obj1 !== 'object' || typeof obj2 !== 'object') return false; // !OR-NOT -> object
 
   // Get keys
   const keys1 = Object.keys(obj1);

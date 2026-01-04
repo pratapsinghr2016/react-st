@@ -4,11 +4,24 @@ const _useOnScreen = (ref)=>{
   const [isVisible, setIsVisible] = useState(false);
 
   const observer = ()=>{
-    const offset = 50;
-    const top = ref.current.getBoundingClientRect().top;
+    // ! const offset = 50;
+    const {x, y, bottom, right} = ref?.current.getBoundingClientRect();
 
-    if(top+offset >= 0 && top-offset <= window.innerHeight){
+    const isVisibleX = x >= 0 && right <= window.innerWidth;
+    const isVisibleY = y >= 0 && bottom <= window.innerHeight;
+
+    /* 
+    ! with offset
+
+    const isVisibleX = x >= 0 - offset && right <= window.innerWidth - offset;
+    const isVisibleY = y >= 0 - offset && bottom <= window.innerHeight - offset;
+    
+    */
+
+    if(isVisibleX && isVisibleY){
       setIsVisible(true)
+    }else{
+      setIsVisible(false)
     }
   }
 

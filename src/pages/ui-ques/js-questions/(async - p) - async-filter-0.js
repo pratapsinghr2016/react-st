@@ -3,12 +3,11 @@
 const mapFilter = (arr, func) => {
   const promises = arr.map((item) => {
     return new Promise((resolve, reject) => {
-      func(item, (err, condition) => {
-        if (err)
-          reject(err)
-        else
-          resolve(condition)
-      })
+      const cb = (err, value) => {
+        if (err) reject(err)
+        else resolve(value)
+      }
+      func(item, cb)
     })
   })
 

@@ -14,7 +14,7 @@ const InfiniteScroll = ()=>{
 
       setIsLoading(true)
       try{
-        const skip = currPage * PAGE_SIZE
+        const skip = currPage * PAGE_SIZE // ! calculation of offset or skip
         const res = await fetch(
           `https://dummyjson.com/recipes?limit=${PAGE_SIZE}&skip=${skip}`
         );
@@ -53,7 +53,24 @@ const InfiniteScroll = ()=>{
     // ! remember dep
   },[fetchData])
 
- 
+  // ! Approach - 2
+  // const itemRef = useRef()
+  // const [isVisible, setIsVisible] = useState(false);
+  // const observer = new IntersectionObserver(([item])=>setIsVisible(item.isIntersecting))
+
+  // useEffect(()=>{
+  //   if(itemRef?.current){
+  //     observer.observe(itemRef?.current)   
+  //   }
+
+  //   return ()=>observer.disconnect(itemRef?.current)
+  // },[fetchData])
+  
+  // useEffect(()=>{
+  //   if(isVisible){
+  //     fetchData()
+  //   }
+  // },[isVisible]) 
 
   return <div className="container">
     {data.map((item)=>

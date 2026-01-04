@@ -1,53 +1,32 @@
-const methodChaining1 = () => {
-  let result = 0;
-  return {
-    add(val) {
-      result += val;
-      return this
-    },
-    subtract(val) {
-      result -= val;
-      return this
-    },
-    divide(val) {
-      result = result / val;
-      return this
-    },
-    multiply(val) {
-      result = result * val;
-      return this
-    },
-    getValue() {
-      return result
-    }
+function methodChaining() {
+  this.result = 0;
+
+  this.add = function (val) {
+    this.result = this.result + val;
+    return this
   }
+
+  this.subtract = function (val) {
+    result -= val;
+    return this
+  }
+
+  this.divide = function (val) {
+    result = result / val;
+    return this
+  }
+
+  this.multiply = function (val) {
+    result = result * val;
+    return this
+  }
+
+  this.getValue = function () {
+    return result
+  }
+
+  return this
 }
 
-const methodChaining = () => {
-  let result = 0;
-  const obj = {
-    add(val) {
-      result += val;
-      return obj
-    },
-    subtract(val) {
-      result -= val;
-      return obj
-    },
-    divide(val) {
-      result = result / val;
-      return obj
-    },
-    multiply(val) {
-      result = result * val;
-      return obj
-    },
-    getValue() {
-      return result
-    }
-  }
-  return obj
-}
 
-const calculator = methodChaining();
-console.log(calculator.add(10).divide(5).subtract(-10).getValue())
+console.log(methodChaining().add(10).divide(5).subtract(-10).getValue())

@@ -12,6 +12,7 @@ export default function App() {
     setIsPending(true);
     setErrMsg("")
     try {
+      // ! fetch() POST sysntax
       const response = await fetch(URL, {
         method: "POST",
         headers: {

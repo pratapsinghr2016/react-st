@@ -15,7 +15,7 @@ function myJsonStringify(value, visited = new WeakSet()) {
   if (typeof value === "string") return `"${value}"`
   if (typeof value === 'function' || typeof value === 'undefined') return undefined;
 
-  // ! 1 if -> [2 if]
+  // ! if an object (object or Array)
   if (typeof value === "object") {
     if (visited.has(value)) {
       throw new Error("circular refernce") //

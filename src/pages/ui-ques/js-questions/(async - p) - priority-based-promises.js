@@ -6,44 +6,28 @@ with the most priority. If all the promises fail then reject with a custom error
 */
 
 function resolvePromiseWithPriority(promises) {
-  const sortedBasedOnPromise = promises.sort((promiseA, promiseB) =>
-    promiseA.priority - promiseB.priority)
+  // Sort by priority (highest priority = lowest number)
+  const sorted = [...promises].sort((a, b) => a.priority - b.priority);
 
-  let completed = 0;
-  let resolved = [];  // Track by index
-
-  return new Promise((resolve, reject) => {
-    sortedBasedOnPromise.forEach(({ task, priority }, index) => {
-      task
-        .then((val) => {
-          resolved[index] = { val, priority };  // ✅ Store both value and priority
-        })
-        .catch((err) => {
-          // Don't need to store rejected values
-        })
-        .finally(() => {
-          completed++;
-
-          // Find first resolved promise by checking indices in order
-          for (let i = 0; i < sortedBasedOnPromise.length; i++) {
-
-            if (resolved[i]) {
-              return resolve(resolved[i].priority);  // ✅ Now has .priority
-            }
-          }
-
-          if (completed === promises.length) {
-            reject("All APIs Failed");
-          }
-        })
-    })
-  })
+  // Wait for all to settle, then pick first successful
+  return Promise.allSettled(sorted.map(p => p.task))
+    .then((results) => {
+      for (let i = 0; i < results.length; i++) {
+        if (results[i].status === 'fulfilled') {
+          return {
+            val: results[i].value,
+            priority: sorted[i].priority
+          };
+        }
+      }
+      return Promise.reject("All APIs Failed");
+    });
 }
 
 
-function createAsyncTasks() {
-  const value = Math.floor(Math.random() * 10);
-  console.log("fn:", value)
+function createAsyncTasks(value) {
+  // const value = Math.floor(Math.random() * 10);
+  // console.log("fn:", value)
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (value < 2) {
@@ -56,10 +40,10 @@ function createAsyncTasks() {
 }
 
 const promises = [
-  { task: createAsyncTasks(), priority: 1 },
-  { task: createAsyncTasks(), priority: 4 },
-  { task: createAsyncTasks(), priority: 3 },
-  { task: createAsyncTasks(), priority: 2 }
+  { task: createAsyncTasks(1), priority: 1 },
+  { task: createAsyncTasks(2), priority: 4 },
+  { task: createAsyncTasks(3), priority: 3 },
+  { task: createAsyncTasks(4), priority: 2 }
 ]
 
 resolvePromiseWithPriority(promises)

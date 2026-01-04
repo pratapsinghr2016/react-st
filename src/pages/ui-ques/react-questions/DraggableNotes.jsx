@@ -11,15 +11,18 @@ const ColumnList = ({status, data, onDragStartHandler,
     <div className="header">{status}</div>
     <div className="scrollable-list-container">
       {(data.filter((item)=>item.status === status)).map((item)=>{
-        return <div 
-            onDragStart={(e)=>onDragStartHandler(e, item)}
-            onDragOver={onDragOverHandler}
-            onDrop={(e)=>onDropHandler(e, item)}
+        return <div            
             onDragEnd={onDragEndHandler} 
             key={item.id} 
             className="scrollable-list"
           >
-          <div draggable className="card-item">
+          <div
+           onDragStart={(e)=>onDragStartHandler(e, item)}
+           onDragOver={onDragOverHandler}
+           onDrop={(e)=>onDropHandler(e, item)} 
+           draggable 
+           // ! draggable attribute u forgot last time
+           className="card-item">
             <h2 className="task-title">{item.title}</h2>
             <p className="task description">{item.description}</p>
           </div>
@@ -36,7 +39,7 @@ const Notes = ()=>{
   const [draggedNote, setDraggedItem] = useState({})
   
   const onDragStartHandler = (e, note)=>{
-    e.target.style.opacity = 0.5;
+    e.target.style.opacity = 0.5; // !
 
     setDraggedItem(note)
   }
@@ -116,8 +119,6 @@ const Notes = ()=>{
       onDragOverHandler={onDragOverHandler}
     />)}
 
-
-   
   </div> 
   </div>
 }

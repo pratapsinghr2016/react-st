@@ -1,24 +1,28 @@
-const idMap = {}
-
-
-window.mySetInterval = function (cb, delay) {
-  let start = Date.now();
-  const id = Math.random()
-  const poll = () => {
-
-
-    if (Date.now() - start >= delay) {
-      cb()
-      start = Date.now()
-    }
-    idMap[id] = requestAnimationFrame(poll)
-
-  }
-
-  idMap[id] = requestAnimationFrame(poll)
-  return id
-}
-
-const id1 = window.mySetInterval(() => {
-  console.log("hit")
-}, 1000)
+Promise.resolve(1)
+  .then((val) => {
+    console.log(val);
+    return val + 1;
+  })
+  .then((val) => {
+    console.log(val);
+  })
+  .then((val) => {
+    console.log(val);
+    return Promise.resolve(3).then((val) => {
+      console.log(val);
+    });
+  })
+  .then((val) => {
+    console.log(val);
+    return Promise.reject(4);
+  })
+  .catch((val) => {
+    console.log(val);
+  })
+  .finally((val) => {
+    console.log(val);
+    return 10;
+  })
+  .then((val) => {
+    console.log(val);
+  });

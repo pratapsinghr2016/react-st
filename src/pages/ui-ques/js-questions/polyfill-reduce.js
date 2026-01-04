@@ -9,8 +9,7 @@ Array.prototype.myReduce = function (cb, initialVal) {
   const startIdx = initialVal !== undefined ? 0 : 1
 
   for (let index = startIdx; index < arr.length; index += 1) {
-    const curr = arr[index];
-    prev = cb(prev, curr)
+    prev = cb(prev, arr[index])
   }
   return prev
 }

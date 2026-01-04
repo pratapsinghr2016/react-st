@@ -8,7 +8,7 @@ function get(obj, path, defaultValue = undefined) {
   let result = obj;
 
   for (let key of keys) {
-    if (result == null) {
+    if (result == undefined) {
       return defaultValue;
     }
     result = result[key];

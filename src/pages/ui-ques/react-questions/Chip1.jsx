@@ -7,6 +7,7 @@ const Chip1 = ()=>{
 
 
   const onEnterKeyHandler = (e)=>{
+    // ! trim is important
     if(!inputValue.trim().length) return;
 
     if(e.key === "Enter"){

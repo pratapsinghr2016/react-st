@@ -20,7 +20,7 @@ class LRUCache {
     this.cache.add(value)
 
     if (this.cache.size > this.capacity) {
-      const lastItem = this.cache.values.next.value
+      const lastItem = this.cache.values.next.value // ! VNV
       this.cache.delete(lastItem)
     }
   }

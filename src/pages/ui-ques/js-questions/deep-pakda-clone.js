@@ -1,13 +1,13 @@
 function deepClone(obj, visited = new WeakMap()) {
   if (obj === null || typeof obj !== "object") return obj;
-  if (visited.has(obj)) return visited.get(obj);
+  if (visited.has(obj)) return obj;
 
   const clone = Array.isArray(obj) ? [] : {};
   visited.set(obj, clone) //
 
   for (let key of Object.keys(obj)) {
-    const currItem = obj[key];
-    clone[key] = deepClone(currItem, visited)
+
+    clone[key] = deepClone(obj[key], visited)
   }
 
   return clone

@@ -1,13 +1,3 @@
-const animal = {
-  color: "brown"
-}
-
-function speak(val) {
-  console.log(this.color + " " + val)
-}
-
-speak.apply(animal, ["bark"])
-
 Function.prototype.myApply = function (context, args) {
 
   const fn = this;
@@ -19,5 +9,16 @@ Function.prototype.myApply = function (context, args) {
   context.fn = fn;
   return context.fn(...args)
 }
+
+
+const animal = {
+  color: "brown"
+}
+
+function speak(val) {
+  console.log(this.color + " " + val)
+}
+
+speak.apply(animal, ["bark"])
 
 speak.myApply(animal, ["bark"])

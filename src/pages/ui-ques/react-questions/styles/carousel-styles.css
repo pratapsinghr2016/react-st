@@ -1,24 +1,33 @@
-.carousel-container{
-  overflow:hidden;
-  position: relative;
-  margin-top: 10rem;
-}
-
-.image-content{
+.carousal-container{
   display: flex;
-  transition: transform 0.5s ease-out; 
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  
 }
 
-.image-item{
+.carousal-body{
+  width: 20rem;
+  height: 20rem;
+  display: flex;
+  overflow: hidden;
+  scroll-width:0;
+  
+}
+
+.carousal-img{
   width: 100%;
-  height: 300px;
-  transform: 2s ease-out
+  height: auto;
+  transition: all 0.5s ease-in-out; 
 }
 
-.carousel-cta{
+
+.carousal-cta{
   display: flex;
-  justify-content: space-between;
-  position: absolute;
-  top:50%;
-  width: 100%
+  gap: 1rem;
+}
+
+.carousal-btn{
+
 }

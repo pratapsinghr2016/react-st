@@ -210,12 +210,12 @@
 | URL parser |
 | Cookie get/set/delete |
 | LocalStorage with expiry |
-| Clamp number |
 | Format number (currency, commas) |
 | Pluralize word |
 | Truncate string |
 | Slugify string |
 | Camel to snake / snake to camel |
+| Clamp number |
 | Escape HTML |
 | Unescape HTML |
 

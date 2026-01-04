@@ -39,7 +39,7 @@ const Pagination2 = ()=>{
 
 const getPrev3Buttons = ()=>{
   let pageArr = []
-  for(let i=currPage-1; i>(currPage-4); i--){
+  for(let i=currPage-1; i>(currPage-4); i--){ // ! (curr - 1) to (curr - x)
     if(i>0)
     pageArr.push(i)
   }
@@ -49,7 +49,7 @@ const getPrev3Buttons = ()=>{
 
 const getNext4Buttons = ()=>{
   let pageArr = []
-  for(let i=currPage+1; i<currPage+4; i++){
+  for(let i=currPage+1; i<currPage+4; i++){ // ! (curr + 1) to (curr + x)
     pageArr.push(i)
   }
  

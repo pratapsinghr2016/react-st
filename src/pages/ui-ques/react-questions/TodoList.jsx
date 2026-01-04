@@ -11,6 +11,8 @@ const TodoList = ()=>{
 
   const [inputValue, setInputValue] = useState("");
   const [todoList, setTodoList] = useState([initialValue])
+  const [isEdit, setIsEdit] = useState(false);
+  const [editedTask, setEditedTask] = useState("")
 
   const onAddTask = ()=>{
     // ! empty input is not allowed
@@ -49,16 +51,37 @@ const TodoList = ()=>{
     setTodoList((prev)=>prev.filter((itemVal)=>itemVal.id !== item.id))
   }
 
+  const onEditSave = (itemToEdit)=>{
+    setTodoList((prev)=>{
+      return prev.map((item)=>{
+        if(item.id === itemToEdit.id){
+          return {...item, task: editedTask}
+        }
+        return {...item}
+      })
+    })
+    setIsEdit(false)
+  }
+
+
+
   return <div className="todo-container">
     <input id="todo-input" value={inputValue} placeholder="enter todo value" onChange={(e)=>setInputValue(e.target.value)} />
     <button onClick={onAddTask}>Add task</button>
     <div className="task-list">
       <ul>
-        {todoList.map((item)=><ol key={item.id} className="task-item">
+        {todoList.map((item)=>
+        <ol key={item.id} className="task-item">
           <input id={item.id} onChange={()=>isTaskCompletedHandler(item)} type="checkbox" checked={item.completed}/>
+          {isEdit ? <input  onChange={(e)=>setEditedTask(e.target.value)} defaultValue={item.task}/> : 
+          
           <p style={{textDecoration: item.completed ? "line-through" :""}}>{item.task}</p>
+          }
           <button onClick={()=>onDeleteClick(item)}>Delete</button>
-        </ol>)}
+          {!isEdit ? <button onClick={()=>setIsEdit((prev)=>!prev)}>Edit</button>:
+          <button onClick={()=>onEditSave(item)}>Save</button>}
+        </ol>
+      )}
         
       </ul>
     </div>
