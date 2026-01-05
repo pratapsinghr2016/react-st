@@ -49,7 +49,7 @@ class FakeReact {
       }
     })
 
-    this.state = newState;
+    this.state = newState; // !
     this.queue = []
   }
 

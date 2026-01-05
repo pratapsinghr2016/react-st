@@ -14,52 +14,35 @@ const getArrayChopped = (arr, limit) => {
 const mapLimit = (arr, limit, cb) => {
 
   const choppedArray = getArrayChopped(arr, limit)
-  return new Promise((resolve, reject) => { // line a
+  return choppedArray.reduce((acc, currChunk) => {
 
-    const final = choppedArray.reduce((acc, currChunk) => {
+    return acc.then((prevVal) => { // line b
 
-      return acc.then((prevVal) => { // line b
+      return new Promise((resolve, reject) => { // line c
+        const result = [];
+        let taskCompleted = 0;
 
-        return new Promise((resolveChunkItem, rejectChunkItem) => { // line c
-          const result = [];
-          let taskCompleted = 0;
+        currChunk.forEach((currChunkItem, index) => {
 
-          currChunk.forEach((currChunkItem, index) => {
-
-            cb(currChunkItem, (error, value) => {
-              if (error) {
-                rejectChunkItem(error)
-              } else {
-                result[index] = value
-                taskCompleted += 1;
-                if (taskCompleted === currChunk.length) {
-                  resolveChunkItem([...prevVal, ...result])
-                }
+          cb(currChunkItem, (error, value) => {
+            if (error) {
+              reject(error)
+            } else {
+              result[index] = value
+              taskCompleted += 1;
+              if (taskCompleted === currChunk.length) {
+                resolve([...prevVal, ...result])
               }
-            })
+            }
+          })
 
-
-          });
-
-
-        })
+        });
 
       })
 
-    }, Promise.resolve([]))
-
-
-    final.then((result) => {
-      resolve(result)
-    }).catch((err) => {
-      reject(err)
     })
 
-  })
-
-
-
-
+  }, Promise.resolve([]))
 }
 
 

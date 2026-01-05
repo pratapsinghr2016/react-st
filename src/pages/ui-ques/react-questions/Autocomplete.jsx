@@ -37,7 +37,7 @@ const AutoSuggestion = ()=>{
 
   const [result, setResult] = useState([])
   const [showResult, setShowResult] = useState(false)
-  const [cache, setCache] = useState("")
+  const [cache, setCache] = useState({})
   const [searchedWord, setSearchedWord] = useState("")
 
   const getResults = async (query="")=>{
@@ -86,6 +86,7 @@ const getHighlightedText = (originalTest)=>{
   </>
 }
 
+// ! onBlur and onFocus to hide the result list
 return <div className="container">
     <input className="search-input" onBlur={()=>setShowResult(false)} onFocus={()=>setShowResult(true)}  onChange={onInputChange} placeholder="search here..." />
     {showResult && <div className="result">

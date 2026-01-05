@@ -1,101 +1,126 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import jsonData from "./json/draggable-todo.json";
+import "./styles/draggable-todo.css";
 
-const listArr = Array.from({ length: 1000000 }, (_, idx) => idx + 1);
+const statuses = ["todo", "in-progress", "completed"]
 
-const windowHeight = 600;
-const itemHeight = 35;
-const BUFFER = 3;
+const ColumnList = ({status, data, onDragStartHandler, 
+  onDragEndHandler, onDragOverHandler, onDropHandler})=>{
 
-const VirtualizedIO = () => {
-  const [startIndex, setStartIndex] = useState(0);
-  const containerRef = useRef(null);
-  const topSentinelRef = useRef(null);
-  const bottomSentinelRef = useRef(null);
-
-  const visibleCount = Math.ceil(windowHeight / itemHeight);
-  const endIndex = Math.min(startIndex + visibleCount + BUFFER, listArr.length);
-  const actualStart = Math.max(0, startIndex - BUFFER);
-
-  const slicedList = listArr.slice(actualStart, endIndex);
-
-  // The callback — still uses scrollTop!
-  const recalculateIndices = useCallback(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const { scrollTop } = container;  // 👈 Same formula as scroll event
-    const newStartIndex = Math.floor(scrollTop / itemHeight);
-    setStartIndex(newStartIndex);
-  }, []);
-
-  // Setup Intersection Observer
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Fire when ANY sentinel enters or exits viewport
-        const shouldUpdate = entries.some(
-          (entry) => entry.isIntersecting || !entry.isIntersecting
-        );
-        if (shouldUpdate) {
-          recalculateIndices();
-        }
-      },
-      {
-        root: containerRef.current,  // Viewport = scroll container
-        rootMargin: "50px",          // Trigger slightly before visible
-        threshold: 0,
-      }
-    );
-
-    if (topSentinelRef.current) observer.observe(topSentinelRef.current);
-    if (bottomSentinelRef.current) observer.observe(bottomSentinelRef.current);
-
-    return () => observer.disconnect();
-  }, [recalculateIndices, startIndex]); // 👈 Re-setup when startIndex changes
-
-  return (
-    <div
-      ref={containerRef}
-      style={{ height: windowHeight, width: 350, overflow: "auto" }}
-    >
-      <div style={{ height: itemHeight * listArr.length, position: "relative" }}>
-        {/* Top Sentinel — invisible, positioned at top of rendered chunk */}
-        <div
-          ref={topSentinelRef}
-          style={{
-            position: "absolute",
-            top: actualStart * itemHeight,
-            height: 1,
-            width: "100%",
-          }}
-        />
-
-        {slicedList.map((item, index) => (
-          <div
-            key={item}
-            style={{
-              height: itemHeight,
-              position: "absolute",
-              top: (actualStart + index) * itemHeight,
-            }}
+  return <div className="column">
+    <div className="header">{status}</div>
+    <div className="scrollable-list-container">
+      {(data.filter((item)=>item.status === status)).map((item)=>{
+        return <div            
+            onDragEnd={onDragEndHandler} 
+            key={item.id} 
+            className="scrollable-list"
           >
-            Item {item}
+          <div
+           onDragStart={(e)=>onDragStartHandler(e, item)}
+           onDragOver={onDragOverHandler}
+           onDrop={(e)=>onDropHandler(e, item)} 
+           draggable 
+           // ! draggable attribute u forgot last time
+           className="card-item">
+            <h2 className="task-title">{item.title}</h2>
+            <p className="task description">{item.description}</p>
           </div>
-        ))}
+        </div>
+      })}
+  </div> 
+  </div>
+}
 
-        {/* Bottom Sentinel — positioned at bottom of rendered chunk */}
-        <div
-          ref={bottomSentinelRef}
-          style={{
-            position: "absolute",
-            top: endIndex * itemHeight,
-            height: 1,
-            width: "100%",
-          }}
-        />
-      </div>
-    </div>
-  );
-};
+const Notes = ()=>{
 
-export default VirtualizedIO
+  // ! Events:=> START -> OVER -> DROP -> END
+  const [data, setData] = useState(jsonData);
+  const [draggedNote, setDraggedItem] = useState({})
+  
+  const onDragStartHandler = (e, note)=>{
+    e.target.style.opacity = 0.5; // !
+
+    setDraggedItem(note)
+  }
+
+  const onDragOverHandler = (e)=>{
+    e.preventDefault()
+  }
+
+  const onDropHandler = (e, note)=>{
+   e.preventDefault() // ! note
+   
+   console.log("target-note", note);
+   console.log("dragged-note", draggedNote)
+
+   if(note.id === draggedNote.id) return;
+
+
+   setData((prev)=>{
+    const filteredNotes = prev.filter((item)=>item.id !== draggedNote.id);
+    
+    const indexOfDroppedNote = prev.findIndex((item)=>item.id === note.id);
+    
+    const modifiedNoteState = {
+      ...draggedNote,
+      status: note.status
+    }
+
+    const newArr = [
+      ...filteredNotes.slice(0, indexOfDroppedNote),
+      modifiedNoteState,
+      ...filteredNotes.slice(indexOfDroppedNote)
+    ]
+
+    return newArr;
+   })
+  }
+
+  const onDragEndHandler = (e)=>{
+    e.target.style.opacity = 1;
+    setDraggedItem({});
+  }
+
+  const handleSubmit = (e)=>{
+    e.preventDefault();
+    const formValues = new FormData(e.target)
+    const data = Object.fromEntries(formValues)
+    setData((prev)=>{
+      const newPrev = {
+        id: Date.now(),
+        ...data,
+        priority: "high",
+        status: "todo"
+      }
+
+      return [...prev, newPrev]
+    })
+  }
+
+  return <div>
+   <form style={{display: "flex", flexDirection:"column"}} onSubmit={handleSubmit}>
+      <label htmlFor="title">title</label>
+      <input name="title" placeholder="enter title..." />
+      <label htmlFor="description">description</label>
+      <input name="description" placeholder="enter description..." />
+      <button>Sumit</button>
+    </form>
+  <div className="container">
+   
+    {statuses.map((item)=> 
+    <ColumnList 
+      key={item} 
+      data={data} 
+      status={item} 
+      onDropHandler={onDropHandler}
+      onDragStartHandler={onDragStartHandler}
+      onDragEndHandler={onDragEndHandler}
+      onDragOverHandler={onDragOverHandler}
+    />)}
+
+  </div> 
+  </div>
+}
+
+export default Notes
