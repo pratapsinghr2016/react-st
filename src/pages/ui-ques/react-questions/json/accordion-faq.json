@@ -1,0 +1,62 @@
+[
+  {
+    "question": "What is your return policy?",
+    "answer": "You may return unused items within 30 days for a full refund. Items must be in original packaging."
+  },
+  {
+    "question": "Do you offer international shipping?",
+    "answer": "Yes, we provide worldwide shipping. Delivery times and rates vary depending on the destination."
+  },
+  {
+    "question": "How can I track my order?",
+    "answer": "After your order is shipped, you will receive an email with tracking details and a tracking link."
+  },
+  {
+    "question": "Which payment methods are accepted?",
+    "answer": "We accept credit/debit cards, PayPal, Apple Pay, and Google Pay."
+  },
+  {
+    "question": "How do I change or cancel my order?",
+    "answer": "Orders can be changed or canceled within 2 hours of placement by contacting customer support."
+  },
+  {
+    "question": "Is my personal information secure?",
+    "answer": "Yes, we use industry-standard encryption and never share your data with third parties without consent."
+  },
+  {
+    "question": "How long will it take to receive my refund?",
+    "answer": "Refunds are typically processed within 3–5 business days after we receive the returned item."
+  },
+  {
+    "question": "Do you provide a warranty on products?",
+    "answer": "Most products come with a 1-year limited warranty. Some items may have extended warranties."
+  },
+  {
+    "question": "Can I get a discount for bulk orders?",
+    "answer": "Yes, bulk purchase discounts are available. Contact our sales team for a custom quote."
+  },
+  {
+    "question": "How do I create an account?",
+    "answer": "Click on the 'Sign Up' button and fill in the required details to create your account."
+  },
+  {
+    "question": "I forgot my password. What should I do?",
+    "answer": "Use the 'Forgot Password' option on the login page to reset your password via email."
+  },
+  {
+    "question": "Do you have a mobile app?",
+    "answer": "Yes, our app is available on both iOS and Android devices through their respective app stores."
+  },
+  {
+    "question": "How do I contact customer support?",
+    "answer": "You can reach us via live chat, email at support@example.com, or our hotline at +1 234 567 890."
+  },
+  {
+    "question": "Can I change my shipping address after placing an order?",
+    "answer": "Address changes are possible before the order ships. Contact support as soon as possible."
+  },
+  {
+    "question": "Do you offer gift cards?",
+    "answer": "Yes, digital gift cards are available in various denominations and emailed instantly after purchase."
+  }
+]

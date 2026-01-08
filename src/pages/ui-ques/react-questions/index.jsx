@@ -1,0 +1,1 @@
+const DIMENSION = 10;

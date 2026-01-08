@@ -1,0 +1,72 @@
+.conatiner{
+  margin-top: 8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 35rem
+}
+
+.step-head{
+  display: flex;
+  gap: 1rem;
+  align-items: center
+}
+
+.step{
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: gray;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.active-step{
+  background-color: blue;
+  color: white
+}
+
+.stepper{
+  position: relative;
+}
+
+.step-indicator{
+  width: 2px;
+  height: 35px;
+  background-color: gray;
+  position: absolute;
+  top: 2.5rem;
+  left: 1.25rem;
+}
+
+.active-step-indicator{
+  background-color: blue;
+}
+
+.step-controller{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2.2rem
+}
+
+.step-title{
+  font-weight: 600
+}
+
+.step-content{
+  max-width: 200px
+}
+
+.stepper-cta{
+  display: flex;
+  gap: 8px;
+}
+
+.ctas{
+  padding: 4px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer
+}

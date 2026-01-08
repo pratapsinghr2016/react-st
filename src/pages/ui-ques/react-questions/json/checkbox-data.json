@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "label": "Fruits",
+    "children": [
+      {
+        "id": 2,
+        "label": "Apple"
+      },
+      {
+        "id": 3,
+        "label": "Banana"
+      },
+      {
+        "id": 4,
+        "label": "Citrus",
+        "children": [
+          {
+            "id": 5,
+            "label": "Orange"
+          },
+          {
+            "id": 6,
+            "label": "Lemon"
+          },
+          {
+            "id": 7,
+            "label": "Lime Varieties",
+            "children": [
+              {
+                "id": 8,
+                "label": "Key Lime"
+              },
+              {
+                "id": 9,
+                "label": "Persian Lime"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "label": "Vegetables",
+    "children": [
+      {
+        "id": 11,
+        "label": "Carrot"
+      },
+      {
+        "id": 12,
+        "label": "Broccoli"
+      },
+      {
+        "id": 13,
+        "label": "Leafy Greens",
+        "children": [
+          {
+            "id": 14,
+            "label": "Spinach"
+          },
+          {
+            "id": 15,
+            "label": "Kale"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "label": "Dairy",
+    "children": [
+      {
+        "id": 17,
+        "label": "Milk"
+      },
+      {
+        "id": 18,
+        "label": "Cheese"
+      },
+      {
+        "id": 19,
+        "label": "Yogurt"
+      }
+    ]
+  }
+]

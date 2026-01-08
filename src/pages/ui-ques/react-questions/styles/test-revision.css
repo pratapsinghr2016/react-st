@@ -1,0 +1,50 @@
+.app-container{
+  width: 35rem;
+  margin: auto;
+  height: 100vh;
+  padding-top: 5rem;
+  padding-bottom: 5rem
+}
+
+.form-container{
+  margin-bottom: 0.65rem;
+  
+}
+
+.kanban-container{
+  display: flex;
+  gap: 2rem;
+}
+
+.kanban-col{
+  /* display: grid; */
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  border: 1px solid gray;
+  padding: .65rem
+}
+
+.kanban-stage{
+  display: flex;
+  gap: 1.65rem;
+}
+
+.kanban-task-card{
+  width: 12rem;
+  height: 12rem;
+  box-shadow: 2px 3px 2px 3px lightgray;
+  border-radius: 4px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  cursor: grab;
+}
+
+.kanban-task-heading{
+
+}
+
+.kanban-task-dsc{
+
+}

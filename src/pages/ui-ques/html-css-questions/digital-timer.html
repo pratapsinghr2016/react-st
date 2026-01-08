@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digital Clock</title>
+  </head>
+  <style>
+    .container {
+      border: 1px solid black;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <h3 id="hour" class="timer">Hour: 10</h3>
+      <h3 id="minute" class="timer">Min: 10</h3>
+      <h3 id="seconds" class="timer">Sec: 10</h3>
+    </div>
+  </body>
+  <script>
+    const timer = document.querySelectorAll(".timer");
+    const currentTime = new Date();
+    let hour = currentTime.getHours();
+    let minutes = currentTime.getMinutes();
+    let seconds = currentTime.getSeconds();
+    console.log("timer", hour, minutes, seconds);
+    setInterval(() => {
+      const secondsEl = document.querySelector("#seconds");
+      const minutesEl = document.querySelector("#minute");
+      const hourEl = document.querySelector("#hour");
+      if (seconds < 59) {
+        seconds++;
+        secondsEl.innerHTML = "Sec: " + seconds;
+        minutesEl.innerHTML = "Min: " + minutes;
+        hourEl.innerHTML = "Hour: " + hour;
+      } else {
+        seconds = 0;
+        if (minutes < 59) {
+          minutes += 1;
+        } else {
+          minutes = 0;
+          hour += 1;
+        }
+      }
+    }, 1000);
+  </script>
+</html>

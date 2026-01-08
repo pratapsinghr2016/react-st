@@ -1,0 +1,32 @@
+
+.liked-button {
+  text-align: center;
+  border-radius: 25px;
+  color: #888;
+  background-color: white;
+  cursor: pointer;
+  border: 2px solid #888;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+}
+
+.liked-button:hover {
+  color: #f00;
+  border: 2px solid #f00;
+}
+
+.is-liked {
+  background-color: #f00;
+  border: 1px solid #f00;
+  color: white;
+}
+
+.is-liked:hover{
+  background-color: #f00;
+  border: 1px solid #f00;
+  color: white;
+}

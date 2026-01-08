@@ -1,0 +1,15 @@
+.nested-checkbox-container {
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.checkbox-children {
+  margin-left: 20px;
+}

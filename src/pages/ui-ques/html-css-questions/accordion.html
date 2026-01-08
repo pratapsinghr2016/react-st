@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!-- Accordion -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accordion</title>
+  </head>
+  <style>
+    .container {
+      width: 500px;
+    }
+
+    .explaination {
+      display: none;
+    }
+
+    .accordion {
+      border: 1px solid black;
+      border-radius: 15px;
+      margin: 2px 0px 2px 0px;
+      padding: 0px 5px 0px 5px;
+      cursor: pointer;
+    }
+
+    .accordion.open.explaination {
+      display: block;
+      transition: 0.3ms ease-in-out;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <div id="acc-1" class="accordion">
+        <div class="header"><h3>Q: Choose the best option available</h3></div>
+        <div class="explaination">
+          <p>
+            A: Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            Voluptas fugiat possimus suscipit iste quo vitae eveniet rerum
+            ratione facilis eos, nesciunt aut ullam nisi ipsa fuga in harum.
+            Quaerat, atque?
+          </p>
+        </div>
+      </div>
+      <div id="acc-2" class="accordion">
+        <div class="header"><h3>Q: Choose the best option available</h3></div>
+        <div class="explaination">
+          <p>
+            A: Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            Voluptas fugiat possimus suscipit iste quo vitae eveniet rerum
+            ratione facilis eos, nesciunt aut ullam nisi ipsa fuga in harum.
+            Quaerat, atque?
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    const allAccordions = document.querySelectorAll(".accordion");
+    allAccordions.forEach((currentAccordion) => {
+      currentAccordion.addEventListener("click", () => {
+        console.log("before", currentAccordion);
+        currentAccordion.classList.toggle("open");
+        console.log("after", currentAccordion);
+      });
+    });
+  </script>
+</html>

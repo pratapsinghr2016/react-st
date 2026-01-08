@@ -1,0 +1,33 @@
+.carousal-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  
+}
+
+.carousal-body{
+  width: 20rem;
+  height: 20rem;
+  display: flex;
+  overflow: hidden;
+  scroll-width:0;
+  
+}
+
+.carousal-img{
+  width: 100%;
+  height: auto;
+  transition: all 0.5s ease-in-out; 
+}
+
+
+.carousal-cta{
+  display: flex;
+  gap: 1rem;
+}
+
+.carousal-btn{
+
+}

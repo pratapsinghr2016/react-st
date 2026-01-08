@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOLID Principles Cheatsheet 🏗️</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0f0f0f;
+      --bg-secondary: #1a1a1a;
+      --bg-card: #222222;
+      --accent: #8b5cf6;
+      --accent-dim: #6d28d9;
+      --text-primary: #f5f5f5;
+      --text-secondary: #a1a1a1;
+      --text-muted: #6b6b6b;
+      --border: #333333;
+      --code-bg: #1e1e1e;
+      --success: #22c55e;
+      --bad: #ef4444;
+      --good: #22c55e;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 3rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '🏗️';
+      position: absolute;
+      font-size: 15rem;
+      opacity: 0.03;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--accent) 0%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+    }
+
+    .header .subtitle {
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    /* Quick Nav */
+    .quick-nav {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .quick-nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+
+    .quick-nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.8rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+    }
+
+    .quick-nav a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Intro Section */
+    .intro {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .intro h2 {
+      color: var(--accent);
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+
+    .intro p {
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+    }
+
+    .acronym {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .acronym-letter {
+      background: var(--accent);
+      color: var(--bg-primary);
+      font-weight: 700;
+      font-size: 1.1rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Pattern Card */
+    .pattern-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+
+    .pattern-card:hover {
+      border-color: var(--accent-dim);
+    }
+
+    .pattern-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-secondary);
+    }
+
+    .pattern-number {
+      background: var(--accent);
+      color: var(--bg-primary);
+      font-weight: 700;
+      font-size: 1.2rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .pattern-title {
+      flex: 1;
+    }
+
+    .pattern-title h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.15rem;
+    }
+
+    .pattern-hook {
+      display: inline-block;
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .pattern-body {
+      padding: 1.5rem;
+    }
+
+    .pattern-description {
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .pattern-description strong {
+      color: var(--text-primary);
+    }
+
+    /* One Liner */
+    .one-liner {
+      background: linear-gradient(135deg, var(--accent-dim) 0%, var(--accent) 100%);
+      color: white;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+
+    /* Code Block */
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    pre:last-child {
+      margin-bottom: 0;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Code Labels */
+    .code-label {
+      display: inline-block;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .code-label.bad {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--bad);
+    }
+
+    .code-label.good {
+      background: rgba(34, 197, 94, 0.2);
+      color: var(--good);
+    }
+
+    /* Syntax Highlighting */
+    .keyword { color: #c586c0; }
+    .function { color: #dcdcaa; }
+    .string { color: #ce9178; }
+    .component { color: #4ec9b0; }
+    .hook { color: #9cdcfe; }
+    .comment { color: #6a9955; }
+    .operator { color: #d4d4d4; }
+    .bracket { color: #ffd700; }
+    .property { color: #9cdcfe; }
+    .jsx-tag { color: #569cd6; }
+    .jsx-attr { color: #9cdcfe; }
+    .type { color: #4ec9b0; }
+    .interface { color: #4ec9b0; }
+
+    /* Quick Reference Table */
+    .quick-ref {
+      margin-top: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    .quick-ref h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .ref-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-card);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .ref-table th {
+      background: var(--bg-secondary);
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: var(--accent);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ref-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ref-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .ref-table tr:hover td {
+      background: var(--bg-secondary);
+    }
+
+    .ref-table td:first-child {
+      font-weight: 600;
+      color: var(--text-primary);
+      width: 25%;
+    }
+
+    .ref-table td:last-child {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* Bonus Section */
+    .bonus-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .bonus-section h3 {
+      color: var(--accent);
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .bonus-list {
+      list-style: none;
+    }
+
+    .bonus-list li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+
+    .bonus-list li:last-child {
+      border-bottom: none;
+    }
+
+    .bonus-list li strong {
+      color: var(--text-primary);
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    /* Print Styles */
+    @media print {
+      .quick-nav { display: none; }
+      .pattern-card { break-inside: avoid; }
+      body { background: white; color: black; }
+    }
+
+    /* Mobile */
+    @media (max-width: 640px) {
+      .header h1 { font-size: 1.8rem; }
+      .container { padding: 1rem; }
+      .pattern-header { flex-wrap: wrap; }
+      .quick-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <h1>SOLID Principles Cheatsheet</h1>
+    <p>The Building Blocks — 5 Principles for Clean Frontend Code</p>
+    <p class="subtitle">Adapted for React & TypeScript interviews</p>
+  </header>
+
+  <nav class="quick-nav">
+    <div class="quick-nav-inner">
+      <a href="#intro">What is SOLID?</a>
+      <a href="#s">S - Single Responsibility</a>
+      <a href="#o">O - Open/Closed</a>
+      <a href="#l">L - Liskov Substitution</a>
+      <a href="#i">I - Interface Segregation</a>
+      <a href="#d">D - Dependency Inversion</a>
+      <a href="#quick-ref">Quick Recall</a>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- Intro -->
+    <section class="intro" id="intro">
+      <h2>🎯 What is SOLID?</h2>
+      <p>SOLID is a set of 5 design principles that help you write maintainable, scalable, and testable code. Originally coined by Robert C. Martin (Uncle Bob) for OOP, these principles translate beautifully to React components and TypeScript.</p>
+      <p><strong>Why it matters in interviews:</strong> Shows you think about code architecture, not just making things work.</p>
+      <div class="acronym">
+        <span class="acronym-letter">S</span>
+        <span class="acronym-letter">O</span>
+        <span class="acronym-letter">L</span>
+        <span class="acronym-letter">I</span>
+        <span class="acronym-letter">D</span>
+      </div>
+    </section>
+
+    <!-- Principle S -->
+    <article class="pattern-card" id="s">
+      <div class="pattern-header">
+        <span class="pattern-number">S</span>
+        <div class="pattern-title">
+          <h2>Single Responsibility Principle</h2>
+          <span class="pattern-hook">🔧 One Tool, One Job</span>
+        </div>
+      </div>
+      <div class="pattern-body">
+        <div class="one-liner">"A component should have only one reason to change."</div>
+        <p class="pattern-description">A screwdriver screws, a hammer hammers. Don't build a Swiss Army knife component that handles auth, fetches data, and renders UI. Each component/function should do <strong>one thing well</strong>.</p>
+        
+        <span class="code-label bad">❌ Bad - Multiple responsibilities</span>
+        <pre><span class="keyword">function</span> <span class="function">UserProfile</span>() {
+  <span class="keyword">const</span> [<span class="property">user</span>, <span class="property">setUser</span>] = <span class="hook">useState</span>(<span class="keyword">null</span>);
+  <span class="keyword">const</span> [<span class="property">posts</span>, <span class="property">setPosts</span>] = <span class="hook">useState</span>([]);
+  
+  <span class="hook">useEffect</span>(() => {
+    <span class="comment">// Fetching user data - responsibility 1</span>
+    <span class="function">fetch</span>(<span class="string">'/api/user'</span>).<span class="function">then</span>(<span class="property">r</span> => <span class="property">r</span>.<span class="function">json</span>()).<span class="function">then</span>(<span class="property">setUser</span>);
+    <span class="comment">// Fetching posts - responsibility 2</span>
+    <span class="function">fetch</span>(<span class="string">'/api/posts'</span>).<span class="function">then</span>(<span class="property">r</span> => <span class="property">r</span>.<span class="function">json</span>()).<span class="function">then</span>(<span class="property">setPosts</span>);
+  }, []);
+  
+  <span class="comment">// Formatting date - responsibility 3</span>
+  <span class="keyword">const</span> <span class="property">formattedDate</span> = <span class="keyword">new</span> <span class="function">Date</span>(<span class="property">user</span>?.<span class="property">createdAt</span>).<span class="function">toLocaleDateString</span>();
+  
+  <span class="comment">// Rendering everything - responsibility 4</span>
+  <span class="keyword">return</span> (...);
+}</pre>
+
+        <span class="code-label good">✅ Good - Single responsibility each</span>
+        <pre><span class="comment">// Hook for user data only</span>
+<span class="keyword">function</span> <span class="function">useUser</span>() {
+  <span class="keyword">const</span> [<span class="property">user</span>, <span class="property">setUser</span>] = <span class="hook">useState</span>(<span class="keyword">null</span>);
+  <span class="hook">useEffect</span>(() => {
+    <span class="function">fetch</span>(<span class="string">'/api/user'</span>).<span class="function">then</span>(<span class="property">r</span> => <span class="property">r</span>.<span class="function">json</span>()).<span class="function">then</span>(<span class="property">setUser</span>);
+  }, []);
+  <span class="keyword">return</span> <span class="property">user</span>;
+}
+
+<span class="comment">// Utility for formatting</span>
+<span class="keyword">const</span> <span class="function">formatDate</span> = (<span class="property">date</span>: <span class="type">string</span>) => <span class="keyword">new</span> <span class="function">Date</span>(<span class="property">date</span>).<span class="function">toLocaleDateString</span>();
+
+<span class="comment">// Component only renders</span>
+<span class="keyword">function</span> <span class="function">UserProfile</span>() {
+  <span class="keyword">const</span> <span class="property">user</span> = <span class="function">useUser</span>();
+  <span class="keyword">return</span> &lt;<span class="component">ProfileCard</span> <span class="jsx-attr">user</span>={<span class="property">user</span>} /&gt;;
+}</pre>
+      </div>
+    </article>
+
+    <!-- Principle O -->
+    <article class="pattern-card" id="o">
+      <div class="pattern-header">
+        <span class="pattern-number">O</span>
+        <div class="pattern-title">
+          <h2>Open/Closed Principle</h2>
+          <span class="pattern-hook">🔌 Plugin Architecture</span>
+        </div>
+      </div>
+      <div class="pattern-body">
+        <div class="one-liner">"Open for extension, closed for modification."</div>
+        <p class="pattern-description">Like a power strip — you can plug in new devices without rewiring your house. Add new features through <strong>composition and props</strong>, not by editing the original component's internals.</p>
+        
+        <span class="code-label bad">❌ Bad - Modifying component for each variant</span>
+        <pre><span class="keyword">function</span> <span class="function">Button</span>({ <span class="property">variant</span> }: { <span class="property">variant</span>: <span class="string">'primary'</span> | <span class="string">'danger'</span> | <span class="string">'ghost'</span> }) {
+  <span class="comment">// Every new variant = modify this component</span>
+  <span class="keyword">if</span> (<span class="property">variant</span> === <span class="string">'primary'</span>) <span class="keyword">return</span> &lt;<span class="jsx-tag">button</span> <span class="jsx-attr">className</span>=<span class="string">"bg-blue"</span>&gt;...&lt;/<span class="jsx-tag">button</span>&gt;;
+  <span class="keyword">if</span> (<span class="property">variant</span> === <span class="string">'danger'</span>) <span class="keyword">return</span> &lt;<span class="jsx-tag">button</span> <span class="jsx-attr">className</span>=<span class="string">"bg-red"</span>&gt;...&lt;/<span class="jsx-tag">button</span>&gt;;
+  <span class="keyword">if</span> (<span class="property">variant</span> === <span class="string">'ghost'</span>) <span class="keyword">return</span> &lt;<span class="jsx-tag">button</span> <span class="jsx-attr">className</span>=<span class="string">"bg-transparent"</span>&gt;...&lt;/<span class="jsx-tag">button</span>&gt;;
+  <span class="comment">// Need icon button? Edit this file again...</span>
+}</pre>
+
+        <span class="code-label good">✅ Good - Extend via composition</span>
+        <pre><span class="comment">// Base button accepts className - open for extension</span>
+<span class="keyword">function</span> <span class="function">Button</span>({ <span class="property">className</span>, <span class="property">children</span>, ...<span class="property">props</span> }: <span class="type">ButtonProps</span>) {
+  <span class="keyword">return</span> (
+    &lt;<span class="jsx-tag">button</span> <span class="jsx-attr">className</span>={<span class="string">`base-btn </span>${<span class="property">className</span>}<span class="string">`</span>} {...<span class="property">props</span>}&gt;
+      {<span class="property">children</span>}
+    &lt;/<span class="jsx-tag">button</span>&gt;
+  );
+}
+
+<span class="comment">// Variants extend without modifying Button</span>
+<span class="keyword">const</span> <span class="function">PrimaryButton</span> = (<span class="property">props</span>) => &lt;<span class="component">Button</span> <span class="jsx-attr">className</span>=<span class="string">"bg-blue"</span> {...<span class="property">props</span>} /&gt;;
+<span class="keyword">const</span> <span class="function">DangerButton</span> = (<span class="property">props</span>) => &lt;<span class="component">Button</span> <span class="jsx-attr">className</span>=<span class="string">"bg-red"</span> {...<span class="property">props</span>} /&gt;;
+<span class="keyword">const</span> <span class="function">IconButton</span> = ({ <span class="property">icon</span>, ...<span class="property">props</span> }) => (
+  &lt;<span class="component">Button</span> {...<span class="property">props</span>}&gt;{<span class="property">icon</span>} {<span class="property">props</span>.<span class="property">children</span>}&lt;/<span class="component">Button</span>&gt;
+);</pre>
+      </div>
+    </article>
+
+    <!-- Principle L -->
+    <article class="pattern-card" id="l">
+      <div class="pattern-header">
+        <span class="pattern-number">L</span>
+        <div class="pattern-title">
+          <h2>Liskov Substitution Principle</h2>
+          <span class="pattern-hook">🔄 Drop-in Replacement</span>
+        </div>
+      </div>
+      <div class="pattern-body">
+        <div class="one-liner">"Subtypes must be substitutable for their base types."</div>
+        <p class="pattern-description">Like batteries — if something works with AA batteries, any brand of AA should work. A <code>PrimaryButton</code> should work anywhere a <code>Button</code> works, without breaking behavior.</p>
+        
+        <span class="code-label bad">❌ Bad - Subtype breaks expected behavior</span>
+        <pre><span class="comment">// Base input expects onChange</span>
+<span class="keyword">interface</span> <span class="interface">InputProps</span> {
+  <span class="property">value</span>: <span class="type">string</span>;
+  <span class="property">onChange</span>: (<span class="property">value</span>: <span class="type">string</span>) => <span class="type">void</span>;
+}
+
+<span class="comment">// This "specialized" input ignores onChange — breaks substitution!</span>
+<span class="keyword">function</span> <span class="function">ReadOnlyInput</span>({ <span class="property">value</span> }: <span class="type">InputProps</span>) {
+  <span class="comment">// onChange is required but ignored — caller expects it to work</span>
+  <span class="keyword">return</span> &lt;<span class="jsx-tag">input</span> <span class="jsx-attr">value</span>={<span class="property">value</span>} <span class="jsx-attr">readOnly</span> /&gt;;
+}</pre>
+
+        <span class="code-label good">✅ Good - Subtypes honor the contract</span>
+        <pre><span class="comment">// Clear interface with optional readonly</span>
+<span class="keyword">interface</span> <span class="interface">InputProps</span> {
+  <span class="property">value</span>: <span class="type">string</span>;
+  <span class="property">onChange</span>?: (<span class="property">value</span>: <span class="type">string</span>) => <span class="type">void</span>;
+  <span class="property">readOnly</span>?: <span class="type">boolean</span>;
+}
+
+<span class="keyword">function</span> <span class="function">Input</span>({ <span class="property">value</span>, <span class="property">onChange</span>, <span class="property">readOnly</span> }: <span class="type">InputProps</span>) {
+  <span class="keyword">return</span> (
+    &lt;<span class="jsx-tag">input</span>
+      <span class="jsx-attr">value</span>={<span class="property">value</span>}
+      <span class="jsx-attr">onChange</span>={<span class="property">e</span> => <span class="property">onChange</span>?.(<span class="property">e</span>.<span class="property">target</span>.<span class="property">value</span>)}
+      <span class="jsx-attr">readOnly</span>={<span class="property">readOnly</span>}
+    /&gt;
+  );
+}
+
+<span class="comment">// Any Input can be used interchangeably</span>
+&lt;<span class="component">Input</span> <span class="jsx-attr">value</span>={<span class="property">text</span>} <span class="jsx-attr">onChange</span>={<span class="property">setText</span>} /&gt;
+&lt;<span class="component">Input</span> <span class="jsx-attr">value</span>={<span class="property">text</span>} <span class="jsx-attr">readOnly</span> /&gt;</pre>
+      </div>
+    </article>
+
+    <!-- Principle I -->
+    <article class="pattern-card" id="i">
+      <div class="pattern-header">
+        <span class="pattern-number">I</span>
+        <div class="pattern-title">
+          <h2>Interface Segregation Principle</h2>
+          <span class="pattern-hook">📋 Focused Menus</span>
+        </div>
+      </div>
+      <div class="pattern-body">
+        <div class="one-liner">"Clients shouldn't depend on interfaces they don't use."</div>
+        <p class="pattern-description">A breakfast menu shouldn't include dinner items. Don't force components to accept props they don't need. Break large interfaces into <strong>smaller, focused ones</strong>.</p>
+        
+        <span class="code-label bad">❌ Bad - Massive interface with unused props</span>
+        <pre><span class="comment">// Every component using this must handle ALL props</span>
+<span class="keyword">interface</span> <span class="interface">UserProps</span> {
+  <span class="property">id</span>: <span class="type">string</span>;
+  <span class="property">name</span>: <span class="type">string</span>;
+  <span class="property">email</span>: <span class="type">string</span>;
+  <span class="property">avatar</span>: <span class="type">string</span>;
+  <span class="property">role</span>: <span class="type">string</span>;
+  <span class="property">permissions</span>: <span class="type">string</span>[];
+  <span class="property">lastLogin</span>: <span class="type">Date</span>;
+  <span class="property">settings</span>: <span class="type">UserSettings</span>;
+  <span class="property">billingInfo</span>: <span class="type">BillingInfo</span>;
+}
+
+<span class="comment">// Avatar component forced to accept billing info it doesn't need!</span>
+<span class="keyword">function</span> <span class="function">UserAvatar</span>({ <span class="property">name</span>, <span class="property">avatar</span>, <span class="property">billingInfo</span>, ... }: <span class="type">UserProps</span>) {
+  <span class="keyword">return</span> &lt;<span class="jsx-tag">img</span> <span class="jsx-attr">src</span>={<span class="property">avatar</span>} <span class="jsx-attr">alt</span>={<span class="property">name</span>} /&gt;;
+}</pre>
+
+        <span class="code-label good">✅ Good - Segregated interfaces</span>
+        <pre><span class="comment">// Small, focused interfaces</span>
+<span class="keyword">interface</span> <span class="interface">UserIdentity</span> {
+  <span class="property">id</span>: <span class="type">string</span>;
+  <span class="property">name</span>: <span class="type">string</span>;
+}
+
+<span class="keyword">interface</span> <span class="interface">UserAvatar</span> {
+  <span class="property">name</span>: <span class="type">string</span>;
+  <span class="property">avatar</span>: <span class="type">string</span>;
+}
+
+<span class="keyword">interface</span> <span class="interface">UserAuth</span> {
+  <span class="property">role</span>: <span class="type">string</span>;
+  <span class="property">permissions</span>: <span class="type">string</span>[];
+}
+
+<span class="comment">// Components only take what they need</span>
+<span class="keyword">function</span> <span class="function">Avatar</span>({ <span class="property">name</span>, <span class="property">avatar</span> }: <span class="type">UserAvatar</span>) {
+  <span class="keyword">return</span> &lt;<span class="jsx-tag">img</span> <span class="jsx-attr">src</span>={<span class="property">avatar</span>} <span class="jsx-attr">alt</span>={<span class="property">name</span>} /&gt;;
+}
+
+<span class="keyword">function</span> <span class="function">PermissionGate</span>({ <span class="property">permissions</span>, <span class="property">children</span> }: <span class="type">UserAuth</span> & { <span class="property">children</span>: <span class="type">ReactNode</span> }) {
+  <span class="keyword">return</span> <span class="property">permissions</span>.<span class="function">includes</span>(<span class="string">'admin'</span>) ? <span class="property">children</span> : <span class="keyword">null</span>;
+}</pre>
+      </div>
+    </article>
+
+    <!-- Principle D -->
+    <article class="pattern-card" id="d">
+      <div class="pattern-header">
+        <span class="pattern-number">D</span>
+        <div class="pattern-title">
+          <h2>Dependency Inversion Principle</h2>
+          <span class="pattern-hook">🔌 Adapters & Ports</span>
+        </div>
+      </div>
+      <div class="pattern-body">
+        <div class="one-liner">"Depend on abstractions, not concretions."</div>
+        <p class="pattern-description">Like how your laptop charger works in any country with the right adapter. High-level components shouldn't directly import low-level modules — <strong>inject dependencies</strong> instead.</p>
+        
+        <span class="code-label bad">❌ Bad - Direct dependency on implementation</span>
+        <pre><span class="keyword">import</span> <span class="property">axios</span> <span class="keyword">from</span> <span class="string">'axios'</span>; <span class="comment">// Tightly coupled!</span>
+
+<span class="keyword">function</span> <span class="function">UserList</span>() {
+  <span class="keyword">const</span> [<span class="property">users</span>, <span class="property">setUsers</span>] = <span class="hook">useState</span>([]);
+  
+  <span class="hook">useEffect</span>(() => {
+    <span class="comment">// Directly using axios — can't easily swap or test</span>
+    <span class="property">axios</span>.<span class="function">get</span>(<span class="string">'/api/users'</span>).<span class="function">then</span>(<span class="property">res</span> => <span class="function">setUsers</span>(<span class="property">res</span>.<span class="property">data</span>));
+  }, []);
+  
+  <span class="keyword">return</span> ...;
+}</pre>
+
+        <span class="code-label good">✅ Good - Depend on abstraction (injected)</span>
+        <pre><span class="comment">// Define the abstraction (interface)</span>
+<span class="keyword">interface</span> <span class="interface">ApiClient</span> {
+  <span class="function">get</span>&lt;<span class="type">T</span>&gt;(<span class="property">url</span>: <span class="type">string</span>): <span class="type">Promise</span>&lt;<span class="type">T</span>&gt;;
+}
+
+<span class="comment">// Provide via Context</span>
+<span class="keyword">const</span> <span class="component">ApiContext</span> = <span class="function">createContext</span>&lt;<span class="type">ApiClient</span>&gt;(<span class="keyword">null</span>!);
+
+<span class="comment">// Component depends on abstraction</span>
+<span class="keyword">function</span> <span class="function">UserList</span>() {
+  <span class="keyword">const</span> <span class="property">api</span> = <span class="hook">useContext</span>(<span class="component">ApiContext</span>);
+  <span class="keyword">const</span> [<span class="property">users</span>, <span class="property">setUsers</span>] = <span class="hook">useState</span>([]);
+  
+  <span class="hook">useEffect</span>(() => {
+    <span class="property">api</span>.<span class="function">get</span>&lt;<span class="type">User</span>[]&gt;(<span class="string">'/api/users'</span>).<span class="function">then</span>(<span class="property">setUsers</span>);
+  }, [<span class="property">api</span>]);
+  
+  <span class="keyword">return</span> ...;
+}
+
+<span class="comment">// In app: inject real implementation</span>
+&lt;<span class="component">ApiContext.Provider</span> <span class="jsx-attr">value</span>={<span class="property">axiosClient</span>}&gt;&lt;<span class="component">App</span> /&gt;&lt;/<span class="component">ApiContext.Provider</span>&gt;
+
+<span class="comment">// In tests: inject mock</span>
+&lt;<span class="component">ApiContext.Provider</span> <span class="jsx-attr">value</span>={<span class="property">mockClient</span>}&gt;&lt;<span class="component">UserList</span> /&gt;&lt;/<span class="component">ApiContext.Provider</span>&gt;</pre>
+      </div>
+    </article>
+
+    <!-- Quick Reference -->
+    <section class="quick-ref" id="quick-ref">
+      <h2>🧠 Quick Recall Table</h2>
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>Principle</th>
+            <th>One-Liner</th>
+            <th>Memory Hook</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>S - Single Responsibility</td>
+            <td>One component, one reason to change</td>
+            <td>🔧 One Tool, One Job</td>
+          </tr>
+          <tr>
+            <td>O - Open/Closed</td>
+            <td>Extend via props, don't modify source</td>
+            <td>🔌 Plugin Architecture</td>
+          </tr>
+          <tr>
+            <td>L - Liskov Substitution</td>
+            <td>Variants must work like their base</td>
+            <td>🔄 Drop-in Replacement</td>
+          </tr>
+          <tr>
+            <td>I - Interface Segregation</td>
+            <td>Small, focused props interfaces</td>
+            <td>📋 Focused Menus</td>
+          </tr>
+          <tr>
+            <td>D - Dependency Inversion</td>
+            <td>Inject dependencies, don't import directly</td>
+            <td>🔌 Adapters & Ports</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Bonus: Frontend-Specific Principles -->
+    <section class="bonus-section">
+      <h3>🎁 Bonus: Frontend-Specific Principles</h3>
+      <ul class="bonus-list">
+        <li><strong>DRY</strong> — Don't Repeat Yourself. Extract common patterns into reusable hooks/components.</li>
+        <li><strong>WET</strong> — Write Everything Twice. Don't abstract too early — wait for patterns to emerge.</li>
+        <li><strong>KISS</strong> — Keep It Simple, Stupid. Simple code is easier to maintain than clever code.</li>
+        <li><strong>YAGNI</strong> — You Aren't Gonna Need It. Don't build features "just in case".</li>
+        <li><strong>Composition > Inheritance</strong> — React favors composing components over extending them.</li>
+        <li><strong>Colocation</strong> — Keep related code together (component + styles + tests + types).</li>
+        <li><strong>Least Privilege</strong> — Components should only access data they actually need.</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Good luck with your interview, Rajat! 🚀</p>
+    <p style="margin-top: 0.5rem; opacity: 0.6;">SOLID Principles Cheatsheet • The Building Blocks</p>
+  </footer>
+
+</body>
+</html>

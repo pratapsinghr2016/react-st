@@ -1,0 +1,10 @@
+.list-container{
+  background-color: gray;
+}
+
+.list-item{
+  background-color: brown;
+  text-align: center;
+  color: white;
+  border: 1px solid gray
+}

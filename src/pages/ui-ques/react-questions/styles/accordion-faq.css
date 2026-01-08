@@ -1,0 +1,39 @@
+.acc-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.acc-item{
+  /* position: relative; */
+  border: 2px solid black;
+  border-radius: 8px;
+  width: 50rem;
+  margin: 8px;
+  padding: 8px;
+  transform: 1.2s ease-out
+}
+
+.acc-indicator{
+  font-weight: 600;
+  float: right;
+  font-size: 2rem
+}
+
+.acc-title{
+  font-weight: 600;
+  font-size: 1.5rem
+}
+
+.acc-dsc{
+  font-weight: 400;
+  font-size: 1.35rem
+}
+
+.acc-heading{
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between
+}

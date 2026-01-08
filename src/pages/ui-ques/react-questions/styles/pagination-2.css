@@ -1,0 +1,72 @@
+.container{
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.page-body{
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 8px;
+}
+
+
+.content{
+  width: 400px;
+  height: 320px;
+}
+
+.image-body{
+  width: 400px;
+  height: 320px;
+  object-fit: contain  
+}
+
+.image-title{
+
+}
+
+.pagination-body{
+
+}
+
+.previous-btn{
+font-size: 1.5rem;
+cursor: pointer;
+}
+
+.action-btn{
+
+}
+
+.current-page{
+  width: 20px;
+  height: 20px;
+  padding: 8px;
+  text-align: center;
+  font-size: 1.4rem;
+  border-radius: 6px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.action-btn{
+  width: 20px;
+  height: 20px;
+  padding: 8px;
+  text-align: center;
+  font-size: 1.4rem;
+  border-radius: 6px;
+  color: white;
+  background-color: black;
+  border: 1px solid white;
+  cursor: pointer;
+}
+
+.next-btn{
+font-size: 1.5rem;
+cursor: pointer;
+}

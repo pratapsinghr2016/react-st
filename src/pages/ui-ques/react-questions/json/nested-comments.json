@@ -1,0 +1,161 @@
+[
+  {
+    "id": 1,
+    "author": "John",
+    "content": "This is a great post! Really helped me understand React hooks better.",
+    "timestamp": "2024-01-15T10:30:00",
+    "replies": [
+      {
+        "id": 2,
+        "author": "Jane",
+        "content": "I agree with you! The useEffect examples were particularly clear.",
+        "timestamp": "2024-01-15T11:00:00",
+        "replies": [
+          {
+            "id": 3,
+            "author": "Mike",
+            "content": "Which useEffect example did you find most helpful?",
+            "timestamp": "2024-01-15T11:15:00",
+            "replies": [
+              {
+                "id": 4,
+                "author": "Jane",
+                "content": "The one about cleanup functions. I always forgot to return the cleanup!",
+                "timestamp": "2024-01-15T11:30:00",
+                "replies": []
+              },
+              {
+                "id": 5,
+                "author": "Alex",
+                "content": "Same here! Also the dependency array explanation was great.",
+                "timestamp": "2024-01-15T11:45:00",
+                "replies": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "author": "Sarah",
+        "content": "I had a different experience. Found it a bit confusing at first.",
+        "timestamp": "2024-01-15T12:00:00",
+        "replies": [
+          {
+            "id": 7,
+            "author": "John",
+            "content": "Which part was confusing? Maybe I can help explain.",
+            "timestamp": "2024-01-15T12:30:00",
+            "replies": [
+              {
+                "id": 8,
+                "author": "Sarah",
+                "content": "The part about stale closures in useEffect. Still wrapping my head around it.",
+                "timestamp": "2024-01-15T13:00:00",
+                "replies": [
+                  {
+                    "id": 9,
+                    "author": "John",
+                    "content": "Ah yes! Think of it like a snapshot - the effect captures the values at render time.",
+                    "timestamp": "2024-01-15T13:15:00",
+                    "replies": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "author": "David",
+    "content": "Can someone explain useState vs useReducer? When should I use which?",
+    "timestamp": "2024-01-15T14:00:00",
+    "replies": [
+      {
+        "id": 11,
+        "author": "Emily",
+        "content": "useState for simple state, useReducer when you have complex state logic or multiple sub-values.",
+        "timestamp": "2024-01-15T14:30:00",
+        "replies": [
+          {
+            "id": 12,
+            "author": "David",
+            "content": "Thanks! So for a form with many fields, useReducer would be better?",
+            "timestamp": "2024-01-15T14:45:00",
+            "replies": [
+              {
+                "id": 13,
+                "author": "Emily",
+                "content": "Exactly! Especially if field updates depend on other fields.",
+                "timestamp": "2024-01-15T15:00:00",
+                "replies": []
+              },
+              {
+                "id": 14,
+                "author": "Chris",
+                "content": "Or you could use a form library like React Hook Form. Much simpler!",
+                "timestamp": "2024-01-15T15:10:00",
+                "replies": [
+                  {
+                    "id": 15,
+                    "author": "David",
+                    "content": "Good suggestion! I'll check it out.",
+                    "timestamp": "2024-01-15T15:20:00",
+                    "replies": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 16,
+        "author": "Rachel",
+        "content": "I prefer useReducer when state transitions need to be predictable and testable.",
+        "timestamp": "2024-01-15T15:30:00",
+        "replies": []
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "author": "Kevin",
+    "content": "Great article! Bookmarking this for future reference.",
+    "timestamp": "2024-01-15T16:00:00",
+    "replies": []
+  },
+  {
+    "id": 18,
+    "author": "Lisa",
+    "content": "Would love to see a follow-up article on custom hooks!",
+    "timestamp": "2024-01-15T17:00:00",
+    "replies": [
+      {
+        "id": 19,
+        "author": "Author",
+        "content": "Thanks for the suggestion! I'm planning one for next week.",
+        "timestamp": "2024-01-15T17:30:00",
+        "replies": [
+          {
+            "id": 20,
+            "author": "Lisa",
+            "content": "Awesome! Looking forward to it! 🎉",
+            "timestamp": "2024-01-15T17:45:00",
+            "replies": []
+          },
+          {
+            "id": 21,
+            "author": "Tom",
+            "content": "Please cover useFetch and useLocalStorage patterns!",
+            "timestamp": "2024-01-15T18:00:00",
+            "replies": []
+          }
+        ]
+      }
+    ]
+  }
+]
