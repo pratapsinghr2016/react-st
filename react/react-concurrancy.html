@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Concurrency Cheat Sheet | Interview Ready</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0b;
+            --bg-secondary: #111113;
+            --bg-card: #18181b;
+            --bg-code: #1e1e22;
+            --border: #27272a;
+            --border-accent: #3f3f46;
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --accent-green: #22c55e;
+            --accent-orange: #f97316;
+            --accent-cyan: #06b6d4;
+            --accent-pink: #ec4899;
+            --gradient-1: linear-gradient(135deg, #3b82f6 0%, #a855f7 100%);
+            --gradient-2: linear-gradient(135deg, #22c55e 0%, #06b6d4 100%);
+            --gradient-3: linear-gradient(135deg, #f97316 0%, #ec4899 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* Noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 0;
+            position: relative;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 1px;
+            background: var(--gradient-1);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .toc h2 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .toc a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .toc a:hover {
+            color: var(--text-primary);
+            transform: translateX(4px);
+        }
+
+        .toc a::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+            opacity: 0.5;
+            transition: opacity 0.2s ease;
+        }
+
+        .toc a:hover::before {
+            opacity: 1;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 4rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-purple);
+            background: rgba(168, 85, 247, 0.1);
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+        }
+
+        h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2rem;
+            font-weight: 400;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-accent {
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .card-accent.green {
+            border-left-color: var(--accent-green);
+        }
+
+        .card-accent.purple {
+            border-left-color: var(--accent-purple);
+        }
+
+        .card-accent.orange {
+            border-left-color: var(--accent-orange);
+        }
+
+        /* Concept blocks */
+        .concept {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .concept-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .concept-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .concept-icon.blue { background: rgba(59, 130, 246, 0.15); }
+        .concept-icon.green { background: rgba(34, 197, 94, 0.15); }
+        .concept-icon.purple { background: rgba(168, 85, 247, 0.15); }
+        .concept-icon.orange { background: rgba(249, 115, 22, 0.15); }
+
+        /* Principles list */
+        .principles {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .principle {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .principle-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .principle-text {
+            color: var(--text-secondary);
+        }
+
+        .principle-text strong {
+            color: var(--text-primary);
+        }
+
+        /* Fiber tree visualization */
+        .fiber-visual {
+            display: grid;
+            grid-template-columns: 1fr 60px 1fr;
+            gap: 1rem;
+            align-items: center;
+            margin: 2rem 0;
+        }
+
+        .fiber-box {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .fiber-box h4 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .fiber-box.current {
+            border-color: var(--accent-green);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.1);
+        }
+
+        .fiber-box.wip {
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.1);
+        }
+
+        .fiber-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        .fiber-arrow svg {
+            width: 40px;
+            height: 24px;
+        }
+
+        /* Code blocks */
+        .code-block {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .code-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .code-lang {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--accent-cyan);
+            background: rgba(6, 182, 212, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        pre {
+            padding: 1.25rem;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.8;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Syntax highlighting */
+        .keyword { color: #c678dd; }
+        .function { color: #61afef; }
+        .string { color: #98c379; }
+        .comment { color: #5c6370; font-style: italic; }
+        .variable { color: #e06c75; }
+        .operator { color: #56b6c2; }
+        .number { color: #d19a66; }
+        .component { color: #e5c07b; }
+        .hook { color: #61afef; }
+        .prop { color: #d19a66; }
+
+        /* Inline code */
+        p code, li code {
+            background: var(--bg-code);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.85em;
+            color: var(--accent-pink);
+        }
+
+        /* Comparison table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem 1.25rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table th {
+            background: var(--bg-secondary);
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            color: var(--text-secondary);
+        }
+
+        .comparison-table tr:hover td {
+            background: var(--bg-secondary);
+        }
+
+        /* Interview Q&A */
+        .qa-block {
+            margin-bottom: 2rem;
+        }
+
+        .question {
+            display: flex;
+            gap: 1rem;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
+            border: 1px solid var(--border);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .question-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.15);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            flex-shrink: 0;
+            height: fit-content;
+        }
+
+        .question-text {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .answer {
+            padding: 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .answer p {
+            margin-bottom: 0.75rem;
+        }
+
+        .answer p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Key points */
+        .key-points {
+            display: grid;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+
+        .key-point {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+        }
+
+        .key-point-icon {
+            color: var(--accent-green);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .key-point-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Mechanism cards grid */
+        .mechanism-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .mechanism-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .mechanism-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+
+        .mechanism-card h4 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .mechanism-card p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        .mechanism-card.blue { border-top: 3px solid var(--accent-blue); }
+        .mechanism-card.purple { border-top: 3px solid var(--accent-purple); }
+        .mechanism-card.green { border-top: 3px solid var(--accent-green); }
+        .mechanism-card.orange { border-top: 3px solid var(--accent-orange); }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Quick reference sticky */
+        .quick-ref {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 3rem 0;
+        }
+
+        .quick-ref h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .quick-ref-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .quick-ref-item {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .quick-ref-item code {
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            background: var(--bg-code);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .quick-ref-item span {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .fiber-visual {
+                grid-template-columns: 1fr;
+            }
+
+            .fiber-arrow {
+                transform: rotate(90deg);
+            }
+
+            .comparison-table {
+                font-size: 0.8rem;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <span class="badge">Interview Ready</span>
+            <h1>React Concurrency</h1>
+            <p class="subtitle">A comprehensive cheat sheet covering React Fiber, Diffing Algorithm, and Concurrent Features for technical interviews.</p>
+        </header>
+
+        <!-- Table of Contents -->
+        <nav class="toc">
+            <h2>Contents</h2>
+            <div class="toc-grid">
+                <a href="#diffing">Diffing Algorithm</a>
+                <a href="#fiber">React Fiber Architecture</a>
+                <a href="#concurrency">Concurrency Mechanisms</a>
+                <a href="#useTransition">useTransition()</a>
+                <a href="#useDeferredValue">useDeferredValue()</a>
+                <a href="#suspense">Suspense</a>
+                <a href="#batching">Automatic Batching</a>
+                <a href="#interview">Interview Q&A</a>
+            </div>
+        </nav>
+
+        <!-- Section 1: Diffing Algorithm -->
+        <section id="diffing">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2>Diffing Algorithm</h2>
+            </div>
+
+            <p>React's diffing algorithm (Reconciliation) determines the minimum number of operations to update the DOM. It operates on <strong>O(n)</strong> complexity using two key heuristics.</p>
+
+            <div class="principles">
+                <div class="principle">
+                    <span class="principle-number">01</span>
+                    <p class="principle-text"><strong>Different Element Types:</strong> If the parent element/component type changes, React will <strong>unmount the entire subtree</strong> and mount a new one. Children are not compared — they're destroyed and recreated.</p>
+                </div>
+                <div class="principle">
+                    <span class="principle-number">02</span>
+                    <p class="principle-text"><strong>Keys Identify Children:</strong> If the <code>key</code> of any child changes, React treats it as a <strong>completely new element</strong> and unmounts the old one. Keys help React track identity across re-renders.</p>
+                </div>
+            </div>
+
+            <div class="card card-accent orange">
+                <h3>💡 Why This Matters</h3>
+                <p>React assumes elements of different types will produce different trees. This heuristic lets React skip expensive deep comparisons and achieve near-linear performance on tree updates.</p>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Diffing in Action</span>
+                    <span class="code-lang">JSX</span>
+                </div>
+<pre><span class="comment">// ❌ Parent type changes: entire subtree unmounts</span>
+<span class="comment">// Before</span>
+&lt;<span class="component">div</span>&gt;&lt;<span class="component">Counter</span> /&gt;&lt;/<span class="component">div</span>&gt;
+<span class="comment">// After</span>
+&lt;<span class="component">section</span>&gt;&lt;<span class="component">Counter</span> /&gt;&lt;/<span class="component">section</span>&gt;  <span class="comment">// Counter is unmounted & remounted!</span>
+
+<span class="comment">// ❌ Key changes: component unmounts</span>
+&lt;<span class="component">UserCard</span> <span class="prop">key</span>=<span class="string">"user-1"</span> /&gt;
+&lt;<span class="component">UserCard</span> <span class="prop">key</span>=<span class="string">"user-2"</span> /&gt;  <span class="comment">// Complete remount, state lost</span>
+
+<span class="comment">// ✅ Same type, same key: React updates props, preserves state</span>
+&lt;<span class="component">UserCard</span> <span class="prop">key</span>=<span class="string">"user-1"</span> <span class="prop">name</span>=<span class="string">"Alice"</span> /&gt;
+&lt;<span class="component">UserCard</span> <span class="prop">key</span>=<span class="string">"user-1"</span> <span class="prop">name</span>=<span class="string">"Bob"</span> /&gt;  <span class="comment">// Only name prop updates</span></pre>
+            </div>
+        </section>
+
+        <!-- Section 2: React Fiber -->
+        <section id="fiber">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2>React Fiber Architecture</h2>
+            </div>
+
+            <p>Fiber is React's internal reconciliation engine introduced in React 16. It reimplements the core algorithm to enable <strong>incremental rendering</strong> — the ability to split work into chunks and spread it over multiple frames.</p>
+
+            <div class="card card-accent purple">
+                <h3>What is a Fiber?</h3>
+                <p>A Fiber is a <strong>JavaScript object</strong> that represents a unit of work. Each React element has a corresponding Fiber node containing:</p>
+                <div class="key-points">
+                    <div class="key-point">
+                        <span class="key-point-icon">→</span>
+                        <span class="key-point-text"><code>type</code> — Component function/class or DOM tag name</span>
+                    </div>
+                    <div class="key-point">
+                        <span class="key-point-icon">→</span>
+                        <span class="key-point-text"><code>key</code> — Unique identifier among siblings</span>
+                    </div>
+                    <div class="key-point">
+                        <span class="key-point-icon">→</span>
+                        <span class="key-point-text"><code>props</code> — Component props</span>
+                    </div>
+                    <div class="key-point">
+                        <span class="key-point-icon">→</span>
+                        <span class="key-point-text"><code>stateNode</code> — DOM node or class instance</span>
+                    </div>
+                    <div class="key-point">
+                        <span class="key-point-icon">→</span>
+                        <span class="key-point-text"><code>child</code>, <code>sibling</code>, <code>return</code> — Links to other fibers (tree structure)</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Double Buffering: Two Fiber Trees</h3>
+            <p>React maintains two fiber trees for efficient updates:</p>
+
+            <div class="fiber-visual">
+                <div class="fiber-box current">
+                    <h4>Current Fiber Tree</h4>
+                    <p style="color: var(--accent-green); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;">Currently rendered UI</p>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem;">What the user sees on screen</p>
+                </div>
+                <div class="fiber-arrow">
+                    <svg viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 12h28m0 0l-6-6m6 6l-6 6"/>
+                    </svg>
+                    <span>DIFF</span>
+                </div>
+                <div class="fiber-box wip">
+                    <h4>Work-in-Progress Tree</h4>
+                    <p style="color: var(--accent-orange); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;">Being constructed</p>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem;">Next version of the UI</p>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Simplified Fiber Node Structure</span>
+                    <span class="code-lang">JavaScript</span>
+                </div>
+<pre><span class="keyword">const</span> <span class="variable">fiberNode</span> <span class="operator">=</span> {
+  <span class="comment">// Identity</span>
+  <span class="prop">type</span>: <span class="component">MyComponent</span>,        <span class="comment">// Function, Class, or 'div', 'span', etc.</span>
+  <span class="prop">key</span>: <span class="string">'unique-key'</span>,
+  
+  <span class="comment">// Data</span>
+  <span class="prop">props</span>: { <span class="prop">name</span>: <span class="string">'Rajat'</span>, <span class="prop">count</span>: <span class="number">5</span> },
+  <span class="prop">memoizedState</span>: { <span class="comment">/* hooks state */</span> },
+  
+  <span class="comment">// Tree structure (linked list)</span>
+  <span class="prop">child</span>: <span class="variable">childFiber</span>,          <span class="comment">// First child</span>
+  <span class="prop">sibling</span>: <span class="variable">siblingFiber</span>,      <span class="comment">// Next sibling</span>
+  <span class="prop">return</span>: <span class="variable">parentFiber</span>,        <span class="comment">// Parent</span>
+  
+  <span class="comment">// Work tracking</span>
+  <span class="prop">alternate</span>: <span class="variable">currentFiber</span>,    <span class="comment">// Link to other tree version</span>
+  <span class="prop">effectTag</span>: <span class="string">'UPDATE'</span>,       <span class="comment">// What needs to happen (PLACEMENT, UPDATE, DELETION)</span>
+};</pre>
+            </div>
+
+            <div class="card card-accent green">
+                <h3>🔄 Reconciliation Process</h3>
+                <p style="margin-bottom: 0;">When state changes: (1) React builds a new WIP tree, (2) Compares it with the current tree (diffing), (3) Calculates necessary DOM operations, (4) Commits changes in a single batch, (5) WIP tree becomes the new current tree.</p>
+            </div>
+        </section>
+
+        <!-- Section 3: Concurrency Mechanisms -->
+        <section id="concurrency">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2>Concurrency Mechanisms</h2>
+            </div>
+
+            <p>React 18 introduced concurrent features that allow React to <strong>interrupt, pause, and resume rendering work</strong>. This keeps the UI responsive during expensive updates.</p>
+
+            <div class="mechanism-grid">
+                <div class="mechanism-card blue">
+                    <h4>useTransition()</h4>
+                    <p>Mark state updates as non-urgent. React keeps the UI responsive while processing in the background.</p>
+                </div>
+                <div class="mechanism-card purple">
+                    <h4>useDeferredValue()</h4>
+                    <p>Create a deferred version of a value that "lags behind" during heavy renders.</p>
+                </div>
+                <div class="mechanism-card green">
+                    <h4>Suspense</h4>
+                    <p>Declaratively handle loading states. Components can "suspend" while waiting for data.</p>
+                </div>
+                <div class="mechanism-card orange">
+                    <h4>Automatic Batching</h4>
+                    <p>Multiple state updates are batched into a single re-render, even in async code.</p>
+                </div>
+            </div>
+
+            <div class="card card-accent" style="border-left-color: var(--accent-cyan); margin-top: 2rem;">
+                <h3>💡 In Plain English</h3>
+                <p style="margin-bottom: 0.75rem;"><strong>useTransition:</strong> "Hey React, this update isn't urgent — do it later when you're free."</p>
+                <p style="margin-bottom: 0;"><strong>useDeferredValue:</strong> "Hey React, give me a copy of this value that can lag behind — I don't need it to be in sync immediately."</p>
+            </div>
+        </section>
+
+        <!-- Section 4: useTransition -->
+        <section id="useTransition">
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <h2>useTransition()</h2>
+            </div>
+
+            <p>Wraps state updates to mark them as <strong>non-urgent transitions</strong>. Urgent updates (like typing) won't be blocked by transition updates (like filtering a list).</p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">useTransition Example — Input + Expensive List Render</span>
+                    <span class="code-lang">JSX</span>
+                </div>
+<pre><span class="keyword">import</span> { <span class="variable">useState</span>, <span class="hook">useTransition</span>, <span class="variable">memo</span> } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">function</span> <span class="function">App</span>() {
+  <span class="keyword">const</span> [<span class="variable">text</span>, <span class="function">setText</span>] <span class="operator">=</span> <span class="hook">useState</span>(<span class="string">''</span>);
+  <span class="keyword">const</span> [<span class="variable">count</span>, <span class="function">setCount</span>] <span class="operator">=</span> <span class="hook">useState</span>(<span class="number">0</span>);
+  <span class="keyword">const</span> [<span class="variable">isPending</span>, <span class="function">startTransition</span>] <span class="operator">=</span> <span class="hook">useTransition</span>();
+
+  <span class="keyword">function</span> <span class="function">handleChange</span>(<span class="variable">e</span>) {
+    <span class="comment">// ⚡ URGENT: Update input immediately (user sees their typing)</span>
+    <span class="function">setText</span>(<span class="variable">e</span>.<span class="prop">target</span>.<span class="prop">value</span>);
+    
+    <span class="keyword">const</span> <span class="variable">len</span> <span class="operator">=</span> <span class="variable">e</span>.<span class="prop">target</span>.<span class="prop">value</span>.<span class="prop">length</span>;
+    
+    <span class="comment">// 🐢 NON-URGENT: List rendering can wait</span>
+    <span class="function">startTransition</span>(() <span class="operator">=></span> {
+      <span class="function">setCount</span>(<span class="variable">len</span>);
+    });
+  }
+
+  <span class="keyword">return</span> (
+    &lt;<span class="component">div</span>&gt;
+      &lt;<span class="component">input</span> <span class="prop">type</span>=<span class="string">"text"</span> <span class="prop">onChange</span>={<span class="function">handleChange</span>} <span class="prop">value</span>={<span class="variable">text</span>} /&gt;
+      {<span class="variable">isPending</span> <span class="operator">&&</span> &lt;<span class="component">span</span>&gt; Loading...&lt;/<span class="component">span</span>&gt;}
+      &lt;<span class="component">MemoizedList</span> <span class="prop">count</span>={<span class="variable">count</span>} /&gt;
+    &lt;/<span class="component">div</span>&gt;
+  );
+}
+
+<span class="comment">// Heavy child component — renders (count × 1000) items</span>
+<span class="keyword">function</span> <span class="function">List</span>({ <span class="variable">count</span> }) {
+  <span class="comment">// Simulate expensive computation</span>
+  <span class="keyword">let</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;
+  <span class="keyword">while</span> (<span class="variable">i</span> <span class="operator">&lt;</span> <span class="number">100000000</span>) { <span class="variable">i</span>++; }  <span class="comment">// Artificial delay</span>
+
+  <span class="keyword">return</span> (
+    &lt;<span class="component">ul</span>&gt;
+      {<span class="variable">Array</span>(<span class="variable">count</span> <span class="operator">*</span> <span class="number">1000</span>)
+        .<span class="function">fill</span>(<span class="number">0</span>)
+        .<span class="function">map</span>((<span class="variable">_</span>, <span class="variable">idx</span>) <span class="operator">=></span> &lt;<span class="component">li</span> <span class="prop">key</span>={<span class="variable">idx</span>}&gt;Item {<span class="variable">idx</span> + <span class="number">1</span>}&lt;/<span class="component">li</span>&gt;)}
+    &lt;/<span class="component">ul</span>&gt;
+  );
+}
+
+<span class="keyword">const</span> <span class="variable">MemoizedList</span> <span class="operator">=</span> <span class="function">memo</span>(<span class="variable">List</span>);</pre>
+            </div>
+
+            <div class="card card-accent green">
+                <h3>🔍 What's Happening Here?</h3>
+                <p style="margin-bottom: 0.5rem;"><strong>Type "hello" (5 characters)</strong> → List renders <code>5 × 1000 = 5,000</code> items</p>
+                <p style="margin-bottom: 0.5rem;"><strong>Without useTransition:</strong> Input freezes while List computes & renders</p>
+                <p style="margin-bottom: 0;"><strong>With useTransition:</strong> Input stays responsive, List updates in background</p>
+            </div>
+
+            <div class="key-points">
+                <div class="key-point">
+                    <span class="key-point-icon">✓</span>
+                    <span class="key-point-text"><code>setText</code> — Urgent update, runs immediately (input stays responsive)</span>
+                </div>
+                <div class="key-point">
+                    <span class="key-point-icon">✓</span>
+                    <span class="key-point-text"><code>setCount</code> inside <code>startTransition</code> — Non-urgent, React can interrupt this</span>
+                </div>
+                <div class="key-point">
+                    <span class="key-point-icon">✓</span>
+                    <span class="key-point-text"><code>isPending</code> — Shows loading indicator while heavy list renders</span>
+                </div>
+                <div class="key-point">
+                    <span class="key-point-icon">✓</span>
+                    <span class="key-point-text"><code>memo(List)</code> — Prevents re-render when only <code>text</code> changes</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: useDeferredValue -->
+        <section id="useDeferredValue">
+            <div class="section-header">
+                <span class="section-number">05</span>
+                <h2>useDeferredValue()</h2>
+            </div>
+
+            <p>Creates a <strong>deferred copy of a value</strong> that "lags behind" during urgent updates. Useful when you don't control the state setter (e.g., receiving props).</p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">useDeferredValue Example — Same Pattern, Simpler Syntax</span>
+                    <span class="code-lang">JSX</span>
+                </div>
+<pre><span class="keyword">import</span> { <span class="variable">useState</span>, <span class="hook">useDeferredValue</span>, <span class="variable">memo</span> } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">function</span> <span class="function">App</span>() {
+  <span class="keyword">const</span> [<span class="variable">text</span>, <span class="function">setText</span>] <span class="operator">=</span> <span class="hook">useState</span>(<span class="string">''</span>);
+  
+  <span class="comment">// 🔄 deferredText lags behind during heavy renders</span>
+  <span class="keyword">const</span> <span class="variable">deferredText</span> <span class="operator">=</span> <span class="hook">useDeferredValue</span>(<span class="variable">text</span>);
+  
+  <span class="comment">// Check if we're showing stale data</span>
+  <span class="keyword">const</span> <span class="variable">isStale</span> <span class="operator">=</span> <span class="variable">text</span> <span class="operator">!==</span> <span class="variable">deferredText</span>;
+
+  <span class="keyword">return</span> (
+    &lt;<span class="component">div</span>&gt;
+      &lt;<span class="component">input</span>
+        <span class="prop">type</span>=<span class="string">"text"</span>
+        <span class="prop">value</span>={<span class="variable">text</span>}
+        <span class="prop">onChange</span>={(<span class="variable">e</span>) <span class="operator">=></span> <span class="function">setText</span>(<span class="variable">e</span>.<span class="prop">target</span>.<span class="prop">value</span>)}
+      /&gt;
+      
+      <span class="comment">{/* Show what user typed — fades when stale */}</span>
+      &lt;<span class="component">p</span> <span class="prop">style</span>={{ <span class="prop">opacity</span>: <span class="variable">isStale</span> ? <span class="number">0.4</span> : <span class="number">1</span> }}&gt;
+        Showing results for: "<span class="variable">{deferredText}</span>"
+      &lt;/<span class="component">p</span>&gt;
+      
+      <span class="comment">{/* List uses deferred value — renders count × 1000 items */}</span>
+      &lt;<span class="component">div</span> <span class="prop">style</span>={{ <span class="prop">opacity</span>: <span class="variable">isStale</span> ? <span class="number">0.4</span> : <span class="number">1</span> }}&gt;
+        &lt;<span class="component">MemoizedList</span> <span class="prop">count</span>={<span class="variable">deferredText</span>.<span class="prop">length</span>} /&gt;
+      &lt;/<span class="component">div</span>&gt;
+    &lt;/<span class="component">div</span>&gt;
+  );
+}
+
+<span class="comment">// Same heavy child component from useTransition example</span>
+<span class="keyword">function</span> <span class="function">List</span>({ <span class="variable">count</span> }) {
+  <span class="keyword">let</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;
+  <span class="keyword">while</span> (<span class="variable">i</span> <span class="operator">&lt;</span> <span class="number">100000000</span>) { <span class="variable">i</span>++; }
+
+  <span class="keyword">return</span> (
+    &lt;<span class="component">ul</span>&gt;
+      {<span class="variable">Array</span>(<span class="variable">count</span> <span class="operator">*</span> <span class="number">1000</span>)
+        .<span class="function">fill</span>(<span class="number">0</span>)
+        .<span class="function">map</span>((<span class="variable">_</span>, <span class="variable">idx</span>) <span class="operator">=></span> &lt;<span class="component">li</span> <span class="prop">key</span>={<span class="variable">idx</span>}&gt;Item {<span class="variable">idx</span> + <span class="number">1</span>}&lt;/<span class="component">li</span>&gt;)}
+    &lt;/<span class="component">ul</span>&gt;
+  );
+}
+
+<span class="keyword">const</span> <span class="variable">MemoizedList</span> <span class="operator">=</span> <span class="function">memo</span>(<span class="variable">List</span>);</pre>
+            </div>
+
+            <div class="card card-accent purple">
+                <h3>🔍 Visual Feedback with Opacity</h3>
+                <p style="margin-bottom: 0.5rem;"><strong>User types fast:</strong> <code>text</code> updates instantly, <code>deferredText</code> lags behind</p>
+                <p style="margin-bottom: 0.5rem;"><strong>While stale:</strong> <code>isStale = true</code> → UI fades to 40% opacity</p>
+                <p style="margin-bottom: 0;"><strong>When caught up:</strong> <code>isStale = false</code> → UI returns to full opacity</p>
+            </div>
+
+            <div class="key-points">
+                <div class="key-point">
+                    <span class="key-point-icon">✓</span>
+                    <span class="key-point-text">No need to split state — just wrap the value with <code>useDeferredValue</code></span>
+                </div>
+                <div class="key-point">
+                    <span class="key-point-icon">✓</span>
+                    <span class="key-point-text"><code>text !== deferredText</code> tells you when showing stale data</span>
+                </div>
+                <div class="key-point">
+                    <span class="key-point-icon">✓</span>
+                    <span class="key-point-text">Reduced opacity provides visual feedback without a loading spinner</span>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <h3>useTransition vs useDeferredValue</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>useTransition</th>
+                        <th>useDeferredValue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>What it wraps</strong></td>
+                        <td>State <em>setter</em> function</td>
+                        <td>State <em>value</em></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Use when</strong></td>
+                        <td>You control the state update</td>
+                        <td>You receive a prop or can't wrap setter</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pending indicator</strong></td>
+                        <td><code>isPending</code> boolean</td>
+                        <td>Compare <code>value !== deferredValue</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Syntax</strong></td>
+                        <td><code>startTransition(() => setState(x))</code></td>
+                        <td><code>const deferred = useDeferredValue(value)</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section 6: Suspense -->
+        <section id="suspense">
+            <div class="section-header">
+                <span class="section-number">06</span>
+                <h2>Suspense</h2>
+            </div>
+
+            <p>Suspense lets components "wait" for something (typically data) before rendering, showing a fallback UI in the meantime. Works with Suspense-enabled libraries like React Query, Relay, or Next.js.</p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Suspense for Data Fetching</span>
+                    <span class="code-lang">JSX</span>
+                </div>
+<pre><span class="keyword">import</span> { <span class="component">Suspense</span> } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">function</span> <span class="function">App</span>() {
+  <span class="keyword">return</span> (
+    &lt;<span class="component">div</span>&gt;
+      &lt;<span class="component">h1</span>&gt;User Dashboard&lt;/<span class="component">h1</span>&gt;
+      
+      <span class="comment">{/* Each Suspense boundary shows its own fallback */}</span>
+      &lt;<span class="component">Suspense</span> <span class="prop">fallback</span>={&lt;<span class="component">ProfileSkeleton</span> /&gt;}&gt;
+        &lt;<span class="component">UserProfile</span> /&gt;
+      &lt;/<span class="component">Suspense</span>&gt;
+      
+      &lt;<span class="component">Suspense</span> <span class="prop">fallback</span>={&lt;<span class="component">PostsSkeleton</span> /&gt;}&gt;
+        &lt;<span class="component">UserPosts</span> /&gt;
+      &lt;/<span class="component">Suspense</span>&gt;
+    &lt;/<span class="component">div</span>&gt;
+  );
+}
+
+<span class="comment">// UserProfile uses a Suspense-enabled data source</span>
+<span class="comment">// When data isn't ready, it "suspends" (throws a promise)</span>
+<span class="comment">// React catches this and shows the fallback</span></pre>
+            </div>
+
+            <div class="card card-accent blue">
+                <h3>Suspense + useTransition</h3>
+                <p style="margin-bottom: 0;">When navigating between pages, combine Suspense with <code>useTransition</code> to keep the old UI visible while the new page loads, instead of showing a loading spinner.</p>
+            </div>
+        </section>
+
+        <!-- Section 7: Automatic Batching -->
+        <section id="batching">
+            <div class="section-header">
+                <span class="section-number">07</span>
+                <h2>Automatic Batching</h2>
+            </div>
+
+            <p>React 18 automatically batches multiple state updates into a <strong>single re-render</strong>, even inside promises, timeouts, and native event handlers.</p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Automatic Batching in Action</span>
+                    <span class="code-lang">JSX</span>
+                </div>
+<pre><span class="keyword">function</span> <span class="function">Counter</span>() {
+  <span class="keyword">const</span> [<span class="variable">count</span>, <span class="function">setCount</span>] <span class="operator">=</span> <span class="hook">useState</span>(<span class="number">0</span>);
+  <span class="keyword">const</span> [<span class="variable">flag</span>, <span class="function">setFlag</span>] <span class="operator">=</span> <span class="hook">useState</span>(<span class="keyword">false</span>);
+
+  <span class="comment">// ✅ React 18: ONE re-render (batched)</span>
+  <span class="keyword">const</span> <span class="function">handleClick</span> <span class="operator">=</span> () <span class="operator">=></span> {
+    <span class="function">setCount</span>(<span class="variable">c</span> <span class="operator">=></span> <span class="variable">c</span> + <span class="number">1</span>);  <span class="comment">// Does not re-render yet</span>
+    <span class="function">setFlag</span>(<span class="variable">f</span> <span class="operator">=></span> !<span class="variable">f</span>);        <span class="comment">// Does not re-render yet</span>
+    <span class="comment">// React batches and re-renders ONCE</span>
+  };
+
+  <span class="comment">// ✅ React 18: ALSO batched (new in React 18!)</span>
+  <span class="keyword">const</span> <span class="function">handleAsync</span> <span class="operator">=</span> () <span class="operator">=></span> {
+    <span class="function">fetch</span>(<span class="string">'/api/data'</span>).<span class="function">then</span>(() <span class="operator">=></span> {
+      <span class="function">setCount</span>(<span class="variable">c</span> <span class="operator">=></span> <span class="variable">c</span> + <span class="number">1</span>);  <span class="comment">// Batched together</span>
+      <span class="function">setFlag</span>(<span class="variable">f</span> <span class="operator">=></span> !<span class="variable">f</span>);        <span class="comment">// Single re-render</span>
+    });
+  };
+
+  <span class="comment">// ✅ React 18: Timeouts are batched too</span>
+  <span class="keyword">const</span> <span class="function">handleTimeout</span> <span class="operator">=</span> () <span class="operator">=></span> {
+    <span class="function">setTimeout</span>(() <span class="operator">=></span> {
+      <span class="function">setCount</span>(<span class="variable">c</span> <span class="operator">=></span> <span class="variable">c</span> + <span class="number">1</span>);
+      <span class="function">setFlag</span>(<span class="variable">f</span> <span class="operator">=></span> !<span class="variable">f</span>);
+      <span class="comment">// Still batched in React 18!</span>
+    }, <span class="number">1000</span>);
+  };
+
+  <span class="keyword">return</span> &lt;<span class="component">button</span> <span class="prop">onClick</span>={<span class="function">handleClick</span>}&gt;{<span class="variable">count</span>}&lt;/<span class="component">button</span>&gt;;
+}</pre>
+            </div>
+
+            <div class="card card-accent orange">
+                <h3>⚠️ Opting Out of Batching</h3>
+                <p style="margin-bottom: 0;">In rare cases where you need immediate re-renders, use <code>flushSync</code> from <code>react-dom</code>:</p>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Force Immediate Re-render</span>
+                    <span class="code-lang">JSX</span>
+                </div>
+<pre><span class="keyword">import</span> { <span class="variable">flushSync</span> } <span class="keyword">from</span> <span class="string">'react-dom'</span>;
+
+<span class="keyword">function</span> <span class="function">handleClick</span>() {
+  <span class="function">flushSync</span>(() <span class="operator">=></span> {
+    <span class="function">setCount</span>(<span class="variable">c</span> <span class="operator">=></span> <span class="variable">c</span> + <span class="number">1</span>);
+  });
+  <span class="comment">// DOM is updated here</span>
+  
+  <span class="function">flushSync</span>(() <span class="operator">=></span> {
+    <span class="function">setFlag</span>(<span class="variable">f</span> <span class="operator">=></span> !<span class="variable">f</span>);
+  });
+  <span class="comment">// DOM is updated again</span>
+}</pre>
+            </div>
+        </section>
+
+        <!-- Quick Reference -->
+        <div class="quick-ref">
+            <h3>⚡ Quick Reference</h3>
+            <div class="quick-ref-grid">
+                <div class="quick-ref-item">
+                    <code>useTransition()</code>
+                    <span>Wrap state setters for non-urgent updates</span>
+                </div>
+                <div class="quick-ref-item">
+                    <code>useDeferredValue()</code>
+                    <span>Defer a value when you can't wrap the setter</span>
+                </div>
+                <div class="quick-ref-item">
+                    <code>isPending</code>
+                    <span>Show loading UI during transitions</span>
+                </div>
+                <div class="quick-ref-item">
+                    <code>&lt;Suspense&gt;</code>
+                    <span>Declarative loading boundaries</span>
+                </div>
+                <div class="quick-ref-item">
+                    <code>flushSync()</code>
+                    <span>Force synchronous re-render (escape hatch)</span>
+                </div>
+                <div class="quick-ref-item">
+                    <code>key</code>
+                    <span>Reset component state by changing key</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 8: Interview Q&A -->
+        <section id="interview">
+            <div class="section-header">
+                <span class="section-number">08</span>
+                <h2>Interview Questions</h2>
+            </div>
+
+            <div class="qa-block">
+                <div class="question">
+                    <span class="question-badge">Q</span>
+                    <p class="question-text">What is React Fiber and why was it introduced?</p>
+                </div>
+                <div class="answer">
+                    <p>Fiber is React's reconciliation engine (React 16+). It's a complete rewrite of React's core algorithm that enables <strong>incremental rendering</strong> — splitting rendering work into chunks.</p>
+                    <p>Each Fiber is a JavaScript object representing a unit of work with component info (type, key, props, children) and links to parent/child/sibling fibers.</p>
+                    <p>Key benefit: React can now <strong>pause, abort, or reuse work</strong>, and assign different priorities to different types of updates. This is the foundation for all concurrent features.</p>
+                </div>
+            </div>
+
+            <div class="qa-block">
+                <div class="question">
+                    <span class="question-badge">Q</span>
+                    <p class="question-text">What's the difference between useTransition and useDeferredValue?</p>
+                </div>
+                <div class="answer">
+                    <p><code>useTransition</code> wraps the state <em>setter</em> — you use it when you control where the state is updated. It returns <code>isPending</code> for loading indicators.</p>
+                    <p><code>useDeferredValue</code> wraps the <em>value</em> itself — use it when you receive data as props or can't control the setter. You detect staleness by comparing <code>value !== deferredValue</code>.</p>
+                    <p>Both achieve the same goal: keeping urgent updates (typing) responsive while deferring expensive work.</p>
+                </div>
+            </div>
+
+            <div class="qa-block">
+                <div class="question">
+                    <span class="question-badge">Q</span>
+                    <p class="question-text">Does concurrent rendering make React faster?</p>
+                </div>
+                <div class="answer">
+                    <p>Not in terms of total work — the same computations still happen. Concurrent rendering makes the UI <strong>feel faster</strong> by ensuring high-priority updates (user input) never wait behind low-priority updates (rendering large lists).</p>
+                    <p>It's about <strong>responsiveness</strong>, not raw speed. The user never experiences lag while typing, even if expensive work is happening in the background.</p>
+                </div>
+            </div>
+
+            <div class="qa-block">
+                <div class="question">
+                    <span class="question-badge">Q</span>
+                    <p class="question-text">Explain the two principles of React's diffing algorithm.</p>
+                </div>
+                <div class="answer">
+                    <p><strong>1. Different element types produce different trees:</strong> If a parent element changes type (e.g., <code>&lt;div&gt;</code> to <code>&lt;section&gt;</code>), React unmounts the entire subtree and rebuilds it. No comparison of children happens.</p>
+                    <p><strong>2. Keys identify elements across renders:</strong> When a <code>key</code> changes, React treats the element as completely new — it unmounts the old one and mounts a fresh instance with fresh state.</p>
+                    <p>These heuristics let React achieve O(n) complexity instead of O(n³) for tree comparison.</p>
+                </div>
+            </div>
+
+            <div class="qa-block">
+                <div class="question">
+                    <span class="question-badge">Q</span>
+                    <p class="question-text">What is automatic batching in React 18?</p>
+                </div>
+                <div class="answer">
+                    <p>React 18 automatically groups multiple state updates into a single re-render, even inside promises, timeouts, and native event handlers.</p>
+                    <p>Before React 18, only updates inside React event handlers were batched. Now batching works everywhere, improving performance by default.</p>
+                    <p>Use <code>flushSync()</code> from <code>react-dom</code> if you need to opt out and force immediate re-renders.</p>
+                </div>
+            </div>
+
+            <div class="qa-block">
+                <div class="question">
+                    <span class="question-badge">Q</span>
+                    <p class="question-text">What are the two Fiber trees and how do they work together?</p>
+                </div>
+                <div class="answer">
+                    <p>React maintains two fiber trees using a technique called <strong>double buffering</strong>:</p>
+                    <p><strong>Current tree:</strong> Represents the UI currently rendered on screen.</p>
+                    <p><strong>Work-in-Progress (WIP) tree:</strong> The tree being built during reconciliation.</p>
+                    <p>When a re-render completes, the WIP tree becomes the current tree, and the old current tree becomes available for reuse. The <code>alternate</code> property on each fiber links it to its counterpart in the other tree.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>React Concurrency Cheat Sheet — Interview Ready • Last updated 2025</p>
+        </footer>
+    </div>
+</body>
+</html>

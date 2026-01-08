@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Long Polling</h1>
+</body>
+<script>
+   async function fetchData(messageId){
+    const res = await fetch(`http://localhost:3002/get?id=${messageId}`)
+    const data = await res.json()
+    console.log("data::::", data)
+    fetchData(data.todos.messageId)
+  }
+  fetchData()
+</script>
+</html>

@@ -1,19 +1,16 @@
 {
-  "type": "module",
-  "name": "grpc",
+  "name": "rest",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "client": "nodemon ./client/index.js",
-    "server": "nodemon ./server/index.js",
+    "start": "nodemon /index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "type": "module",
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@grpc/grpc-js": "^1.14.3",
-    "@grpc/proto-loader": "^0.8.0",
     "express": "^5.2.1",
     "nodemon": "^3.1.11"
   }
