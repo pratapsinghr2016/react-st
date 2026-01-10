@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TypeScript Interview Cheat Sheet</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #e4e4e4;
+      line-height: 1.6;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 0;
+      border-bottom: 2px solid #3498db;
+      margin-bottom: 40px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      color: #3498db;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      color: #888;
+      font-size: 1.1rem;
+    }
+
+    .toc {
+      background: rgba(52, 152, 219, 0.1);
+      border: 1px solid #3498db;
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 40px;
+    }
+
+    .toc h2 {
+      color: #3498db;
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+    }
+
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }
+
+    .toc a {
+      color: #e4e4e4;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+      display: block;
+    }
+
+    .toc a:hover {
+      background: rgba(52, 152, 219, 0.2);
+      color: #3498db;
+    }
+
+    .section {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .section h2 {
+      color: #3498db;
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(52, 152, 219, 0.3);
+    }
+
+    .section h3 {
+      color: #2ecc71;
+      font-size: 1.3rem;
+      margin: 25px 0 15px 0;
+    }
+
+    .problem-box {
+      background: rgba(231, 76, 60, 0.1);
+      border-left: 4px solid #e74c3c;
+      padding: 15px 20px;
+      margin: 15px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .problem-box h4 {
+      color: #e74c3c;
+      margin-bottom: 8px;
+    }
+
+    .solution-box {
+      background: rgba(46, 204, 113, 0.1);
+      border-left: 4px solid #2ecc71;
+      padding: 15px 20px;
+      margin: 15px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .solution-box h4 {
+      color: #2ecc71;
+      margin-bottom: 8px;
+    }
+
+    pre {
+      background: #0d1117;
+      border-radius: 8px;
+      padding: 20px;
+      overflow-x: auto;
+      margin: 15px 0;
+      border: 1px solid #30363d;
+    }
+
+    code {
+      font-family: 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9rem;
+      color: #c9d1d9;
+    }
+
+    .keyword { color: #ff7b72; }
+    .type { color: #79c0ff; }
+    .string { color: #a5d6ff; }
+    .comment { color: #8b949e; }
+    .function { color: #d2a8ff; }
+    .number { color: #79c0ff; }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 12px 15px;
+      text-align: left;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .comparison-table th {
+      background: rgba(52, 152, 219, 0.2);
+      color: #3498db;
+    }
+
+    .comparison-table tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .tip {
+      background: rgba(241, 196, 15, 0.1);
+      border-left: 4px solid #f1c40f;
+      padding: 15px 20px;
+      margin: 15px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .tip strong {
+      color: #f1c40f;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      margin-right: 5px;
+    }
+
+    .badge-use { background: #2ecc71; color: #fff; }
+    .badge-avoid { background: #e74c3c; color: #fff; }
+    .badge-info { background: #3498db; color: #fff; }
+
+    .summary-card {
+      background: rgba(52, 152, 219, 0.1);
+      border: 1px solid #3498db;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .summary-card h4 {
+      color: #3498db;
+      margin-bottom: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #666;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 40px;
+    }
+
+    @media (max-width: 768px) {
+      header h1 { font-size: 1.8rem; }
+      .section { padding: 20px; }
+      pre { padding: 15px; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📘 TypeScript Interview Cheat Sheet</h1>
+      <p>Essential concepts with problems, solutions & examples</p>
+    </header>
+
+    <nav class="toc">
+      <h2>📑 Table of Contents</h2>
+      <div class="toc-grid">
+        <a href="#type-vs-interface">1. Type vs Interface</a>
+        <a href="#generics">2. Generics</a>
+        <a href="#utility-types">3. Utility Types</a>
+        <a href="#type-guards">4. Type Guards</a>
+        <a href="#union-intersection">5. Union & Intersection</a>
+        <a href="#keyof-typeof">6. keyof & typeof</a>
+        <a href="#enums-const">7. Enums vs Const Assertions</a>
+        <a href="#discriminated-unions">8. Discriminated Unions</a>
+        <a href="#type-assertions">9. Type Assertions</a>
+        <a href="#unknown-vs-any">10. unknown vs any</a>
+        <a href="#additional-topics">11. Additional Topics</a>
+      </div>
+    </nav>
+
+    <!-- Section 1: Type vs Interface -->
+    <section class="section" id="type-vs-interface">
+      <h2>1. Type vs Interface</h2>
+      
+      <p>Both define the shape of data, but with different capabilities.</p>
+
+      <h3>Interface</h3>
+      <p>A contract for object shapes. Can be extended and merged.</p>
+      <pre><code><span class="keyword">interface</span> <span class="type">User</span> {
+  name: <span class="type">string</span>;
+  age: <span class="type">number</span>;
+}
+
+<span class="comment">// Extension</span>
+<span class="keyword">interface</span> <span class="type">Employee</span> <span class="keyword">extends</span> <span class="type">User</span> {
+  role: <span class="type">string</span>;
+}
+
+<span class="comment">// Declaration merging (same name = auto-merged)</span>
+<span class="keyword">interface</span> <span class="type">User</span> {
+  email: <span class="type">string</span>;
+}
+<span class="comment">// Now User has: name, age, email</span></code></pre>
+
+      <h3>Type</h3>
+      <p>An alias for any type. More flexible - unions, primitives, tuples.</p>
+      <pre><code><span class="keyword">type</span> <span class="type">ID</span> = <span class="type">string</span> | <span class="type">number</span>;  <span class="comment">// Union - can't do with interface</span>
+
+<span class="keyword">type</span> <span class="type">User</span> = {
+  name: <span class="type">string</span>;
+  age: <span class="type">number</span>;
+};
+
+<span class="comment">// Extension via intersection</span>
+<span class="keyword">type</span> <span class="type">Employee</span> = <span class="type">User</span> & { role: <span class="type">string</span> };
+
+<span class="comment">// Tuples</span>
+<span class="keyword">type</span> <span class="type">Coordinates</span> = [<span class="type">number</span>, <span class="type">number</span>];</code></pre>
+
+      <table class="comparison-table">
+        <tr>
+          <th>Use Interface</th>
+          <th>Use Type</th>
+        </tr>
+        <tr>
+          <td>Object shapes</td>
+          <td>Unions (<code>string | number</code>)</td>
+        </tr>
+        <tr>
+          <td>Class contracts</td>
+          <td>Tuples</td>
+        </tr>
+        <tr>
+          <td>Declaration merging needed</td>
+          <td>Primitive aliases</td>
+        </tr>
+        <tr>
+          <td>Public API definitions</td>
+          <td>Complex type transformations</td>
+        </tr>
+      </table>
+
+      <div class="summary-card">
+        <h4>🎯 Quick Rule</h4>
+        <p><strong>Interface</strong> for objects you might extend. <strong>Type</strong> for everything else.</p>
+      </div>
+    </section>
+
+    <!-- Section 2: Generics -->
+    <section class="section" id="generics">
+      <h2>2. Generics</h2>
+      
+      <p>Type placeholders - "I don't know the exact type yet, but whatever type comes in, use that same type throughout."</p>
+
+      <div class="problem-box">
+        <h4>❌ The Problem</h4>
+        <pre><code><span class="keyword">function</span> <span class="function">getFirstItem</span>(arr: <span class="type">any</span>[]): <span class="type">any</span> {
+  <span class="keyword">return</span> arr[<span class="number">0</span>];
+}
+
+<span class="keyword">const</span> num = <span class="function">getFirstItem</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);  <span class="comment">// num is 'any' 😕</span>
+num.<span class="function">toUpperCase</span>();  <span class="comment">// No error, but crashes at runtime!</span></code></pre>
+      </div>
+
+      <div class="solution-box">
+        <h4>✅ The Solution - Generics</h4>
+        <pre><code><span class="keyword">function</span> <span class="function">getFirstItem</span>&lt;<span class="type">T</span>&gt;(arr: <span class="type">T</span>[]): <span class="type">T</span> {
+  <span class="keyword">return</span> arr[<span class="number">0</span>];
+}
+
+<span class="keyword">const</span> num = <span class="function">getFirstItem</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);  <span class="comment">// num is 'number' ✅</span>
+<span class="keyword">const</span> str = <span class="function">getFirstItem</span>([<span class="string">'a'</span>, <span class="string">'b'</span>]);  <span class="comment">// str is 'string' ✅</span>
+
+num.<span class="function">toUpperCase</span>();  <span class="comment">// ❌ Error! TypeScript knows num is number</span></code></pre>
+      </div>
+
+      <h3>Syntax Breakdown</h3>
+      <pre><code><span class="keyword">function</span> <span class="function">myFunction</span>&lt;<span class="type">T</span>&gt;(param: <span class="type">T</span>): <span class="type">T</span> { }
+<span class="comment">//                 ↑        ↑     ↑</span>
+<span class="comment">//          declare it   use it  return it</span></code></pre>
+
+      <h3>Common Examples</h3>
+      <pre><code><span class="comment">// Identity function</span>
+<span class="keyword">function</span> <span class="function">identity</span>&lt;<span class="type">T</span>&gt;(value: <span class="type">T</span>): <span class="type">T</span> {
+  <span class="keyword">return</span> value;
+}
+
+<span class="comment">// Multiple type parameters</span>
+<span class="keyword">function</span> <span class="function">swap</span>&lt;<span class="type">T</span>, <span class="type">U</span>&gt;(pair: [<span class="type">T</span>, <span class="type">U</span>]): [<span class="type">U</span>, <span class="type">T</span>] {
+  <span class="keyword">return</span> [pair[<span class="number">1</span>], pair[<span class="number">0</span>]];
+}
+
+<span class="comment">// Generic interface</span>
+<span class="keyword">interface</span> <span class="type">ApiResponse</span>&lt;<span class="type">T</span>&gt; {
+  data: <span class="type">T</span>;
+  success: <span class="type">boolean</span>;
+}
+
+<span class="comment">// With constraints</span>
+<span class="keyword">function</span> <span class="function">logLength</span>&lt;<span class="type">T</span> <span class="keyword">extends</span> { length: <span class="type">number</span> }&gt;(item: <span class="type">T</span>): <span class="type">void</span> {
+  console.<span class="function">log</span>(item.length);
+}</code></pre>
+
+      <div class="summary-card">
+        <h4>🎯 When to Use</h4>
+        <p>• Function works with multiple types<br>
+        • You want to preserve type info<br>
+        • Building reusable components<br>
+        • Relating input type to output type</p>
+      </div>
+    </section>
+
+    <!-- Section 3: Utility Types -->
+    <section class="section" id="utility-types">
+      <h2>3. Utility Types</h2>
+      
+      <p>Built-in helper tools that transform one type into another.</p>
+
+      <div class="problem-box">
+        <h4>❌ The Problem - Repetitive Type Definitions</h4>
+        <pre><code><span class="keyword">interface</span> <span class="type">User</span> { id: <span class="type">number</span>; name: <span class="type">string</span>; email: <span class="type">string</span>; password: <span class="type">string</span>; }
+
+<span class="comment">// Do I need to write these manually? 😩</span>
+<span class="keyword">interface</span> <span class="type">UpdateUser</span> { id?: <span class="type">number</span>; name?: <span class="type">string</span>; ... }
+<span class="keyword">interface</span> <span class="type">DisplayUser</span> { id: <span class="type">number</span>; name: <span class="type">string</span>; email: <span class="type">string</span>; }</code></pre>
+      </div>
+
+      <div class="solution-box">
+        <h4>✅ The Solution - Utility Types</h4>
+        <pre><code><span class="keyword">type</span> <span class="type">UpdateUser</span> = <span class="type">Partial</span>&lt;<span class="type">User</span>&gt;;           <span class="comment">// All fields optional</span>
+<span class="keyword">type</span> <span class="type">DisplayUser</span> = <span class="type">Omit</span>&lt;<span class="type">User</span>, <span class="string">'password'</span>&gt;; <span class="comment">// Everything except password</span></code></pre>
+      </div>
+
+      <h3>1. Partial&lt;T&gt; - Make All Optional</h3>
+      <pre><code><span class="keyword">type</span> <span class="type">UpdateUser</span> = <span class="type">Partial</span>&lt;<span class="type">User</span>&gt;;
+<span class="comment">// { id?: number; name?: string; email?: string; }</span>
+
+<span class="comment">// Use: Update functions</span>
+<span class="function">updateUser</span>(<span class="number">1</span>, { name: <span class="string">'Rajat'</span> });  <span class="comment">// ✅ Only pass what you need</span></code></pre>
+
+      <h3>2. Required&lt;T&gt; - Make All Required</h3>
+      <pre><code><span class="keyword">interface</span> <span class="type">Config</span> { host?: <span class="type">string</span>; port?: <span class="type">number</span>; }
+
+<span class="keyword">type</span> <span class="type">FullConfig</span> = <span class="type">Required</span>&lt;<span class="type">Config</span>&gt;;
+<span class="comment">// { host: string; port: number }</span>
+
+<span class="comment">// Use: After merging with defaults</span></code></pre>
+
+      <h3>3. Readonly&lt;T&gt; - Can't Modify</h3>
+      <pre><code><span class="keyword">type</span> <span class="type">FrozenUser</span> = <span class="type">Readonly</span>&lt;<span class="type">User</span>&gt;;
+
+<span class="keyword">const</span> user: <span class="type">FrozenUser</span> = { name: <span class="string">'Rajat'</span>, age: <span class="number">28</span> };
+user.name = <span class="string">'John'</span>;  <span class="comment">// ❌ Error! Cannot modify</span></code></pre>
+
+      <h3>4. Pick&lt;T, Keys&gt; - Keep Only These</h3>
+      <pre><code><span class="keyword">type</span> <span class="type">UserPreview</span> = <span class="type">Pick</span>&lt;<span class="type">User</span>, <span class="string">'id'</span> | <span class="string">'name'</span>&gt;;
+<span class="comment">// { id: number; name: string }</span>
+
+<span class="comment">// Use: When you need subset of fields</span></code></pre>
+
+      <h3>5. Omit&lt;T, Keys&gt; - Remove These</h3>
+      <pre><code><span class="keyword">type</span> <span class="type">SafeUser</span> = <span class="type">Omit</span>&lt;<span class="type">User</span>, <span class="string">'password'</span>&gt;;
+<span class="comment">// Everything except password</span>
+
+<span class="comment">// Use: Hide sensitive fields from API response</span></code></pre>
+
+      <h3>6. Record&lt;Keys, Type&gt; - Create Object Type</h3>
+      <pre><code><span class="keyword">type</span> <span class="type">Scores</span> = <span class="type">Record</span>&lt;<span class="type">string</span>, <span class="type">number</span>&gt;;
+<span class="comment">// { [key: string]: number }</span>
+
+<span class="keyword">const</span> scores: <span class="type">Scores</span> = { math: <span class="number">95</span>, english: <span class="number">88</span> };
+
+<span class="comment">// With specific keys</span>
+<span class="keyword">type</span> <span class="type">Status</span> = <span class="string">'pending'</span> | <span class="string">'approved'</span>;
+<span class="keyword">type</span> <span class="type">StatusColors</span> = <span class="type">Record</span>&lt;<span class="type">Status</span>, <span class="type">string</span>&gt;;</code></pre>
+
+      <table class="comparison-table">
+        <tr>
+          <th>Utility</th>
+          <th>What it does</th>
+          <th>Example</th>
+        </tr>
+        <tr>
+          <td><code>Partial&lt;T&gt;</code></td>
+          <td>All properties optional</td>
+          <td><code>Partial&lt;User&gt;</code></td>
+        </tr>
+        <tr>
+          <td><code>Required&lt;T&gt;</code></td>
+          <td>All properties required</td>
+          <td><code>Required&lt;Config&gt;</code></td>
+        </tr>
+        <tr>
+          <td><code>Readonly&lt;T&gt;</code></td>
+          <td>All properties readonly</td>
+          <td><code>Readonly&lt;State&gt;</code></td>
+        </tr>
+        <tr>
+          <td><code>Pick&lt;T, K&gt;</code></td>
+          <td>Only keep specified keys</td>
+          <td><code>Pick&lt;User, 'id' | 'name'&gt;</code></td>
+        </tr>
+        <tr>
+          <td><code>Omit&lt;T, K&gt;</code></td>
+          <td>Remove specified keys</td>
+          <td><code>Omit&lt;User, 'password'&gt;</code></td>
+        </tr>
+        <tr>
+          <td><code>Record&lt;K, T&gt;</code></td>
+          <td>Object with K keys, T values</td>
+          <td><code>Record&lt;string, number&gt;</code></td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- Section 4: Type Guards -->
+    <section class="section" id="type-guards">
+      <h2>4. Type Guards (Type Narrowing)</h2>
+      
+      <p>Protection mechanism to ensure type safety at runtime. You start with a <strong>wide type</strong> and <strong>narrow it down</strong> using checks.</p>
+
+      <div class="problem-box">
+        <h4>❌ The Problem</h4>
+        <pre><code><span class="keyword">function</span> <span class="function">printLength</span>(value: <span class="type">string</span> | <span class="type">number</span>) {
+  console.<span class="function">log</span>(value.length);  <span class="comment">// ❌ Error! number doesn't have .length</span>
+}</code></pre>
+      </div>
+
+      <div class="solution-box">
+        <h4>✅ The Solution - Type Narrowing</h4>
+        <pre><code><span class="keyword">function</span> <span class="function">printLength</span>(value: <span class="type">string</span> | <span class="type">number</span>) {
+  <span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">'string'</span>) {
+    console.<span class="function">log</span>(value.length);  <span class="comment">// ✅ TypeScript knows it's string</span>
+  }
+}</code></pre>
+      </div>
+
+      <h3>1. typeof - For Primitives</h3>
+      <pre><code><span class="keyword">function</span> <span class="function">double</span>(value: <span class="type">string</span> | <span class="type">number</span>) {
+  <span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">'string'</span>) {
+    <span class="keyword">return</span> value.<span class="function">repeat</span>(<span class="number">2</span>);    <span class="comment">// "hi" → "hihi"</span>
+  }
+  <span class="keyword">return</span> value * <span class="number">2</span>;            <span class="comment">// 5 → 10</span>
+}</code></pre>
+
+      <h3>2. Truthiness - For Null/Undefined</h3>
+      <pre><code><span class="keyword">function</span> <span class="function">greet</span>(name: <span class="type">string</span> | <span class="type">null</span>) {
+  <span class="keyword">if</span> (name) {
+    <span class="keyword">return</span> <span class="string">`Hello, </span>${name}<span class="string">`</span>;
+  }
+  <span class="keyword">return</span> <span class="string">'Hello, stranger'</span>;
+}</code></pre>
+
+      <h3>3. Equality (===) - For Specific Values</h3>
+      <pre><code><span class="keyword">function</span> <span class="function">process</span>(value: <span class="type">string</span> | <span class="type">null</span>) {
+  <span class="keyword">if</span> (value === <span class="keyword">null</span>) {
+    <span class="keyword">return</span> <span class="string">'No value'</span>;
+  }
+  <span class="keyword">return</span> value.<span class="function">toUpperCase</span>();  <span class="comment">// value is string here</span>
+}</code></pre>
+
+      <h3>4. in - For Object Properties</h3>
+      <pre><code><span class="keyword">interface</span> <span class="type">Bird</span> { <span class="function">fly</span>: () => <span class="type">void</span> }
+<span class="keyword">interface</span> <span class="type">Fish</span> { <span class="function">swim</span>: () => <span class="type">void</span> }
+
+<span class="keyword">function</span> <span class="function">move</span>(animal: <span class="type">Bird</span> | <span class="type">Fish</span>) {
+  <span class="keyword">if</span> (<span class="string">'fly'</span> <span class="keyword">in</span> animal) {
+    animal.<span class="function">fly</span>();
+  } <span class="keyword">else</span> {
+    animal.<span class="function">swim</span>();
+  }
+}</code></pre>
+
+      <h3>5. instanceof - For Class Instances</h3>
+      <pre><code><span class="keyword">class</span> <span class="type">Car</span> { <span class="function">drive</span>() {} }
+<span class="keyword">class</span> <span class="type">Bike</span> { <span class="function">pedal</span>() {} }
+
+<span class="keyword">function</span> <span class="function">operate</span>(vehicle: <span class="type">Car</span> | <span class="type">Bike</span>) {
+  <span class="keyword">if</span> (vehicle <span class="keyword">instanceof</span> <span class="type">Car</span>) {
+    vehicle.<span class="function">drive</span>();
+  } <span class="keyword">else</span> {
+    vehicle.<span class="function">pedal</span>();
+  }
+}</code></pre>
+
+      <table class="comparison-table">
+        <tr>
+          <th>Guard</th>
+          <th>When to Use</th>
+          <th>Example</th>
+        </tr>
+        <tr>
+          <td><code>typeof</code></td>
+          <td>Primitives (string, number, boolean)</td>
+          <td><code>typeof x === 'string'</code></td>
+        </tr>
+        <tr>
+          <td>Truthiness</td>
+          <td>Removing null/undefined</td>
+          <td><code>if (x) { ... }</code></td>
+        </tr>
+        <tr>
+          <td><code>===</code></td>
+          <td>Checking exact values</td>
+          <td><code>x === null</code></td>
+        </tr>
+        <tr>
+          <td><code>in</code></td>
+          <td>Objects with different properties</td>
+          <td><code>'bark' in animal</code></td>
+        </tr>
+        <tr>
+          <td><code>instanceof</code></td>
+          <td>Class instances</td>
+          <td><code>x instanceof Dog</code></td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- Section 5: Union & Intersection -->
+    <section class="section" id="union-intersection">
+      <h2>5. Union & Intersection Types</h2>
+
+      <h3>Union (|) - Either This OR That</h3>
+      <pre><code><span class="keyword">type</span> <span class="type">Status</span> = <span class="string">'loading'</span> | <span class="string">'success'</span> | <span class="string">'error'</span>;
+
+<span class="keyword">type</span> <span class="type">StringOrNumber</span> = <span class="type">string</span> | <span class="type">number</span>;
+
+<span class="keyword">function</span> <span class="function">print</span>(value: <span class="type">string</span> | <span class="type">number</span>) {
+  <span class="comment">// value can be string OR number</span>
+}</code></pre>
+      <p><strong>Think:</strong> "Can be A <strong>or</strong> B"</p>
+
+      <h3>Intersection (&) - Must Be This AND That</h3>
+      <pre><code><span class="keyword">type</span> <span class="type">Name</span> = { name: <span class="type">string</span> };
+<span class="keyword">type</span> <span class="type">Age</span> = { age: <span class="type">number</span> };
+
+<span class="keyword">type</span> <span class="type">Person</span> = <span class="type">Name</span> & <span class="type">Age</span>;
+<span class="comment">// { name: string; age: number }</span>
+
+<span class="keyword">const</span> user: <span class="type">Person</span> = {
+  name: <span class="string">'Rajat'</span>,  <span class="comment">// Must have</span>
+  age: <span class="number">28</span>         <span class="comment">// Must have</span>
+};</code></pre>
+      <p><strong>Think:</strong> "Must be A <strong>and</strong> B combined"</p>
+
+      <table class="comparison-table">
+        <tr>
+          <th>Union (|)</th>
+          <th>Intersection (&)</th>
+        </tr>
+        <tr>
+          <td>Either/or</td>
+          <td>Both/and</td>
+        </tr>
+        <tr>
+          <td><code>A | B</code> = A or B</td>
+          <td><code>A & B</code> = A + B merged</td>
+        </tr>
+        <tr>
+          <td>Flexible</td>
+          <td>Strict</td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- Section 6: keyof & typeof -->
+    <section class="section" id="keyof-typeof">
+      <h2>6. keyof & typeof</h2>
+
+      <h3>typeof - Get Type From Value</h3>
+      <p>Extracts type from a <strong>JavaScript value</strong>.</p>
+      <pre><code><span class="keyword">const</span> user = {
+  name: <span class="string">'Rajat'</span>,
+  age: <span class="number">28</span>
+};
+
+<span class="keyword">type</span> <span class="type">User</span> = <span class="keyword">typeof</span> user;
+<span class="comment">// { name: string; age: number }</span></code></pre>
+      <p><strong>Think:</strong> "What is the <strong>type</strong> of this variable?"</p>
+
+      <h3>keyof - Get Keys From Type</h3>
+      <p>Extracts keys as a <strong>union of strings</strong>.</p>
+      <pre><code><span class="keyword">interface</span> <span class="type">User</span> {
+  name: <span class="type">string</span>;
+  age: <span class="type">number</span>;
+  email: <span class="type">string</span>;
+}
+
+<span class="keyword">type</span> <span class="type">UserKeys</span> = <span class="keyword">keyof</span> <span class="type">User</span>;
+<span class="comment">// 'name' | 'age' | 'email'</span></code></pre>
+      <p><strong>Think:</strong> "What are the <strong>keys</strong> of this type?"</p>
+
+      <h3>Combining Both</h3>
+      <pre><code><span class="keyword">const</span> user = { name: <span class="string">'Rajat'</span>, age: <span class="number">28</span> };
+
+<span class="keyword">type</span> <span class="type">UserKeys</span> = <span class="keyword">keyof</span> <span class="keyword">typeof</span> user;
+<span class="comment">// 'name' | 'age'</span>
+
+<span class="comment">// Read right to left:</span>
+<span class="comment">// typeof user → { name: string; age: number }</span>
+<span class="comment">// keyof { ... } → 'name' | 'age'</span></code></pre>
+
+      <h3>Common Use Case - Safe Property Access</h3>
+      <pre><code><span class="keyword">function</span> <span class="function">getValue</span>&lt;<span class="type">T</span>, <span class="type">K</span> <span class="keyword">extends</span> <span class="keyword">keyof</span> <span class="type">T</span>&gt;(obj: <span class="type">T</span>, key: <span class="type">K</span>): <span class="type">T</span>[<span class="type">K</span>] {
+  <span class="keyword">return</span> obj[key];
+}
+
+<span class="keyword">const</span> user = { name: <span class="string">'Rajat'</span>, age: <span class="number">28</span> };
+
+<span class="function">getValue</span>(user, <span class="string">'name'</span>);   <span class="comment">// ✅ returns string</span>
+<span class="function">getValue</span>(user, <span class="string">'email'</span>);  <span class="comment">// ❌ Error! 'email' doesn't exist</span></code></pre>
+
+      <table class="comparison-table">
+        <tr>
+          <th>Keyword</th>
+          <th>Input</th>
+          <th>Output</th>
+        </tr>
+        <tr>
+          <td><code>typeof</code></td>
+          <td>Value</td>
+          <td>Type</td>
+        </tr>
+        <tr>
+          <td><code>keyof</code></td>
+          <td>Type</td>
+          <td>Union of keys</td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- Section 7: Enums vs Const Assertions -->
+    <section class="section" id="enums-const">
+      <h2>7. Enums vs Const Assertions</h2>
+
+      <h3>Enum - Named Constants</h3>
+      <pre><code><span class="comment">// Numeric enum</span>
+<span class="keyword">enum</span> <span class="type">Status</span> {
+  Pending,    <span class="comment">// 0</span>
+  Approved,   <span class="comment">// 1</span>
+  Rejected    <span class="comment">// 2</span>
+}
+
+<span class="comment">// String enum (more common)</span>
+<span class="keyword">enum</span> <span class="type">Direction</span> {
+  Up = <span class="string">'UP'</span>,
+  Down = <span class="string">'DOWN'</span>,
+  Left = <span class="string">'LEFT'</span>,
+  Right = <span class="string">'RIGHT'</span>
+}
+
+<span class="keyword">const</span> move: <span class="type">Direction</span> = Direction.Up;</code></pre>
+
+      <h3>Const Assertion (as const)</h3>
+      <pre><code><span class="keyword">const</span> Status = {
+  Pending: <span class="string">'PENDING'</span>,
+  Approved: <span class="string">'APPROVED'</span>,
+  Rejected: <span class="string">'REJECTED'</span>
+} <span class="keyword">as const</span>;
+
+<span class="comment">// Get type from it</span>
+<span class="keyword">type</span> <span class="type">StatusType</span> = <span class="keyword">typeof</span> Status[<span class="keyword">keyof</span> <span class="keyword">typeof</span> Status];
+<span class="comment">// 'PENDING' | 'APPROVED' | 'REJECTED'</span>
+
+<span class="comment">// Array as const</span>
+<span class="keyword">const</span> roles = [<span class="string">'admin'</span>, <span class="string">'user'</span>, <span class="string">'guest'</span>] <span class="keyword">as const</span>;
+<span class="keyword">type</span> <span class="type">Role</span> = <span class="keyword">typeof</span> roles[<span class="type">number</span>];
+<span class="comment">// 'admin' | 'user' | 'guest'</span></code></pre>
+
+      <table class="comparison-table">
+        <tr>
+          <th>Enum</th>
+          <th>Const Assertion</th>
+        </tr>
+        <tr>
+          <td>TypeScript feature</td>
+          <td>Plain JavaScript</td>
+        </tr>
+        <tr>
+          <td>Generates extra code</td>
+          <td>No extra code</td>
+        </tr>
+        <tr>
+          <td>Built-in type</td>
+          <td>Need <code>typeof</code> for type</td>
+        </tr>
+        <tr>
+          <td>Heavier</td>
+          <td>Lighter (preferred)</td>
+        </tr>
+      </table>
+
+      <div class="tip">
+        <strong>💡 Tip:</strong> <code>as const</code> is preferred in modern TypeScript. Enums are still valid but add extra JavaScript code.
+      </div>
+    </section>
+
+    <!-- Section 8: Discriminated Unions -->
+    <section class="section" id="discriminated-unions">
+      <h2>8. Discriminated Unions</h2>
+      
+      <p>A common property (like <code>type</code> or <code>status</code>) to tell objects apart.</p>
+
+      <pre><code><span class="keyword">type</span> <span class="type">Success</span> = { status: <span class="string">'success'</span>; data: <span class="type">string</span> };
+<span class="keyword">type</span> <span class="type">Error</span> = { status: <span class="string">'error'</span>; message: <span class="type">string</span> };
+
+<span class="keyword">type</span> <span class="type">Response</span> = <span class="type">Success</span> | <span class="type">Error</span>;
+
+<span class="keyword">function</span> <span class="function">handle</span>(res: <span class="type">Response</span>) {
+  <span class="keyword">if</span> (res.status === <span class="string">'success'</span>) {
+    console.<span class="function">log</span>(res.data);     <span class="comment">// ✅ TypeScript knows it's Success</span>
+  } <span class="keyword">else</span> {
+    console.<span class="function">log</span>(res.message);  <span class="comment">// ✅ TypeScript knows it's Error</span>
+  }
+}</code></pre>
+
+      <div class="summary-card">
+        <h4>🎯 When to Use</h4>
+        <p>API responses, Redux actions, handling different states in React components.</p>
+      </div>
+    </section>
+
+    <!-- Section 9: Type Assertions -->
+    <section class="section" id="type-assertions">
+      <h2>9. Type Assertions</h2>
+      
+      <p>"Trust me TypeScript, I know what this is."</p>
+
+      <pre><code><span class="keyword">const</span> input = document.<span class="function">getElementById</span>(<span class="string">'name'</span>) <span class="keyword">as</span> <span class="type">HTMLInputElement</span>;
+
+input.value = <span class="string">'Rajat'</span>;  <span class="comment">// ✅ Now TypeScript knows it's an input</span>
+
+<span class="comment">// Alternative syntax (not in JSX)</span>
+<span class="keyword">const</span> input2 = &lt;<span class="type">HTMLInputElement</span>&gt;document.<span class="function">getElementById</span>(<span class="string">'name'</span>);</code></pre>
+
+      <div class="tip">
+        <strong>⚠️ Warning:</strong> Use sparingly! You're telling TypeScript to trust you. If you're wrong, you'll get runtime errors.
+      </div>
+    </section>
+
+    <!-- Section 10: unknown vs any -->
+    <section class="section" id="unknown-vs-any">
+      <h2>10. unknown vs any</h2>
+
+      <pre><code><span class="comment">// any = No checking (dangerous) ❌</span>
+<span class="keyword">let</span> a: <span class="type">any</span> = <span class="number">5</span>;
+a.<span class="function">toUpperCase</span>();  <span class="comment">// No error, but crashes at runtime! 💥</span>
+
+<span class="comment">// unknown = Must check first (safe) ✅</span>
+<span class="keyword">let</span> b: <span class="type">unknown</span> = <span class="number">5</span>;
+b.<span class="function">toUpperCase</span>();  <span class="comment">// ❌ Error! Must check type first</span>
+
+<span class="keyword">if</span> (<span class="keyword">typeof</span> b === <span class="string">'string'</span>) {
+  b.<span class="function">toUpperCase</span>();  <span class="comment">// ✅ Now it works</span>
+}</code></pre>
+
+      <table class="comparison-table">
+        <tr>
+          <th>any</th>
+          <th>unknown</th>
+        </tr>
+        <tr>
+          <td>No type checking</td>
+          <td>Must check before use</td>
+        </tr>
+        <tr>
+          <td>Dangerous</td>
+          <td>Type-safe</td>
+        </tr>
+        <tr>
+          <td>Avoid it</td>
+          <td>Prefer this</td>
+        </tr>
+      </table>
+
+      <div class="summary-card">
+        <h4>🎯 Rule</h4>
+        <p>Always prefer <code>unknown</code> over <code>any</code>. It forces you to check the type first.</p>
+      </div>
+    </section>
+
+    <!-- Section 11: Additional Topics -->
+    <section class="section" id="additional-topics">
+      <h2>11. Additional Topics (For Reference)</h2>
+      
+      <p>These topics are less common but may come up in advanced interviews:</p>
+
+      <div class="summary-card">
+        <h4>📋 Advanced Topics</h4>
+        <table class="comparison-table">
+          <tr>
+            <th>Topic</th>
+            <th>What It Covers</th>
+          </tr>
+          <tr>
+            <td><strong>never Type</strong></td>
+            <td>Functions that never return, exhaustive checks</td>
+          </tr>
+          <tr>
+            <td><strong>Conditional Types</strong></td>
+            <td><code>T extends U ? X : Y</code> syntax</td>
+          </tr>
+          <tr>
+            <td><strong>Mapped Types</strong></td>
+            <td>Transforming types programmatically</td>
+          </tr>
+          <tr>
+            <td><strong>Declaration Files (.d.ts)</strong></td>
+            <td>Type definitions for JS libraries</td>
+          </tr>
+          <tr>
+            <td><strong>Module Augmentation</strong></td>
+            <td>Extending existing types</td>
+          </tr>
+        </table>
+      </div>
+    </section>
+
+    <footer>
+      <p>TypeScript Interview Cheat Sheet | Created for Rajat's Interview Prep</p>
+      <p>Good luck with your interviews! 🚀</p>
+    </footer>
+  </div>
+</body>
+</html>

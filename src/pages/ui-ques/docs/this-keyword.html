@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript 'this' Keyword - Complete Cheat Sheet</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #e4e4e4;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      text-align: center;
+      color: #00d9ff;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+    }
+    
+    .subtitle {
+      text-align: center;
+      color: #888;
+      margin-bottom: 40px;
+      font-size: 1.1rem;
+    }
+    
+    .section {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    h2 {
+      color: #ffd700;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    h3 {
+      color: #00d9ff;
+      font-size: 1.2rem;
+      margin: 20px 0 10px 0;
+    }
+    
+    .emoji {
+      font-size: 1.3rem;
+    }
+    
+    p {
+      margin-bottom: 12px;
+      color: #ccc;
+    }
+    
+    .highlight {
+      background: rgba(0, 217, 255, 0.1);
+      border-left: 4px solid #00d9ff;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    
+    .highlight.warning {
+      background: rgba(255, 193, 7, 0.1);
+      border-left-color: #ffc107;
+    }
+    
+    .highlight.success {
+      background: rgba(40, 167, 69, 0.1);
+      border-left-color: #28a745;
+    }
+    
+    .highlight.danger {
+      background: rgba(220, 53, 69, 0.1);
+      border-left-color: #dc3545;
+    }
+    
+    pre {
+      background: #0d1117;
+      border-radius: 8px;
+      padding: 15px;
+      overflow-x: auto;
+      margin: 15px 0;
+      border: 1px solid #30363d;
+    }
+    
+    code {
+      font-family: 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9rem;
+    }
+    
+    .inline-code {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'Fira Code', monospace;
+      color: #ff6b6b;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+    }
+    
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    th {
+      background: rgba(0, 217, 255, 0.2);
+      color: #00d9ff;
+      font-weight: 600;
+    }
+    
+    tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.03);
+    }
+    
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin: 15px 0;
+    }
+    
+    @media (max-width: 768px) {
+      .comparison {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .comparison-box {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      padding: 15px;
+    }
+    
+    .comparison-box.good {
+      border: 2px solid #28a745;
+    }
+    
+    .comparison-box.bad {
+      border: 2px solid #dc3545;
+    }
+    
+    .comparison-box h4 {
+      margin-bottom: 10px;
+    }
+    
+    .quiz-section {
+      background: linear-gradient(135deg, rgba(102, 51, 153, 0.2), rgba(51, 51, 153, 0.2));
+      border: 2px solid #6633cc;
+    }
+    
+    .quiz-item {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    
+    .quiz-item h4 {
+      color: #ffd700;
+      margin-bottom: 15px;
+    }
+    
+    details {
+      margin-top: 15px;
+    }
+    
+    summary {
+      background: rgba(0, 217, 255, 0.2);
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      color: #00d9ff;
+      font-weight: 600;
+    }
+    
+    summary:hover {
+      background: rgba(0, 217, 255, 0.3);
+    }
+    
+    .answer {
+      padding: 15px;
+      margin-top: 10px;
+      background: rgba(40, 167, 69, 0.1);
+      border-radius: 8px;
+      border-left: 4px solid #28a745;
+    }
+    
+    .mental-model {
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1));
+      border: 2px dashed #ffd700;
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+    }
+    
+    .mental-model h4 {
+      color: #ffd700;
+      margin-bottom: 10px;
+    }
+
+    .keyword {
+      color: #c678dd;
+    }
+    
+    .function-name {
+      color: #61afef;
+    }
+    
+    .string {
+      color: #98c379;
+    }
+    
+    .comment {
+      color: #5c6370;
+    }
+    
+    .number {
+      color: #d19a66;
+    }
+    
+    .object-key {
+      color: #e06c75;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      color: #666;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 JavaScript <code>this</code> Keyword</h1>
+    <p class="subtitle">Complete Cheat Sheet for Interviews</p>
+
+    <!-- CORE CONCEPT -->
+    <div class="section">
+      <h2><span class="emoji">💡</span> The Core Truth</h2>
+      
+      <div class="mental-model">
+        <h4>🧠 Mental Model</h4>
+        <p><strong>Neither regular functions nor arrow functions "have" a <code>this</code> value.</strong></p>
+        <p>Regular functions have a <strong>placeholder (empty slot)</strong> that gets filled at call time.</p>
+        <p>Arrow functions have <strong>no slot at all</strong> — they just borrow from their lexical parent.</p>
+      </div>
+
+      <div class="highlight">
+        <strong>What does "lexical" mean?</strong><br>
+        In programming, <em>lexical</em> means "determined by where the code is written" — the physical position in your source code, not where it runs.
+      </div>
+
+      <div class="highlight success">
+        <strong>What is "lexical parent"?</strong><br>
+        When we say arrow function looks to its <em>lexical parent</em>, we mean it climbs up looking for a <strong>scope boundary</strong>. Objects <code>{}</code> are just data containers — they don't create scope, so arrow skips right past them. Only these create scope: <strong>Function</strong>, <strong>Class</strong>, or <strong>Global/Window</strong>.
+      </div>
+    </div>
+
+    <!-- GLOBAL SPACE -->
+    <div class="section">
+      <h2><span class="emoji">🌍</span> Global Space</h2>
+      <p>At the top level (outside any function), <code>this</code> refers to the current JS environment:</p>
+      
+      <table>
+        <tr>
+          <th>Environment</th>
+          <th><code>this</code> value</th>
+        </tr>
+        <tr>
+          <td>Browser</td>
+          <td><code>window</code></td>
+        </tr>
+        <tr>
+          <td>Node.js</td>
+          <td><code>global</code> (or <code>module.exports</code> in modules)</td>
+        </tr>
+      </table>
+
+      <pre><code><span class="comment">// In browser console</span>
+<span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>); <span class="comment">// window</span>
+
+<span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span> === <span class="function-name">window</span>); <span class="comment">// true</span></code></pre>
+    </div>
+
+    <!-- REGULAR FUNCTION -->
+    <div class="section">
+      <h2><span class="emoji">📦</span> Regular Function (Declaration/Expression)</h2>
+      
+      <div class="highlight warning">
+        <strong>Key Insight:</strong> Regular function has a <code>this</code> <em>placeholder</em> — an empty box that gets filled based on <strong>how it's called</strong>.
+      </div>
+
+      <h3>The 4 Binding Rules (Priority Order)</h3>
+      
+      <table>
+        <tr>
+          <th>Priority</th>
+          <th>Binding Type</th>
+          <th>How it looks</th>
+          <th><code>this</code> becomes</th>
+        </tr>
+        <tr>
+          <td>1️⃣</td>
+          <td><strong>new</strong></td>
+          <td><code>new func()</code></td>
+          <td>Brand new object</td>
+        </tr>
+        <tr>
+          <td>2️⃣</td>
+          <td><strong>Explicit</strong></td>
+          <td><code>func.call(obj)</code> / <code>apply</code> / <code>bind</code></td>
+          <td>Whatever you pass</td>
+        </tr>
+        <tr>
+          <td>3️⃣</td>
+          <td><strong>Implicit</strong></td>
+          <td><code>obj.func()</code></td>
+          <td>Object before the dot</td>
+        </tr>
+        <tr>
+          <td>4️⃣</td>
+          <td><strong>Default</strong></td>
+          <td><code>func()</code></td>
+          <td><code>window</code> or <code>undefined</code></td>
+        </tr>
+      </table>
+
+      <h3>Default Binding (Standalone Call)</h3>
+      <pre><code><span class="keyword">function</span> <span class="function-name">greet</span>() {
+  <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>);
+}
+
+<span class="function-name">greet</span>(); 
+<span class="comment">// Non-strict: window (JS "helps" by auto-boxing)</span>
+<span class="comment">// Strict: undefined (no auto-boxing, stays empty)</span></code></pre>
+
+      <div class="highlight">
+        <strong>Why does strict mode matter?</strong><br>
+        Non-strict mode auto-boxes <code>this</code> to <code>window</code> (legacy "helpful" behavior).<br>
+        Strict mode removes this — if nothing fills the slot, it stays <code>undefined</code>. This catches bugs!
+      </div>
+
+      <h3>Implicit Binding</h3>
+      <pre><code><span class="keyword">const</span> obj = {
+  <span class="object-key">name</span>: <span class="string">"Rajat"</span>,
+  <span class="object-key">greet</span>: <span class="keyword">function</span>() {
+    <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>.name);
+  }
+};
+
+obj.<span class="function-name">greet</span>(); <span class="comment">// "Rajat" — obj is before the dot</span></code></pre>
+
+      <h3>Explicit Binding</h3>
+      <pre><code><span class="keyword">function</span> <span class="function-name">greet</span>() {
+  <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>.name);
+}
+
+<span class="keyword">const</span> person = { <span class="object-key">name</span>: <span class="string">"Rajat"</span> };
+
+<span class="function-name">greet</span>.<span class="function-name">call</span>(person);   <span class="comment">// "Rajat"</span>
+<span class="function-name">greet</span>.<span class="function-name">apply</span>(person);  <span class="comment">// "Rajat"</span>
+
+<span class="keyword">const</span> boundGreet = <span class="function-name">greet</span>.<span class="function-name">bind</span>(person);
+<span class="function-name">boundGreet</span>();         <span class="comment">// "Rajat"</span></code></pre>
+
+      <h3>new Binding</h3>
+      <pre><code><span class="keyword">function</span> <span class="function-name">Person</span>(name) {
+  <span class="keyword">this</span>.name = name;
+  <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>);
+}
+
+<span class="keyword">new</span> <span class="function-name">Person</span>(<span class="string">"Rajat"</span>); <span class="comment">// Person { name: "Rajat" }</span></code></pre>
+    </div>
+
+    <!-- ARROW FUNCTION -->
+    <div class="section">
+      <h2><span class="emoji">➡️</span> Arrow Function</h2>
+      
+      <div class="highlight danger">
+        <strong>Key Insight:</strong> Arrow functions have <strong>NO <code>this</code> placeholder at all</strong>.<br>
+        They simply borrow <code>this</code> from their lexical parent (where they're defined).
+      </div>
+
+      <pre><code><span class="keyword">const</span> obj = {
+  <span class="object-key">name</span>: <span class="string">"Rajat"</span>,
+  <span class="object-key">arrow</span>: <span class="keyword">() =></span> {
+    <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>.name);
+  }
+};
+
+obj.<span class="function-name">arrow</span>(); <span class="comment">// undefined — arrow has no slot, looks to global</span></code></pre>
+
+      <div class="mental-model">
+        <h4>🧠 Key Point: Objects Don't Create Scope!</h4>
+        <p>An object <code>{}</code> is NOT a scope boundary. Arrow functions inside objects still look to the <strong>enclosing function or global</strong> for <code>this</code>.</p>
+      </div>
+
+      <h3>Arrow Inside Regular Function</h3>
+      <pre><code><span class="keyword">const</span> obj = {
+  <span class="object-key">name</span>: <span class="string">"Rajat"</span>,
+  <span class="object-key">outer</span>: <span class="keyword">function</span>() {
+    <span class="comment">// this = obj (implicit binding)</span>
+    
+    <span class="keyword">const</span> inner = <span class="keyword">() =></span> {
+      <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>.name); <span class="comment">// borrows from outer</span>
+    };
+    
+    <span class="function-name">inner</span>();
+  }
+};
+
+obj.<span class="function-name">outer</span>(); <span class="comment">// "Rajat"</span></code></pre>
+
+      <h3>What Creates a <code>this</code> Scope?</h3>
+      <table>
+        <tr>
+          <th>Wrapper</th>
+          <th>Creates <code>this</code> scope?</th>
+          <th>Arrow's <code>this</code></th>
+        </tr>
+        <tr>
+          <td>Object <code>{}</code></td>
+          <td>❌ No</td>
+          <td>Keeps looking up</td>
+        </tr>
+        <tr>
+          <td>Regular Function</td>
+          <td>✅ Yes</td>
+          <td>Uses function's <code>this</code></td>
+        </tr>
+        <tr>
+          <td>Class</td>
+          <td>✅ Yes</td>
+          <td>Uses instance's <code>this</code></td>
+        </tr>
+        <tr>
+          <td>Another Arrow</td>
+          <td>❌ No</td>
+          <td>Keeps looking up</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- CLASS -->
+    <div class="section">
+      <h2><span class="emoji">🏗️</span> Class Context</h2>
+      <pre><code><span class="keyword">class</span> <span class="function-name">MyClass</span> {
+  <span class="object-key">name</span> = <span class="string">"class instance"</span>;
+  
+  <span class="object-key">obj</span> = {
+    <span class="object-key">name</span>: <span class="string">"nested object"</span>,
+    <span class="object-key">arrow</span>: <span class="keyword">() =></span> {
+      <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>.name);
+    }
+  };
+}
+
+<span class="keyword">const</span> instance = <span class="keyword">new</span> <span class="function-name">MyClass</span>();
+instance.obj.<span class="function-name">arrow</span>(); <span class="comment">// "class instance" — inherits from class</span></code></pre>
+    </div>
+
+    <!-- DOM -->
+    <div class="section">
+      <h2><span class="emoji">🖱️</span> DOM Event Handlers</h2>
+      <p>With DOM elements, <code>this</code> targets the specific <code>HTMLElement</code> that triggered the event.</p>
+      
+      <pre><code><span class="keyword">const</span> button = document.<span class="function-name">querySelector</span>(<span class="string">'button'</span>);
+
+<span class="comment">// Regular function — this = the button element</span>
+button.<span class="function-name">addEventListener</span>(<span class="string">'click'</span>, <span class="keyword">function</span>() {
+  <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>); <span class="comment">// &lt;button&gt;...&lt;/button&gt;</span>
+});
+
+<span class="comment">// Arrow function — this = lexical parent (usually window)</span>
+button.<span class="function-name">addEventListener</span>(<span class="string">'click'</span>, <span class="keyword">() =></span> {
+  <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>); <span class="comment">// window</span>
+});</code></pre>
+    </div>
+
+    <!-- INTERVIEW QUESTIONS -->
+    <div class="section quiz-section">
+      <h2><span class="emoji">🎯</span> Interview Output Questions</h2>
+
+      <!-- Question 1 -->
+      <div class="quiz-item">
+        <h4>Question 1: Basic Implicit Binding</h4>
+        <pre><code><span class="keyword">const</span> obj = {
+  <span class="object-key">a</span>: <span class="number">10</span>,
+  <span class="object-key">getA</span>: <span class="keyword">function</span>() {
+    <span class="keyword">return</span> <span class="keyword">this</span>.a;
+  }
+};
+
+<span class="function-name">console</span>.<span class="function-name">log</span>(obj.<span class="function-name">getA</span>());</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>10</code><br><br>
+            <strong>Why:</strong> <code>obj.getA()</code> — implicit binding. Object before the dot (<code>obj</code>) becomes <code>this</code>.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 2 -->
+      <div class="quiz-item">
+        <h4>Question 2: Lost Binding</h4>
+        <pre><code><span class="keyword">const</span> obj = {
+  <span class="object-key">a</span>: <span class="number">10</span>,
+  <span class="object-key">getA</span>: <span class="keyword">function</span>() {
+    <span class="keyword">return</span> <span class="keyword">this</span>.a;
+  }
+};
+
+<span class="keyword">const</span> fn = obj.getA;
+<span class="function-name">console</span>.<span class="function-name">log</span>(<span class="function-name">fn</span>());</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>undefined</code><br><br>
+            <strong>Why:</strong> <code>fn()</code> is called without context (no dot). Default binding kicks in → <code>this</code> = <code>window</code> → <code>window.a</code> = <code>undefined</code>.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 3 -->
+      <div class="quiz-item">
+        <h4>Question 3: Arrow Function in Object</h4>
+        <pre><code><span class="keyword">const</span> obj = {
+  <span class="object-key">a</span>: <span class="number">20</span>,
+  <span class="object-key">getA</span>: <span class="keyword">() =></span> {
+    <span class="keyword">return</span> <span class="keyword">this</span>.a;
+  }
+};
+
+<span class="function-name">console</span>.<span class="function-name">log</span>(obj.<span class="function-name">getA</span>());</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>undefined</code><br><br>
+            <strong>Why:</strong> Arrow functions have no <code>this</code> slot. Objects don't create scope. Arrow looks to global → <code>window.a</code> = <code>undefined</code>.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 4 -->
+      <div class="quiz-item">
+        <h4>Question 4: Nested Arrow in Regular Function</h4>
+        <pre><code><span class="keyword">const</span> obj = {
+  <span class="object-key">a</span>: <span class="number">20</span>,
+  <span class="object-key">x</span>: <span class="keyword">function</span>() {
+    <span class="keyword">const</span> y = <span class="keyword">() =></span> {
+      <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>);
+    };
+    <span class="function-name">y</span>();
+  }
+};
+
+obj.<span class="function-name">x</span>();</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>{ a: 20, x: ƒ }</code><br><br>
+            <strong>Why:</strong> <code>obj.x()</code> — implicit binding fills <code>x</code>'s <code>this</code> with <code>obj</code>. Arrow <code>y</code> has no slot, borrows from <code>x</code> → <code>this</code> = <code>obj</code>.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 5 -->
+      <div class="quiz-item">
+        <h4>Question 5: Explicit vs Implicit</h4>
+        <pre><code><span class="keyword">const</span> obj1 = {
+  <span class="object-key">name</span>: <span class="string">"obj1"</span>,
+  <span class="object-key">print</span>: <span class="keyword">function</span>() {
+    <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>.name);
+  }
+};
+
+<span class="keyword">const</span> obj2 = { <span class="object-key">name</span>: <span class="string">"obj2"</span> };
+
+obj1.<span class="function-name">print</span>.<span class="function-name">call</span>(obj2);</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>"obj2"</code><br><br>
+            <strong>Why:</strong> Explicit binding (<code>call</code>) has higher priority than implicit binding. <code>this</code> is forced to <code>obj2</code>.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 6 -->
+      <div class="quiz-item">
+        <h4>Question 6: setTimeout Trap</h4>
+        <pre><code><span class="keyword">const</span> obj = {
+  <span class="object-key">name</span>: <span class="string">"Rajat"</span>,
+  <span class="object-key">greet</span>: <span class="keyword">function</span>() {
+    <span class="function-name">setTimeout</span>(<span class="keyword">function</span>() {
+      <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>.name);
+    }, <span class="number">100</span>);
+  }
+};
+
+obj.<span class="function-name">greet</span>();</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>undefined</code><br><br>
+            <strong>Why:</strong> The callback inside <code>setTimeout</code> is called by the browser (not <code>obj</code>). Default binding → <code>this</code> = <code>window</code>.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 7 -->
+      <div class="quiz-item">
+        <h4>Question 7: setTimeout Fixed with Arrow</h4>
+        <pre><code><span class="keyword">const</span> obj = {
+  <span class="object-key">name</span>: <span class="string">"Rajat"</span>,
+  <span class="object-key">greet</span>: <span class="keyword">function</span>() {
+    <span class="function-name">setTimeout</span>(<span class="keyword">() =></span> {
+      <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>.name);
+    }, <span class="number">100</span>);
+  }
+};
+
+obj.<span class="function-name">greet</span>();</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>"Rajat"</code><br><br>
+            <strong>Why:</strong> Arrow function has no <code>this</code> slot. It borrows from <code>greet</code>, which has <code>this</code> = <code>obj</code> (implicit binding).
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 8 -->
+      <div class="quiz-item">
+        <h4>Question 8: Nested Objects</h4>
+        <pre><code><span class="keyword">const</span> obj = {
+  <span class="object-key">name</span>: <span class="string">"outer"</span>,
+  <span class="object-key">inner</span>: {
+    <span class="object-key">name</span>: <span class="string">"inner"</span>,
+    <span class="object-key">getName</span>: <span class="keyword">function</span>() {
+      <span class="keyword">return</span> <span class="keyword">this</span>.name;
+    }
+  }
+};
+
+<span class="function-name">console</span>.<span class="function-name">log</span>(obj.inner.<span class="function-name">getName</span>());</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>"inner"</code><br><br>
+            <strong>Why:</strong> <code>obj.inner.getName()</code> — the object <strong>immediately before the dot</strong> is <code>inner</code>, not <code>obj</code>.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 9 -->
+      <div class="quiz-item">
+        <h4>Question 9: bind Chaining</h4>
+        <pre><code><span class="keyword">function</span> <span class="function-name">greet</span>() {
+  <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>.name);
+}
+
+<span class="keyword">const</span> a = { <span class="object-key">name</span>: <span class="string">"A"</span> };
+<span class="keyword">const</span> b = { <span class="object-key">name</span>: <span class="string">"B"</span> };
+
+<span class="keyword">const</span> bound = <span class="function-name">greet</span>.<span class="function-name">bind</span>(a).<span class="function-name">bind</span>(b);
+<span class="function-name">bound</span>();</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>"A"</code><br><br>
+            <strong>Why:</strong> <code>bind</code> can only bind <code>this</code> once. The second <code>bind(b)</code> is ignored. First bind wins!
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 10 -->
+      <div class="quiz-item">
+        <h4>Question 10: Class with Arrow Method</h4>
+        <pre><code><span class="keyword">class</span> <span class="function-name">Counter</span> {
+  <span class="object-key">count</span> = <span class="number">0</span>;
+  
+  <span class="object-key">increment</span> = <span class="keyword">() =></span> {
+    <span class="keyword">this</span>.count++;
+    <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>.count);
+  };
+}
+
+<span class="keyword">const</span> counter = <span class="keyword">new</span> <span class="function-name">Counter</span>();
+<span class="keyword">const</span> inc = counter.increment;
+<span class="function-name">inc</span>();</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>1</code><br><br>
+            <strong>Why:</strong> Arrow methods in classes capture <code>this</code> from the instance at definition time. Even when extracted and called standalone, <code>this</code> still refers to the instance.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 11 -->
+      <div class="quiz-item">
+        <h4>Question 11: new vs call</h4>
+        <pre><code><span class="keyword">function</span> <span class="function-name">Person</span>(name) {
+  <span class="keyword">this</span>.name = name;
+}
+
+<span class="keyword">const</span> obj = { <span class="object-key">name</span>: <span class="string">"existing"</span> };
+<span class="keyword">const</span> p = <span class="keyword">new</span> <span class="function-name">Person</span>.<span class="function-name">call</span>(obj, <span class="string">"Rajat"</span>);</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>TypeError</code><br><br>
+            <strong>Why:</strong> You can't use <code>new</code> with <code>call</code>/<code>apply</code>. <code>Person.call</code> returns <code>undefined</code>, and <code>new undefined</code> throws an error.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 12 -->
+      <div class="quiz-item">
+        <h4>Question 12: Strict Mode Difference</h4>
+        <pre><code><span class="string">"use strict"</span>;
+
+<span class="keyword">function</span> <span class="function-name">regular</span>() {
+  <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>);
+}
+
+<span class="keyword">const</span> arrow = <span class="keyword">() =></span> {
+  <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>);
+};
+
+<span class="function-name">regular</span>();
+<span class="function-name">arrow</span>();</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong><br>
+            <code>undefined</code><br>
+            <code>window</code><br><br>
+            <strong>Why:</strong> Regular function's <code>this</code> slot stays empty in strict mode → <code>undefined</code>. Arrow function has no slot — it just inherits from global scope which is <code>window</code>. Strict mode doesn't affect arrow functions' <code>this</code>.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 13 -->
+      <div class="quiz-item">
+        <h4>Question 13: IIFE Context</h4>
+        <pre><code><span class="keyword">const</span> obj = {
+  <span class="object-key">name</span>: <span class="string">"obj"</span>,
+  <span class="object-key">method</span>: <span class="keyword">function</span>() {
+    (<span class="keyword">function</span>() {
+      <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>.name);
+    })();
+  }
+};
+
+obj.<span class="function-name">method</span>();</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>undefined</code><br><br>
+            <strong>Why:</strong> IIFE is called without any context (no dot, no <code>call</code>). Default binding → <code>this</code> = <code>window</code>.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 14 -->
+      <div class="quiz-item">
+        <h4>Question 14: forEach Callback</h4>
+        <pre><code><span class="keyword">const</span> obj = {
+  <span class="object-key">arr</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],
+  <span class="object-key">multiplier</span>: <span class="number">2</span>,
+  <span class="object-key">multiply</span>: <span class="keyword">function</span>() {
+    <span class="keyword">this</span>.arr.<span class="function-name">forEach</span>(<span class="keyword">function</span>(num) {
+      <span class="function-name">console</span>.<span class="function-name">log</span>(num * <span class="keyword">this</span>.multiplier);
+    });
+  }
+};
+
+obj.<span class="function-name">multiply</span>();</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong><br>
+            <code>NaN</code><br>
+            <code>NaN</code><br>
+            <code>NaN</code><br><br>
+            <strong>Why:</strong> The callback function is called by <code>forEach</code> (not <code>obj</code>). Default binding → <code>this</code> = <code>window</code> → <code>window.multiplier</code> = <code>undefined</code> → <code>num * undefined</code> = <code>NaN</code>.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 15 -->
+      <div class="quiz-item">
+        <h4>Question 15: forEach with thisArg</h4>
+        <pre><code><span class="keyword">const</span> obj = {
+  <span class="object-key">arr</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],
+  <span class="object-key">multiplier</span>: <span class="number">2</span>,
+  <span class="object-key">multiply</span>: <span class="keyword">function</span>() {
+    <span class="keyword">this</span>.arr.<span class="function-name">forEach</span>(<span class="keyword">function</span>(num) {
+      <span class="function-name">console</span>.<span class="function-name">log</span>(num * <span class="keyword">this</span>.multiplier);
+    }, <span class="keyword">this</span>); <span class="comment">// &lt;-- second argument!</span>
+  }
+};
+
+obj.<span class="function-name">multiply</span>();</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong><br>
+            <code>2</code><br>
+            <code>4</code><br>
+            <code>6</code><br><br>
+            <strong>Why:</strong> <code>forEach</code> accepts a second argument (<code>thisArg</code>) that sets <code>this</code> inside the callback. We pass <code>this</code> (which is <code>obj</code>) explicitly.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 16 -->
+      <div class="quiz-item">
+        <h4>Question 16: Returning Object from Constructor</h4>
+        <pre><code><span class="keyword">function</span> <span class="function-name">Person</span>(name) {
+  <span class="keyword">this</span>.name = name;
+  <span class="keyword">return</span> { <span class="object-key">name</span>: <span class="string">"Overridden"</span> };
+}
+
+<span class="keyword">const</span> p = <span class="keyword">new</span> <span class="function-name">Person</span>(<span class="string">"Rajat"</span>);
+<span class="function-name">console</span>.<span class="function-name">log</span>(p.name);</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>"Overridden"</code><br><br>
+            <strong>Why:</strong> When a constructor explicitly returns an object, that object replaces the newly created instance. The <code>this.name = name</code> assignment is ignored.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 17 -->
+      <div class="quiz-item">
+        <h4>Question 17: Returning Primitive from Constructor</h4>
+        <pre><code><span class="keyword">function</span> <span class="function-name">Person</span>(name) {
+  <span class="keyword">this</span>.name = name;
+  <span class="keyword">return</span> <span class="string">"ignored"</span>;
+}
+
+<span class="keyword">const</span> p = <span class="keyword">new</span> <span class="function-name">Person</span>(<span class="string">"Rajat"</span>);
+<span class="function-name">console</span>.<span class="function-name">log</span>(p.name);</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>"Rajat"</code><br><br>
+            <strong>Why:</strong> When a constructor returns a primitive (string, number, etc.), the return value is ignored. The newly created instance (<code>this</code>) is returned instead.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 18 -->
+      <div class="quiz-item">
+        <h4>Question 18: Method Shorthand</h4>
+        <pre><code><span class="keyword">const</span> obj = {
+  <span class="object-key">name</span>: <span class="string">"Rajat"</span>,
+  <span class="function-name">greet</span>() {
+    <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>.name);
+  }
+};
+
+<span class="keyword">const</span> fn = obj.greet;
+<span class="function-name">fn</span>();</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>undefined</code><br><br>
+            <strong>Why:</strong> Method shorthand (<code>greet() {}</code>) behaves like a regular function. When extracted and called without context, default binding applies → <code>this</code> = <code>window</code>.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 19 -->
+      <div class="quiz-item">
+        <h4>Question 19: Multiple Objects Chain</h4>
+        <pre><code><span class="keyword">const</span> a = {
+  <span class="object-key">name</span>: <span class="string">"A"</span>,
+  <span class="object-key">b</span>: {
+    <span class="object-key">name</span>: <span class="string">"B"</span>,
+    <span class="object-key">c</span>: {
+      <span class="object-key">name</span>: <span class="string">"C"</span>,
+      <span class="object-key">getName</span>: <span class="keyword">function</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>.name;
+      }
+    }
+  }
+};
+
+<span class="function-name">console</span>.<span class="function-name">log</span>(a.b.c.<span class="function-name">getName</span>());</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>"C"</code><br><br>
+            <strong>Why:</strong> Only the object <strong>immediately before the dot</strong> matters. <code>a.b.c.getName()</code> → <code>this</code> = <code>c</code>.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 20 -->
+      <div class="quiz-item">
+        <h4>Question 20: Arrow in Object Method</h4>
+        <pre><code><span class="keyword">const</span> obj = {
+  <span class="object-key">count</span>: <span class="number">10</span>,
+  <span class="object-key">doSomething</span>: <span class="keyword">function</span>() {
+    <span class="keyword">const</span> add = <span class="keyword">() =></span> {
+      <span class="keyword">this</span>.count++;
+      <span class="keyword">return</span> <span class="keyword">() =></span> {
+        <span class="keyword">this</span>.count++;
+        <span class="keyword">return</span> <span class="keyword">this</span>.count;
+      };
+    };
+    <span class="keyword">return</span> <span class="function-name">add</span>();
+  }
+};
+
+<span class="keyword">const</span> result = obj.<span class="function-name">doSomething</span>()();
+<span class="function-name">console</span>.<span class="function-name">log</span>(result);</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>12</code><br><br>
+            <strong>Why:</strong> Both arrow functions inherit <code>this</code> from <code>doSomething</code>, which is <code>obj</code>. First <code>add()</code> increments to 11, then the inner arrow increments to 12.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 21 -->
+      <div class="quiz-item">
+        <h4>Question 21: call with null</h4>
+        <pre><code><span class="keyword">function</span> <span class="function-name">greet</span>() {
+  <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>);
+}
+
+<span class="function-name">greet</span>.<span class="function-name">call</span>(<span class="keyword">null</span>);</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output (non-strict):</strong> <code>window</code><br>
+            <strong>Output (strict):</strong> <code>null</code><br><br>
+            <strong>Why:</strong> In non-strict mode, <code>null</code> and <code>undefined</code> are replaced with the global object. In strict mode, they stay as-is.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 22 -->
+      <div class="quiz-item">
+        <h4>Question 22: Prototype Method</h4>
+        <pre><code><span class="keyword">function</span> <span class="function-name">Animal</span>(name) {
+  <span class="keyword">this</span>.name = name;
+}
+
+Animal.prototype.<span class="function-name">speak</span> = <span class="keyword">function</span>() {
+  <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>.name + <span class="string">" makes a sound"</span>);
+};
+
+<span class="keyword">const</span> dog = <span class="keyword">new</span> <span class="function-name">Animal</span>(<span class="string">"Dog"</span>);
+dog.<span class="function-name">speak</span>();</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>"Dog makes a sound"</code><br><br>
+            <strong>Why:</strong> <code>dog.speak()</code> — implicit binding. Even though <code>speak</code> is on the prototype, <code>this</code> still refers to the object before the dot (<code>dog</code>).
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 23 -->
+      <div class="quiz-item">
+        <h4>Question 23: Prototype Arrow Method</h4>
+        <pre><code><span class="keyword">function</span> <span class="function-name">Animal</span>(name) {
+  <span class="keyword">this</span>.name = name;
+}
+
+Animal.prototype.<span class="object-key">speak</span> = <span class="keyword">() =></span> {
+  <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>.name);
+};
+
+<span class="keyword">const</span> dog = <span class="keyword">new</span> <span class="function-name">Animal</span>(<span class="string">"Dog"</span>);
+dog.<span class="function-name">speak</span>();</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>undefined</code><br><br>
+            <strong>Why:</strong> Arrow function on prototype captures <code>this</code> from where it was defined (global scope). It doesn't matter how you call it — <code>this</code> = <code>window</code>.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 24 -->
+      <div class="quiz-item">
+        <h4>Question 24: Event Handler Binding</h4>
+        <pre><code><span class="keyword">const</span> button = {
+  <span class="object-key">text</span>: <span class="string">"Click me"</span>,
+  <span class="object-key">handleClick</span>: <span class="keyword">function</span>() {
+    <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>.text);
+  }
+};
+
+<span class="keyword">const</span> element = document.<span class="function-name">createElement</span>(<span class="string">'button'</span>);
+element.<span class="function-name">addEventListener</span>(<span class="string">'click'</span>, button.handleClick);
+element.<span class="function-name">click</span>();</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>undefined</code><br><br>
+            <strong>Why:</strong> When you pass <code>button.handleClick</code> as a callback, you're passing the function reference without context. The DOM calls it with the element as <code>this</code>, not <code>button</code>. Element has no <code>text</code> property.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 25 -->
+      <div class="quiz-item">
+        <h4>Question 25: bind in Event Handler</h4>
+        <pre><code><span class="keyword">const</span> button = {
+  <span class="object-key">text</span>: <span class="string">"Click me"</span>,
+  <span class="object-key">handleClick</span>: <span class="keyword">function</span>() {
+    <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>.text);
+  }
+};
+
+<span class="keyword">const</span> element = document.<span class="function-name">createElement</span>(<span class="string">'button'</span>);
+element.<span class="function-name">addEventListener</span>(<span class="string">'click'</span>, button.handleClick.<span class="function-name">bind</span>(button));
+element.<span class="function-name">click</span>();</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>"Click me"</code><br><br>
+            <strong>Why:</strong> <code>bind(button)</code> creates a new function with <code>this</code> permanently set to <code>button</code>. Even when DOM calls it, <code>this</code> remains <code>button</code>.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 26 -->
+      <div class="quiz-item">
+        <h4>Question 26: Getter and this</h4>
+        <pre><code><span class="keyword">const</span> obj = {
+  <span class="object-key">_name</span>: <span class="string">"Rajat"</span>,
+  <span class="keyword">get</span> <span class="function-name">name</span>() {
+    <span class="keyword">return</span> <span class="keyword">this</span>._name;
+  }
+};
+
+<span class="keyword">const</span> getName = Object.<span class="function-name">getOwnPropertyDescriptor</span>(obj, <span class="string">'name'</span>).get;
+<span class="function-name">console</span>.<span class="function-name">log</span>(<span class="function-name">getName</span>());</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>undefined</code><br><br>
+            <strong>Why:</strong> When you extract the getter function and call it standalone, there's no implicit binding. <code>this</code> = <code>window</code> → <code>window._name</code> = <code>undefined</code>.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 27 -->
+      <div class="quiz-item">
+        <h4>Question 27: Chained Method Calls</h4>
+        <pre><code><span class="keyword">const</span> calculator = {
+  <span class="object-key">value</span>: <span class="number">0</span>,
+  <span class="function-name">add</span>(n) {
+    <span class="keyword">this</span>.value += n;
+    <span class="keyword">return</span> <span class="keyword">this</span>;
+  },
+  <span class="function-name">multiply</span>(n) {
+    <span class="keyword">this</span>.value *= n;
+    <span class="keyword">return</span> <span class="keyword">this</span>;
+  }
+};
+
+<span class="function-name">console</span>.<span class="function-name">log</span>(calculator.<span class="function-name">add</span>(<span class="number">5</span>).<span class="function-name">multiply</span>(<span class="number">2</span>).value);</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>10</code><br><br>
+            <strong>Why:</strong> Each method returns <code>this</code> (the calculator object), enabling chaining. <code>add(5)</code> makes value = 5, <code>multiply(2)</code> makes value = 10.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 28 -->
+      <div class="quiz-item">
+        <h4>Question 28: Nested Function Inside Method</h4>
+        <pre><code><span class="keyword">const</span> obj = {
+  <span class="object-key">name</span>: <span class="string">"outer"</span>,
+  <span class="object-key">outer</span>: <span class="keyword">function</span>() {
+    <span class="keyword">function</span> <span class="function-name">inner</span>() {
+      <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>.name);
+    }
+    <span class="function-name">inner</span>();
+  }
+};
+
+obj.<span class="function-name">outer</span>();</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>undefined</code><br><br>
+            <strong>Why:</strong> <code>inner()</code> is called without any context (no dot, no explicit binding). Default binding → <code>this</code> = <code>window</code>. Regular nested function does NOT inherit <code>this</code> from outer function.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 29 -->
+      <div class="quiz-item">
+        <h4>Question 29: var that = this Pattern</h4>
+        <pre><code><span class="keyword">const</span> obj = {
+  <span class="object-key">name</span>: <span class="string">"Rajat"</span>,
+  <span class="object-key">outer</span>: <span class="keyword">function</span>() {
+    <span class="keyword">var</span> that = <span class="keyword">this</span>;
+    <span class="keyword">function</span> <span class="function-name">inner</span>() {
+      <span class="function-name">console</span>.<span class="function-name">log</span>(that.name);
+    }
+    <span class="function-name">inner</span>();
+  }
+};
+
+obj.<span class="function-name">outer</span>();</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong> <code>"Rajat"</code><br><br>
+            <strong>Why:</strong> Classic pre-ES6 pattern. <code>that</code> captures <code>this</code> (which is <code>obj</code>) in a regular variable. <code>inner</code> accesses <code>that</code> through closure — not through <code>this</code> binding.
+          </div>
+        </details>
+      </div>
+
+      <!-- Question 30 -->
+      <div class="quiz-item">
+        <h4>Question 30: Class Static Method</h4>
+        <pre><code><span class="keyword">class</span> <span class="function-name">MyClass</span> {
+  <span class="keyword">static</span> <span class="object-key">name</span> = <span class="string">"MyClass"</span>;
+  
+  <span class="keyword">static</span> <span class="function-name">greet</span>() {
+    <span class="function-name">console</span>.<span class="function-name">log</span>(<span class="keyword">this</span>.name);
+  }
+}
+
+MyClass.<span class="function-name">greet</span>();
+
+<span class="keyword">const</span> fn = MyClass.greet;
+<span class="function-name">fn</span>();</code></pre>
+        <details>
+          <summary>Show Answer</summary>
+          <div class="answer">
+            <strong>Output:</strong><br>
+            <code>"MyClass"</code><br>
+            <code>undefined</code><br><br>
+            <strong>Why:</strong> <code>MyClass.greet()</code> — implicit binding, <code>this</code> = <code>MyClass</code>. When extracted as <code>fn()</code>, no context → default binding → <code>this</code> = <code>undefined</code> (strict mode in classes).
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- COMMON MISTAKES -->
+    <div class="section">
+      <h2><span class="emoji">⚠️</span> Common Mistakes to Avoid</h2>
+      
+      <div class="comparison">
+        <div class="comparison-box bad">
+          <h4>❌ Wrong Assumption</h4>
+          <p>"Function has its own <code>this</code> value"</p>
+        </div>
+        <div class="comparison-box good">
+          <h4>✅ Correct Understanding</h4>
+          <p>"Function has an empty <code>this</code> slot filled at call time"</p>
+        </div>
+      </div>
+
+      <div class="comparison">
+        <div class="comparison-box bad">
+          <h4>❌ Wrong Assumption</h4>
+          <p>"Arrow function's <code>this</code> is the parent object"</p>
+        </div>
+        <div class="comparison-box good">
+          <h4>✅ Correct Understanding</h4>
+          <p>"Arrow function has no slot — objects don't create scope — it looks to enclosing function or global"</p>
+        </div>
+      </div>
+
+      <div class="comparison">
+        <div class="comparison-box bad">
+          <h4>❌ Wrong Assumption</h4>
+          <p>"<code>this</code> is determined when function is defined"</p>
+        </div>
+        <div class="comparison-box good">
+          <h4>✅ Correct Understanding</h4>
+          <p>"<code>this</code> is determined at <strong>runtime</strong> based on how the function is <strong>called</strong>"</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ONE LINER RULES -->
+    <div class="section">
+      <h2><span class="emoji">🚀</span> One-Liner Rules</h2>
+      
+      <div class="highlight success">
+        <strong>Rule 1:</strong> <code>this</code> value depends on <strong>how</strong> the function is called, not where it's defined.
+      </div>
+      
+      <div class="highlight success">
+        <strong>Rule 2:</strong> Regular function = empty <code>this</code> slot. Arrow function = no slot at all.
+      </div>
+      
+      <div class="highlight success">
+        <strong>Rule 3:</strong> Object <code>{}</code> is NOT a scope. Only functions and classes create <code>this</code> scope.
+      </div>
+      
+      <div class="highlight success">
+        <strong>Rule 4:</strong> <code>obj.method()</code> → <code>this</code> = object before the dot (implicit binding).
+      </div>
+      
+      <div class="highlight success">
+        <strong>Rule 5:</strong> <code>new</code> > <code>call/apply/bind</code> > <code>obj.method()</code> > standalone call.
+      </div>
+    </div>
+
+    <footer>
+      <p>Made with 💛 for Interview Prep | Last Updated: January 2025</p>
+    </footer>
+  </div>
+</body>
+</html>

