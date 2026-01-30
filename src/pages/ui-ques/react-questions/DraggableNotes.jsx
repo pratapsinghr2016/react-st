@@ -67,6 +67,7 @@ const Notes = ()=>{
       status: note.status
     }
 
+    // ! note
     const newArr = [
       ...filteredNotes.slice(0, indexOfDroppedNote),
       modifiedNoteState,

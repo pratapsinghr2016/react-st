@@ -1,3 +1,16 @@
+const myFlatObj2 = (obj, res = {}) => {
+
+  for (let key in obj) {
+    const currVal = obj[key];
+    if (currVal && typeof currVal === "object") {
+      myFlatObj2(currVal, res)
+    } else {
+      res[key] = currVal
+    }
+  }
+  return res
+}
+
 const obj = {
   a: 1,
   b: {
@@ -14,6 +27,7 @@ const obj = {
 }
 
 
+console.log(myFlatObj2(obj))
 /* 
 
 {
@@ -26,18 +40,3 @@ const obj = {
 }
 
 */
-
-const myFlatObj2 = (obj, res = {}) => {
-
-  for (let key in obj) {
-    const currVal = obj[key];
-    if (currVal && typeof currVal === "object") {
-      myFlatObj2(currVal, res)
-    } else {
-      res[key] = currVal
-    }
-  }
-  return res
-}
-
-console.log(myFlatObj2(obj))

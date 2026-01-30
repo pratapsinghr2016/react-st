@@ -5,6 +5,7 @@ import "./styles/custom-toast.css"
 Functional requirement
 ======================
 
+! https://claude.ai/chat/4d47a9f6-34de-40bc-b5c8-f514d998f472
 */
 
 const CustomToast = ()=>{
@@ -18,6 +19,24 @@ const CustomToast = ()=>{
       return newToastList
     })
     clearTimeout(timerRef.current[id])
+
+    // ! animated exit
+    /* 
+     setToastList((prev) => {
+      const newToast = [...prev];
+      return newToast.map((toast) =>
+        toast.id === toastId ? { ...toast, exit: true } : { ...toast }
+      );
+    });
+
+    setTimeout(() => {
+      setToastList((prev) => {
+        const newToast = [...prev];
+        return newToast.filter((toast) => toast.id !== toastId);
+      });
+    }, 150);
+    
+    */
   }
 
   const addToatsInList = ({type="success", description="Dummy descrition"})=>{

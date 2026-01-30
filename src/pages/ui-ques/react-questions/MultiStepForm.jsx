@@ -1,131 +1,94 @@
-/* 
-- config 
-    - field-name
-    - field-type --> input
-    - placeholder
-    - id
-    - label
-
-*/
-
 import { useState } from "react";
-import "./styles/stepper-form-styles.css";
-
-const FormFieldItem = ({
-  label,
-  name,
-  fieldType,
-  inputType,
-  value,
-  fieldDchangeHandler,
-}) => {
-  return (
-    <>
-      <label htmlFor={name}>{label}</label>
-      {fieldType === "input" && (
-        <input
-          name={name}
-          id={name}
-          value={value}
-          placeholder="enter email"
-          onChange={fieldDchangeHandler}
-          type={inputType ?? "text"}
-          // autoComplete="off"
-          required={true}
-        />
-      )}
-    </>
-  );
-};
 
 const formConfig = [
-  {
-    name: "email",
-    id: "email",
-    label: "Email",
-    type: "input",
-    inputType: "email",
-  },
-  {
-    name: "username",
-    id: "username",
-    label: "User Name",
-    type: "input",
-  },
-  {
-    name: "password",
-    id: "password",
-    label: "Password",
-    type: "input",
-    inputType: "password",
-  },
+  { name: "email", label: "Enter email", type: "email" },
+  { name: "phone", label: "Enter phone", type: "phone" },
+  { name: "password", label: "Enter password", type: "password" },
 ];
 
-const MAX_STEPS = formConfig.length - 1;
-const MultiStepForm = () => {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [formObj, setFormObj] = useState({});
-  const [isSubmited, setIsSubmitted] = useState(false);
+const validation = {
+  email: (v) => (v?.length === 0 ? "Email required" : ""),
+  phone: (v) => (v?.length !== 10 ? "Phone is invalid" : ""),
+  password: (v) => (v?.length < 8 ? "Password is weak" : ""),
+};
 
-  const oninputChange = (e) => {
-    const id = e.target.id;
-    const value = e.target.value;
-    setFormObj((prevForm) => ({
-      ...prevForm,
-      [id]: value,
-    }));
-    console.log("formObj", formObj);
-  };
+const MultiStepForm = () => {
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [formValues, setFormValues] = useState({});
+  const [error, setError] = useState("");
+
+  const currField = formConfig[activeIdx];
+  const currValue = formValues[currField.name];
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("formObj", formObj);
-    setIsSubmitted(true);
+    console.log(formValues);
   };
 
-  const onNextClick = (e) => {
-    e.preventDefault(); // preventDefault() here too
-    const form = e.target.closest("form");
-    // point to remember
-    if (form.checkValidity()) setCurrentStep((prev) => prev + 1);
+  const handleNext = () => {
+    const error = validation[currField.name](currValue ?? "");
+    if (error.length) {
+      setError(error);
+      return;
+    }
+    setError("");
+    setActiveIdx((prev) => {
+      if (prev < formConfig.length - 1) {
+        return prev + 1;
+      } else {
+        return prev;
+      }
+    });
   };
-  const onBackClick = () => {
-    setCurrentStep((prev) => prev - 1);
+
+  const handlePrev = () => {
+    setError("");
+    setActiveIdx((prev) => {
+      if (prev > 0) {
+        return prev - 1;
+      } else {
+        return prev;
+      }
+    });
+  };
+
+  const handleInputChange = (value, field) => {
+    const error = validation[currField.name](currValue ?? "");
+    if (error.length) {
+      setError(error);
+      return;
+    }
+    setError("");
+    setFormValues((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
   };
 
   return (
-    <div className="form-container">
+    <div className="app-container">
       <form onSubmit={handleSubmit}>
-        <div className="form-item-container">
-          {isSubmited ? (
-            <p>Form is submitted</p>
-          ) : (
-            [formConfig[currentStep]].map((item, idx) => (
-              <FormFieldItem
-                key={item.id + "" + idx}
-                name={item.name}
-                label={item.label}
-                fieldType={item.type}
-                inputType={item.inputType}
-                value={formObj[item.name] || ""} // react warned me here when i dont pass "", check console
-                fieldDchangeHandler={oninputChange}
-              />
-            ))
-          )}
+        <div key={currField.name}>
+          <input
+            value={currValue}
+            onChange={(e) => handleInputChange(e.target.value, currField.name)}
+            name={currField.name}
+          />
+          <label htmlFor={currField.name}>{currField.label}</label>
         </div>
-        <div className="action-handler">
-          {currentStep !== 0 && (
-            <button type="button" onClick={onBackClick}>
-              Back
-            </button>
-          )}
-          {currentStep < MAX_STEPS && (
-            <button type="submit" onClick={onNextClick}>
-              Next
-            </button>
-          )}
-          {currentStep === MAX_STEPS && <button>Submit</button>}
-        </div>
+        {error && <p>{error}</p>}
+        {activeIdx !== 0 && (
+          <button onClick={handlePrev} type="button">
+            Prev
+          </button>
+        )}
+        {activeIdx < formConfig.length - 1 ? (
+          <button onClick={handleNext} type="button">
+            Next
+          </button>
+        ) : (
+          <button type="submit">Submit</button>
+        )}
       </form>
     </div>
   );

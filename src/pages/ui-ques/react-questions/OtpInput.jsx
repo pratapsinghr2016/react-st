@@ -28,8 +28,13 @@ const OtpInput = ()=>{
 
   const onPasteHandler = (e, idx)=>{
     e.preventDefault() // !important
-    const textData = e.clipboardData.getData("text/plain")
-    const textArr = textData.split("").slice(0, OTP_LENGTH-idx);
+    
+    const value = e.clipboardData.getData("text/plain");
+    const pastedVal = value.split("").slice(idx, OTP_LENGTH);
+    let textArr = Array.from({ length: OTP_LENGTH }).fill("");
+    textArr = textArr.map((_, idxVal) => pastedVal[idxVal]);
+
+    inputRefs?.current[pastedVal.length - 1].focus();
 
     setInputRes(textArr)
   }

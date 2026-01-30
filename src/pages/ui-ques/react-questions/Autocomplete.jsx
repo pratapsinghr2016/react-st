@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "./styles/auto-suggestion.css";
 
+// ! https://claude.ai/chat/da460b2c-c4c5-4abf-b665-15d74c1ea0b0
+
 /* 
 Functional requirement
 =======================

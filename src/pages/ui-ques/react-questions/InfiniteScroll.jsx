@@ -54,23 +54,27 @@ const InfiniteScroll = ()=>{
   },[fetchData])
 
   // ! Approach - 2
-  // const itemRef = useRef()
-  // const [isVisible, setIsVisible] = useState(false);
-  // const observer = new IntersectionObserver(([item])=>setIsVisible(item.isIntersecting))
+  /* 
+    const itemRef = useRef(null)
 
-  // useEffect(()=>{
-  //   if(itemRef?.current){
-  //     observer.observe(itemRef?.current)   
-  //   }
+    useEffect(() => {
+      if (!itemRef?.current) return
 
-  //   return ()=>observer.disconnect(itemRef?.current)
-  // },[fetchData])
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            fetchData()
+          }
+        },
+        { threshold: 1.0 } // trigger when fully visible
+      )
+
+      observer.observe(itemRef.current)
+
+      return () => observer.disconnect() // no arguments needed
+    }, [fetchData]) 
   
-  // useEffect(()=>{
-  //   if(isVisible){
-  //     fetchData()
-  //   }
-  // },[isVisible]) 
+  */
 
   return <div className="container">
     {data.map((item)=>

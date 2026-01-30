@@ -1,15 +1,7 @@
 function removeCircularReferences(obj, seen = new WeakSet()) {
-  // if not an object (string, number, null, etc), just return as is
-  if (obj === null || typeof obj !== "object") {
-    return obj;
-  }
+  if (obj === null || typeof obj !== "object") return obj;
+  if (seen.has(obj)) return undefined;
 
-  // if this object is already seen → circular
-  if (seen.has(obj)) {
-    return undefined; // or return "[Circular]" if you prefer
-  }
-
-  // mark the current object as seen
   seen.add(obj);
 
   // handle arrays
@@ -28,7 +20,6 @@ function removeCircularReferences(obj, seen = new WeakSet()) {
     const value = removeCircularReferences(obj[key], seen);
     if (value !== undefined) result[key] = value;
   }
-
   return result;
 }
 

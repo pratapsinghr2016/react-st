@@ -49,3 +49,13 @@ background-color: blue;
    transform: translateX(0%)
   }
 }
+
+.toast.exit {
+  animation: slideout 0.15s ease-in;
+}
+
+@keyframes slideout {
+  100% {
+    transform: translateX(120%);
+  }
+}

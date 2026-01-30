@@ -1,70 +1,28 @@
-// code:
+function set(obj, path, value) {
+  const keys = path
+    .replace(/\[(\d+)\]/g, '.$1')
+    .split('.');
 
-const getArrayChopped = (arr, limit) => {
-  let i = 0;
-  let res = []
-  while (i < arr.length) {
-    res.push(arr.slice(i, limit + i))
-    i += limit
+  let current = obj;
 
-  }
-  return res;
-}
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
 
-const mapLimit = (arr, limit, cb) => {
-
-  const choppedArray = getArrayChopped(arr, limit)
-  return choppedArray.reduce((acc, currChunk) => {
-
-    return acc.then((prevVal) => { // line b
-
-      return new Promise((resolveChunkItem, rejectChunkItem) => { // line c
-        const result = [];
-        let taskCompleted = 0;
-
-        currChunk.forEach((currChunkItem, index) => {
-
-          cb(currChunkItem, (error, value) => {
-            if (error) {
-              rejectChunkItem(error)
-            } else {
-              result[index] = value
-              taskCompleted += 1;
-              if (taskCompleted === currChunk.length) {
-                resolveChunkItem([...prevVal, ...result])
-              }
-            }
-          })
-
-        });
-
-      })
-
-    })
-
-  }, Promise.resolve([]))
-}
-
-
-
-// Input:
-
-let numPromise = mapLimit([1, 2, 3, 4, 5], 3, (num, callback) => {
-
-  setTimeout(() => {
-    num = num * 2;
-    console.log(num);
-    if (num === 6) {
-      callback(true)
-    } else {
-
-      callback(null, num)
+    if (!current[key]) {
+      const nextKey = keys[i + 1]
+      current[key] = !isNaN(nextKey) ? [] : {}
     }
 
-  }, 2000)
-})
+    current = current[key]
+  }
 
 
-numPromise
-  .then((result) => { console.log("result: ", result) })
-  .catch((err) => { console.log("err: ", err) })
+  current[keys[keys.length - 1]] = value
+  return current
+
+}
+
+
+const obj1 = {};
+set(obj1, 'user.name', 'John');
+console.log(obj1);

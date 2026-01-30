@@ -1,24 +1,22 @@
 
 const pipe = (obj) => {
-
   return (...args) => {
+    const result = {};
 
-    let result = {};
-    const keys = Object.keys(obj);
-    for (let i = 0; i < keys.lgth; i++) {
-      const currItem = obj[i];
+    for (const key in obj) {
+      const value = obj[key];
 
-      if (currItem && typeof currItem === "function") {
-        result[i] = currItem(...args)
-        return result
+      if (typeof value === "function") {
+        result[key] = value(...args);
+      } else if (typeof value === "object" && value !== null) {
+        result[key] = pipe(value)(...args);
       }
-      return pipe(currItem) // ! in pipe there are 2 returns
-
     }
 
-  }
+    return result;
+  };
+};
 
-}
 
 // Input:
 const obj = {

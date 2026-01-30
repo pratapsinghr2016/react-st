@@ -6,8 +6,14 @@ function deepClone(obj, visited = new WeakMap()) {
   visited.set(obj, clone) //
 
   for (let key of Object.keys(obj)) {
+    const currVal = obj[key]
+    if (currVal && typeof currVal === "object") {
 
-    clone[key] = deepClone(obj[key], visited)
+      clone[key] = deepClone(currVal, visited)
+    } else {
+      clone[key] = currVal
+    }
+
   }
 
   return clone
